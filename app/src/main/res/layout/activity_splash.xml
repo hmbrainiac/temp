@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.farmarket.farmarket.SplashActivity">
+    <ImageView
+        android:layout_width="80dp"
+        android:id="@+id/carrotImage"
+        android:src="@drawable/carrots_top"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_height="80dp" />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:id="@+id/tomatoImage"
+        android:src="@drawable/tomato_top"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_height="80dp" />
+
+
+    <ImageView
+        android:layout_width="80dp"
+        android:id="@+id/maize"
+        android:src="@drawable/maize"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="80dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:id="@+id/image"
+        android:src="@drawable/vegi_basket"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content" />
+
+    <com.farmarket.farmarket.Fonts.TitalliumWebText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="farm produce at your door step"
+        android:textSize="18sp"
+        android:id="@+id/slogan"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/image" />
+
+    <com.farmarket.farmarket.Fonts.TitalliumWebText
+        android:id="@+id/appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/veggieGreen"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+         />
+
+
+</android.support.constraint.ConstraintLayout>

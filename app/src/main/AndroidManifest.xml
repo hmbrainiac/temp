@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.farmarket.farmarket">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/MyMaterialTheme">
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".SignUpSelectActivity" />
+        <activity android:name=".CompleteSignUpFormActivity" />
+        <activity android:name=".ItemsListSingleActivity" />
+        <activity android:name=".ItemsListDoubleActivity" />
+        <activity android:name=".SingleItemActivity" />
+        <activity android:name=".CartActivity" />
+        <activity android:name=".CheckOutInfoActivity" />
+        <activity android:name=".ChoosPaymentMethodActivity" />
+        <activity android:name=".CompletePaymentActivity" />
+        <activity android:name=".PromotionalCodeActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/MyMaterialTheme" />
+        <activity android:name=".MyWalletActivity" />
+        <activity android:name=".MyAddressActivity" />
+        <activity android:name=".MySettingsActivity" />
+        <activity android:name=".MyOrdersActivity" />
+        <activity android:name=".MySingleOrderActivity" />
+        <activity android:name=".ContactUsActivity" />
+        <activity android:name=".AboutUsActivity" />
+        <activity android:name=".FAQActivity" />
+
+        <service android:name=".Firebase.MyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".Firebase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".MainSelectionActivity"></activity>
+    </application>
+
+</manifest>
