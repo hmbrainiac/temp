@@ -13,10 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <io.codehouse.stanbicbank.Misc.RecyclerViewEmptySupport
+        <com.farmarket.farmarket.Misc.RecyclerViewEmptySupport
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_below="@id/layout"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             />
