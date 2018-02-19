@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#239a56</color>
-    <color name="colorPrimaryDark">#499a23</color>
-    <color name="colorAccent">#9a2366</color>
-    <color name="veggieGreen">#239957</color>
+    <color name="colorPrimary">#30AA8F</color>
+    <color name="colorPrimaryDark">#287987</color>
+    <color name="colorAccent">#4B9AA3</color>
+    <color name="veggieGreen">#35A28F</color>
+    <color name="colorLightPrimary">#43cea2</color>
+    <color name="colorDarkPrimary">#185a9d</color>
     <color name="ghostWhite">#F8F8FF</color>
 </resources>

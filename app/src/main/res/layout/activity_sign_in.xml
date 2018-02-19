@@ -24,10 +24,11 @@
         android:id="@+id/underlineView"
         android:layout_width="100dp"
         android:layout_height="1dp"
+        android:layout_marginTop="10dp"
         android:background="@color/veggieGreen"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/appName"
+        app:layout_constraintTop_toBottomOf="@id/appName"
 
         ></View>
 
@@ -36,7 +37,8 @@
         android:layout_width="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
+        android:inputType="textEmailAddress|textPersonName"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:hint="Email Address / Username"
@@ -47,6 +49,7 @@
         android:id="@+id/passwordET"
         android:layout_width="match_parent"
         android:hint="Password"
+        android:inputType="textPassword"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"

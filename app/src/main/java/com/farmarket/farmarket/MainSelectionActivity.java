@@ -25,7 +25,7 @@ public class MainSelectionActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainSelectionActivity.this,SignUpSelectActivity.class);
+                Intent intent = new Intent(MainSelectionActivity.this,SignUpActivity.class);
                 startActivity(intent);
             }
         });
