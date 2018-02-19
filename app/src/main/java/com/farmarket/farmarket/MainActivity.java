@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.farmarket.farmarket.Adaptors.MultiCustomAdapter;
 import com.farmarket.farmarket.Api.ApiEndpoints;
 import com.farmarket.farmarket.Api.ApiLocation;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     SwipeRefreshLayout mSwipeRefreshLayout;
     Realm realm;
     UserViewSettingTable userViewSettingTable;
+    private ShimmerFrameLayout mShimmerViewContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         realm = Realm.getDefaultInstance();
         userViewSettingTable = realm.where(UserViewSettingTable.class).findFirst();
+        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
 
         albumList = new ArrayList<>();
         albumList1 = new ArrayList<>();
@@ -132,6 +135,17 @@ public class MainActivity extends AppCompatActivity
         loadProducts();
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
+    }
 
     @Override
     public void onBackPressed() {
@@ -145,8 +159,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.main, menu);
+        /*
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setQueryHint("Type your search here");
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
@@ -166,7 +183,7 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-
+        */
         return true;
     }
 
@@ -298,7 +315,8 @@ public class MainActivity extends AppCompatActivity
                 albumList1.addAll(albumList);
                 adapter.notifyDataSetChanged();
                 onItemsLoadComplete();
-
+                mShimmerViewContainer.stopShimmerAnimation();
+                mShimmerViewContainer.setVisibility(View.GONE);
             }
 
             @Override

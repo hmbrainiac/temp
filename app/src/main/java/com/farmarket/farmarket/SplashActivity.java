@@ -8,6 +8,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.farmarket.farmarket.RealmTables.UserTable;
+
+import io.realm.Realm;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -45,9 +49,13 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 */
-                Intent intent;
+                Realm realm = Realm.getDefaultInstance();
 
-                    intent = new Intent(SplashActivity.this, MainSelectionActivity.class);
+                UserTable  userTable = realm.where(UserTable.class).findFirst();
+                Intent intent;
+                intent = new Intent(SplashActivity.this, MainSelectionActivity.class);
+                if(userTable != null && userTable.getId() == 1)
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
 
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
