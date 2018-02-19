@@ -14,7 +14,9 @@ import com.farmarket.farmarket.Api.ApiEndpoints;
 import com.farmarket.farmarket.Api.ApiLocation;
 import com.farmarket.farmarket.Fonts.TitalliumWebText;
 import com.farmarket.farmarket.Models.UserModel;
+import com.farmarket.farmarket.RealmTables.UserTable;
 
+import io.realm.Realm;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -102,6 +104,30 @@ public class SignInActivity extends AppCompatActivity {
                 {
                     if(user.getResponseCode() ==200)
                     {
+                        Realm realm = Realm.getDefaultInstance();
+                        UserTable userTable = new UserTable();
+
+                        userTable.setCreated_at(user.getCreated_at());
+                        userTable.setEmail(user.getEmail());
+                        userTable.setFirstname(user.getFirstname());
+                        userTable.setForgot_code(user.getForgot_code());
+                        userTable.setId(1);
+                        userTable.setLastname(user.getLastname());
+                        userTable.setPhone(user.getPhone());
+                        userTable.setResponseCode(user.getResponseCode());
+                        userTable.setServer_id(user.getUser_id());
+                        userTable.setUnique_code(user.getUnique_code());
+                        userTable.setUpdated_at(user.getUpdated_at());
+                        userTable.setUser_id(user.getUser_id());
+                        userTable.setUser_region(user.getUser_region());
+                        userTable.setUser_type(user.getUser_type());
+                        userTable.setUsername(user.getUsername());
+                        userTable.setUuid(user.getUuid());
+                        userTable.setVerification_code(user.getVerification_code());
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(userTable);
+                        realm.commitTransaction();
                         Toast.makeText(SignInActivity.this,user.getPhone(),Toast.LENGTH_LONG).show();
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
