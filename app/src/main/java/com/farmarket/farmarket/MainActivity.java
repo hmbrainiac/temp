@@ -26,12 +26,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.farmarket.farmarket.Adaptors.MultiCustomAdapter;
 import com.farmarket.farmarket.Api.ApiEndpoints;
 import com.farmarket.farmarket.Api.ApiLocation;
+import com.farmarket.farmarket.DataType.ProductCart;
+import com.farmarket.farmarket.DataType.ProductEmpty;
+import com.farmarket.farmarket.Models.GeneralModel;
 import com.farmarket.farmarket.Models.ProduceModel;
+import com.farmarket.farmarket.RealmTables.OrderDetailTable;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
 
 import java.util.ArrayList;
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         realm = Realm.getDefaultInstance();
         userViewSettingTable = realm.where(UserViewSettingTable.class).findFirst();
-        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        //mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
 
         albumList = new ArrayList<>();
         albumList1 = new ArrayList<>();
@@ -92,8 +97,8 @@ public class MainActivity extends AppCompatActivity
         albumList1 = new ArrayList<>();
         adapter = new MultiCustomAdapter(this, MainActivity.this ,albumList);
         RecyclerView.LayoutManager mLayoutManager;
-        mLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+        mLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(10), true));
         if(userViewSettingTable != null)
         {
             if(userViewSettingTable.getViewType().equals("Single"))
@@ -138,12 +143,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        mShimmerViewContainer.startShimmerAnimation();
+       // mShimmerViewContainer.startShimmerAnimation();
     }
 
     @Override
     public void onPause() {
-        mShimmerViewContainer.stopShimmerAnimation();
+      //  mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
     }
 
@@ -309,14 +314,55 @@ public class MainActivity extends AppCompatActivity
                 List<ProduceModel> generalModels = response.body();
                 for(int i = 0; i<generalModels.size();i++)
                 {
+                    ProduceModel produceModel = generalModels.get(i);
+                    Realm realm = Realm.getDefaultInstance();
+                    OrderDetailTable orderDetailTable = realm.where(OrderDetailTable.class).equalTo("produce_id",generalModels.get(i).getProduce_id()).findFirst();
+                    if(orderDetailTable != null && orderDetailTable.getWeight() != 0.00)
+                    {
+                        ProductCart productCart = new ProductCart();
+                        productCart.setCreated_at(produceModel.getCreated_at());
+                        productCart.setDescription(produceModel.getDescription());
+                        productCart.setFile_blob(produceModel.getFile_blob());
+                        productCart.setFile_name(produceModel.getFile_name());
+                        productCart.setInCart(orderDetailTable.getWeight());
+                        productCart.setName(produceModel.getName());
+                        productCart.setPrice_per_kg(produceModel.getPrice_per_kg());
+                        productCart.setProduce_id(produceModel.getProduce_id());
+                        productCart.setProduce_type(produceModel.getProduce_type());
+                        productCart.setUnique_code(produceModel.getUnique_code());
+                        productCart.setProduce_type(produceModel.getProduce_type());
+                        productCart.setUpdated_at(produceModel.getUpdated_at());
+                        productCart.setUuid(produceModel.getUuid());
+                        albumList.add(productCart);
+                       // Toast.makeText(getApplicationContext(),productCart.getName(),Toast.LENGTH_LONG).show();
 
+                    }
+                    else
+                    {
+                        ProductEmpty productEmpty = new ProductEmpty();
+                        productEmpty.setCreated_at(produceModel.getCreated_at());
+                        productEmpty.setDescription(produceModel.getDescription());
+                        productEmpty.setFile_blob(produceModel.getFile_blob());
+                        productEmpty.setFile_name(produceModel.getFile_name());
+                        productEmpty.setName(produceModel.getName());
+                        productEmpty.setPrice_per_kg(produceModel.getPrice_per_kg());
+                        productEmpty.setProduce_id(produceModel.getProduce_id());
+                        productEmpty.setProduce_type(produceModel.getProduce_type());
+                        productEmpty.setUnique_code(produceModel.getUnique_code());
+                        productEmpty.setProduce_type(produceModel.getProduce_type());
+                        productEmpty.setUpdated_at(produceModel.getUpdated_at());
+                        productEmpty.setUuid(produceModel.getUuid());
+                        //System.out.println(productEmpty.getUuid());
+                        albumList.add(productEmpty);
+                       // Toast.makeText(getApplicationContext(),productEmpty.getName(),Toast.LENGTH_LONG).show();
+                    }
                 }
                 albumList1.clear();
                 albumList1.addAll(albumList);
                 adapter.notifyDataSetChanged();
                 onItemsLoadComplete();
-                mShimmerViewContainer.stopShimmerAnimation();
-                mShimmerViewContainer.setVisibility(View.GONE);
+              //  mShimmerViewContainer.stopShimmerAnimation();
+               // mShimmerViewContainer.setVisibility(View.GONE);
             }
 
             @Override

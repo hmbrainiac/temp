@@ -42,11 +42,6 @@ import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * Created by isaac on 2/18/18.
@@ -91,21 +86,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             switch (viewType)
             {
                 case ProductCart:
-                    if(userViewSettingTable.getViewType().equals("Single"))
-                    {
-                        view = itemView.inflate(R.layout.products_single_empty_grid, parent, false);
-                        viewHolder = new ProductEmpty(view);
-
-                    }
-                    else
-                    {
-                        view = itemView.inflate(R.layout.products_double_empty_grid, parent, false);
-                        viewHolder = new ProductEmpty(view);
-
-                    }
-                    break;
-                case ProductEmpty:
-                    if(userViewSettingTable.getViewType().equals("Single"))
+                    if(userViewSettingTable == null || userViewSettingTable.getViewType().equals("Single"))
                     {
                         view = itemView.inflate(R.layout.products_single_cart_grid, parent, false);
                         viewHolder = new ProductEmpty(view);
@@ -114,6 +95,20 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     else
                     {
                         view = itemView.inflate(R.layout.products_double_cart_grid, parent, false);
+                        viewHolder = new ProductEmpty(view);
+
+                    }
+                    break;
+                case ProductEmpty:
+                    if(userViewSettingTable == null || userViewSettingTable.getViewType().equals("Single"))
+                    {
+                        view = itemView.inflate(R.layout.products_double_empty_grid, parent, false);
+                        viewHolder = new ProductEmpty(view);
+
+                    }
+                    else
+                    {
+                        view = itemView.inflate(R.layout.products_single_empty_grid, parent, false);
                         viewHolder = new ProductEmpty(view);
 
                     }
@@ -154,22 +149,24 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void configureEmptyProduct(ProductEmpty v, final com.farmarket.farmarket.DataType.ProductEmpty product)
     {
+        Toast.makeText(mContext,product.getName(),Toast.LENGTH_LONG).show();
         v.getAddToCart().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Todo increase
             }
         });
-        v.getAddToCartTV().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
+//        v.getAddToCartTV().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+/*
         byte[] decodedString = Base64.decode(product.getFile_blob(), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         v.getMainImage().setImageBitmap(decodedByte);
+        */
         v.getDiscount().setVisibility(View.GONE);
         v.getMeasurement().setText("Per Kg.");
         v.getNameProduct().setText(product.getName());

@@ -13,30 +13,6 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            shimmer:duration="800">
-
-            <!-- Adding 3 rows of placeholders -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/cart_product_placeholder" />
-
-                <include layout="@layout/empty_product_placeholder" />
-
-                <include layout="@layout/cart_product_placeholder" />
-
-            </LinearLayout>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
         <com.farmarket.farmarket.Misc.RecyclerViewEmptySupport
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
