@@ -7,6 +7,7 @@ package com.farmarket.farmarket.Api;
 public class ApiLocation {
     static String location = "http://104.168.170.4/farma-api/public/v1/";
     static String location1 = "http://104.168.170.4/farma-api/public/v1/";
+    static String imageLocation = "http://104.168.170.4/farma-support/extras/uploads/";
     public static String getApiLocation()
     {
         return location;
@@ -14,5 +15,10 @@ public class ApiLocation {
     public static String getApiLocation1()
     {
         return  location1;
+    }
+
+    public static String getImageLocation()
+    {
+        return  imageLocation;
     }
 }

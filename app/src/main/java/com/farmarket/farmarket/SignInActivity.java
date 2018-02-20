@@ -73,7 +73,7 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(SignInActivity.this,"Kindly provide a valid login credentials",Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignInActivity.this,"Kindly provide a valid login credential",Toast.LENGTH_LONG).show();
                 }
             }
         });

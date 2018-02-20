@@ -1,19 +1,13 @@
 package com.farmarket.farmarket;
 
-import android.app.SearchManager;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -34,8 +28,9 @@ import com.farmarket.farmarket.Api.ApiEndpoints;
 import com.farmarket.farmarket.Api.ApiLocation;
 import com.farmarket.farmarket.DataType.ProductCart;
 import com.farmarket.farmarket.DataType.ProductEmpty;
-import com.farmarket.farmarket.Models.GeneralModel;
 import com.farmarket.farmarket.Models.ProduceModel;
+import com.farmarket.farmarket.RealmTables.CartDetailsTable;
+import com.farmarket.farmarket.RealmTables.CartsTable;
 import com.farmarket.farmarket.RealmTables.OrderDetailTable;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
 
@@ -43,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -73,7 +69,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         realm = Realm.getDefaultInstance();
         userViewSettingTable = realm.where(UserViewSettingTable.class).findFirst();
-        //mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
 
         albumList = new ArrayList<>();
         albumList1 = new ArrayList<>();
@@ -137,18 +133,19 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
+       // Toast.makeText(getApplicationContext(),realm.where(CartsTable.class).findFirst().getCart_status()+"",Toast.LENGTH_LONG).show();
         loadProducts();
 
     }
     @Override
     public void onResume() {
         super.onResume();
-       // mShimmerViewContainer.startShimmerAnimation();
+        mShimmerViewContainer.startShimmerAnimation();
     }
 
     @Override
     public void onPause() {
-      //  mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
     }
 
@@ -316,15 +313,21 @@ public class MainActivity extends AppCompatActivity
                 {
                     ProduceModel produceModel = generalModels.get(i);
                     Realm realm = Realm.getDefaultInstance();
-                    OrderDetailTable orderDetailTable = realm.where(OrderDetailTable.class).equalTo("produce_id",generalModels.get(i).getProduce_id()).findFirst();
-                    if(orderDetailTable != null && orderDetailTable.getWeight() != 0.00)
+                    CartDetailsTable cartDetailsTable = null;
+                    CartsTable orderDetailTable = realm.where(CartsTable.class).findFirst();
+                    if(orderDetailTable != null) {
+                        Toast.makeText(getApplicationContext(),orderDetailTable.getCart_status(),Toast.LENGTH_LONG).show();
+                        cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id", generalModels.get(i).getProduce_id()).equalTo("cart_id", orderDetailTable.getId()).findFirst();
+                    }
+
+                    if(cartDetailsTable != null && cartDetailsTable.getWeight() != 0.00)
                     {
                         ProductCart productCart = new ProductCart();
                         productCart.setCreated_at(produceModel.getCreated_at());
                         productCart.setDescription(produceModel.getDescription());
                         productCart.setFile_blob(produceModel.getFile_blob());
                         productCart.setFile_name(produceModel.getFile_name());
-                        productCart.setInCart(orderDetailTable.getWeight());
+                        productCart.setInCart(cartDetailsTable.getWeight());
                         productCart.setName(produceModel.getName());
                         productCart.setPrice_per_kg(produceModel.getPrice_per_kg());
                         productCart.setProduce_id(produceModel.getProduce_id());
@@ -357,12 +360,13 @@ public class MainActivity extends AppCompatActivity
                        // Toast.makeText(getApplicationContext(),productEmpty.getName(),Toast.LENGTH_LONG).show();
                     }
                 }
+
                 albumList1.clear();
                 albumList1.addAll(albumList);
                 adapter.notifyDataSetChanged();
                 onItemsLoadComplete();
-              //  mShimmerViewContainer.stopShimmerAnimation();
-               // mShimmerViewContainer.setVisibility(View.GONE);
+                mShimmerViewContainer.stopShimmerAnimation();
+                mShimmerViewContainer.setVisibility(View.GONE);
             }
 
             @Override

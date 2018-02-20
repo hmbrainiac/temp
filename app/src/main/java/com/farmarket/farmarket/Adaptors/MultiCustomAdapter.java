@@ -19,6 +19,7 @@ import android.util.Base64;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -30,12 +31,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.farmarket.farmarket.Api.ApiLocation;
 import com.farmarket.farmarket.DataView.ProductCart;
 import com.farmarket.farmarket.DataView.ProductEmpty;
 import com.farmarket.farmarket.MainActivity;
 import com.farmarket.farmarket.Models.GeneralModel;
 import com.farmarket.farmarket.R;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
+import com.farmarket.farmarket.SingleItemActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,19 +107,19 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 case ProductEmpty:
                     if(userViewSettingTable == null || userViewSettingTable.getViewType().equals("Single"))
                     {
-                        view = itemView.inflate(R.layout.products_double_empty_grid, parent, false);
+                        view = itemView.inflate(R.layout.products_single_empty_grid, parent, false);
                         viewHolder = new ProductEmpty(view);
 
                     }
                     else
                     {
-                        view = itemView.inflate(R.layout.products_single_empty_grid, parent, false);
+                        view = itemView.inflate(R.layout.products_double_empty_grid, parent, false);
                         viewHolder = new ProductEmpty(view);
 
                     }
                     break;
                 default:
-                    view = itemView.inflate(R.layout.products_double_empty_grid, parent, false);
+                    view = itemView.inflate(R.layout.products_single_empty_grid, parent, false);
                     viewHolder = new ProductEmpty(view);
 
 
@@ -149,29 +154,69 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void configureEmptyProduct(ProductEmpty v, final com.farmarket.farmarket.DataType.ProductEmpty product)
     {
-        Toast.makeText(mContext,product.getName(),Toast.LENGTH_LONG).show();
+        final Intent intent  = new Intent(mContext,SingleItemActivity.class);
+        intent.putExtra("product", product);
         v.getAddToCart().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Todo increase
+                mContext.startActivity(intent);
             }
         });
-//        v.getAddToCartTV().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        v.getAddToCartTV().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+            }
+        });
 /*
+        v.getDividerView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+            }
+        });
+        */
+        v.getMeasurement().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+            }
+        });
+        v.getNameProduct().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+
+            }
+        });
+        v.getPrice().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+            }
+        });
+
+        /*
         byte[] decodedString = Base64.decode(product.getFile_blob(), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         v.getMainImage().setImageBitmap(decodedByte);
         */
+        Glide.with(mContext).load(ApiLocation.getImageLocation()+product.getFile_name())
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(v.getMainImage());
+        v.getMainImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+            }
+        });
         v.getDiscount().setVisibility(View.GONE);
         v.getMeasurement().setText("Per Kg.");
         v.getNameProduct().setText(product.getName());
-        v.getPrice().setText(product.getPrice_per_kg());
+        v.getPrice().setText("GhC "+product.getPrice_per_kg());
     }
+
+
 
 
     private void configureCartProduct(ProductCart v, final com.farmarket.farmarket.DataType.ProductCart product)
@@ -195,7 +240,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         v.getDiscount().setVisibility(View.GONE);
         v.getMeasurement().setText("Per Kg.");
         v.getNameProduct().setText(product.getName());
-        v.getPrice().setText(product.getPrice_per_kg());
+        v.getPrice().setText("GhC "+product.getPrice_per_kg());
         v.getQuantityInCart().setText(product.getInCart()+"");
     }
 

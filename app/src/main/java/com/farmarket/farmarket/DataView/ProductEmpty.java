@@ -1,7 +1,9 @@
 package com.farmarket.farmarket.DataView;
 
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.farmarket.farmarket.Misc.RecyclerViewEmptySupport;
@@ -14,6 +16,8 @@ import com.farmarket.farmarket.R;
 public class ProductEmpty extends RecyclerViewEmptySupport.ViewHolder{
     TextView price,discount,nameProduct,measurement,addToCartTV;
     ImageView addToCart,mainImage;
+    RelativeLayout dividerView;
+    CardView cardView;
 
     public ProductEmpty(View itemView, TextView price, TextView discount, TextView nameProduct, TextView measurement, TextView addToCartTV, ImageView addToCart) {
         super(itemView);
@@ -24,6 +28,48 @@ public class ProductEmpty extends RecyclerViewEmptySupport.ViewHolder{
         this.addToCartTV = (TextView)itemView.findViewById(R.id.addToCartTV);
         this.addToCart = (ImageView) itemView.findViewById(R.id.addToCart);
         this.mainImage = (ImageView)itemView.findViewById(R.id.imageSrc);
+        this.dividerView = (RelativeLayout)itemView.findViewById(R.id.dividerView);
+    }
+
+    public ProductEmpty(View itemView, TextView price, TextView discount, TextView nameProduct, TextView measurement, TextView addToCartTV, ImageView addToCart, ImageView mainImage, RelativeLayout dividerView) {
+        super(itemView);
+        this.price = (TextView)itemView.findViewById(R.id.priceTopTV);
+        this.discount = (TextView)itemView.findViewById(R.id.offTopTV);
+        this.nameProduct = (TextView)itemView.findViewById(R.id.nameProduct);
+        this.measurement = (TextView)itemView.findViewById(R.id.measurementType);
+        this.addToCartTV = (TextView)itemView.findViewById(R.id.addToCartTV);
+        this.addToCart = (ImageView) itemView.findViewById(R.id.addToCart);
+        this.mainImage = (ImageView)itemView.findViewById(R.id.imageSrc);
+        this.dividerView = (RelativeLayout)itemView.findViewById(R.id.dividerView);
+    }
+
+    public ProductEmpty(View itemView, TextView price, TextView discount, TextView nameProduct, TextView measurement, TextView addToCartTV, ImageView addToCart, ImageView mainImage, RelativeLayout dividerView, CardView cardView) {
+        super(itemView);
+        this.price = (TextView)itemView.findViewById(R.id.priceTopTV);
+        this.discount = (TextView)itemView.findViewById(R.id.offTopTV);
+        this.nameProduct = (TextView)itemView.findViewById(R.id.nameProduct);
+        this.measurement = (TextView)itemView.findViewById(R.id.measurementType);
+        this.addToCartTV = (TextView)itemView.findViewById(R.id.addToCartTV);
+        this.addToCart = (ImageView) itemView.findViewById(R.id.addToCart);
+        this.mainImage = (ImageView)itemView.findViewById(R.id.imageSrc);
+        this.dividerView = (RelativeLayout)itemView.findViewById(R.id.dividerView);
+        this.cardView = (CardView) itemView.findViewById(R.id.card_view);
+    }
+
+    public RelativeLayout getDividerView() {
+        return dividerView;
+    }
+
+    public CardView getCardView() {
+        return cardView;
+    }
+
+    public void setCardView(CardView cardView) {
+        this.cardView = cardView;
+    }
+
+    public void setDividerView(RelativeLayout dividerView) {
+        this.dividerView = dividerView;
     }
 
     public ProductEmpty(View itemView, TextView price, TextView discount, TextView nameProduct, TextView measurement, TextView addToCartTV, ImageView addToCart, ImageView mainImage) {
