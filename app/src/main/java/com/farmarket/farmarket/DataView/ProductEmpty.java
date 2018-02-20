@@ -17,23 +17,17 @@ public class ProductEmpty extends RecyclerViewEmptySupport.ViewHolder{
 
     public ProductEmpty(View itemView, TextView price, TextView discount, TextView nameProduct, TextView measurement, TextView addToCartTV, ImageView addToCart) {
         super(itemView);
-        this.price = price;
-        this.discount = discount;
-        this.nameProduct = nameProduct;
-        this.measurement = measurement;
-        this.addToCartTV = addToCartTV;
-        this.addToCart = addToCart;
+        this.price = (TextView)itemView.findViewById(R.id.priceTopTV);
+        this.discount = (TextView)itemView.findViewById(R.id.offTopTV);
+        this.nameProduct = (TextView)itemView.findViewById(R.id.nameProduct);
+        this.measurement = (TextView)itemView.findViewById(R.id.measurementType);
+        this.addToCartTV = (TextView)itemView.findViewById(R.id.addToCartTV);
+        this.addToCart = (ImageView) itemView.findViewById(R.id.addToCart);
+        this.mainImage = (ImageView)itemView.findViewById(R.id.imageSrc);
     }
 
     public ProductEmpty(View itemView, TextView price, TextView discount, TextView nameProduct, TextView measurement, TextView addToCartTV, ImageView addToCart, ImageView mainImage) {
         super(itemView);
-        this.price = price;
-        this.discount = discount;
-        this.nameProduct = nameProduct;
-        this.measurement = measurement;
-        this.addToCartTV = addToCartTV;
-        this.addToCart = addToCart;
-        this.mainImage = mainImage;
     }
 
     public ImageView getMainImage() {
@@ -51,7 +45,7 @@ public class ProductEmpty extends RecyclerViewEmptySupport.ViewHolder{
         this.nameProduct = (TextView)itemView.findViewById(R.id.nameProduct);
         this.measurement = (TextView)itemView.findViewById(R.id.measurementType);
         this.addToCartTV = (TextView)itemView.findViewById(R.id.addToCartTV);
-        this.addToCart = (ImageView) itemView.findViewById(R.id.addToCart);
+        this.addToCart = (ImageView) itemView.findViewById(R.id.removeFromCart);
         this.mainImage = (ImageView)itemView.findViewById(R.id.imageSrc);
 
     }

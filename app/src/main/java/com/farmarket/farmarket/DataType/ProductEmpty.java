@@ -1,10 +1,12 @@
 package com.farmarket.farmarket.DataType;
 
+import java.io.Serializable;
+
 /**
  * Created by isaac on 2/18/18.
  */
 
-public class ProductEmpty {
+public class ProductEmpty implements Serializable {
     /*
     *   `produce_id` int(10) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(100) NOT NULL,

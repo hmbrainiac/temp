@@ -1,10 +1,12 @@
 package com.farmarket.farmarket.DataType;
 
+import java.io.Serializable;
+
 /**
  * Created by isaac on 2/18/18.
  */
 
-public class ProductCart {
+public class ProductCart implements Serializable{
     int produce_id;
     double inCart;
     String uuid,unique_code,name,produce_type,created_at,updated_at,file_name,description,price_per_kg,file_blob;

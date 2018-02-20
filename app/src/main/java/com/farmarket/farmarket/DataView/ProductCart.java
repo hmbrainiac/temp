@@ -17,25 +17,28 @@ public class ProductCart extends RecyclerViewEmptySupport.ViewHolder{
 
     public ProductCart(View itemView, TextView price, TextView discount, TextView nameProduct, TextView measurement, TextView quantityInCart, ImageView reduceCart, ImageView increaseCart) {
         super(itemView);
-        this.price = price;
-        this.discount = discount;
-        this.nameProduct = nameProduct;
-        this.measurement = measurement;
-        this.quantityInCart = quantityInCart;
-        this.reduceCart = reduceCart;
-        this.increaseCart = increaseCart;
+        this.price = (TextView) itemView.findViewById(R.id.priceTopTV);
+        this.discount =(TextView) itemView.findViewById(R.id.offTopTV);
+        this.nameProduct = (TextView)itemView.findViewById(R.id.nameProduct);
+        this.measurement = (TextView)itemView.findViewById(R.id.measurementType);
+        this.quantityInCart = (TextView)itemView.findViewById(R.id.quantityInCart);
+
+        this.reduceCart = (ImageView)itemView.findViewById(R.id.removeFromCart);
+        this.increaseCart = (ImageView)itemView.findViewById(R.id.addToCart);
+        this.mainImage = (ImageView)itemView.findViewById(R.id.imageSrc);
     }
 
     public ProductCart(View itemView, TextView price, TextView discount, TextView nameProduct, TextView measurement, TextView quantityInCart, ImageView reduceCart, ImageView increaseCart, ImageView mainImage) {
         super(itemView);
-        this.price = price;
-        this.discount = discount;
-        this.nameProduct = nameProduct;
-        this.measurement = measurement;
-        this.quantityInCart = quantityInCart;
-        this.reduceCart = reduceCart;
-        this.increaseCart = increaseCart;
-        this.mainImage = mainImage;
+        this.price = (TextView) itemView.findViewById(R.id.priceTopTV);
+        this.discount =(TextView) itemView.findViewById(R.id.offTopTV);
+        this.nameProduct = (TextView)itemView.findViewById(R.id.nameProduct);
+        this.measurement = (TextView)itemView.findViewById(R.id.measurementType);
+        this.quantityInCart = (TextView)itemView.findViewById(R.id.quantityInCart);
+
+        this.reduceCart = (ImageView)itemView.findViewById(R.id.removeFromCart);
+        this.increaseCart = (ImageView)itemView.findViewById(R.id.addToCart);
+        this.mainImage = (ImageView)itemView.findViewById(R.id.imageSrc);
     }
 
     public ImageView getMainImage() {

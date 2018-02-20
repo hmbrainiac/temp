@@ -112,8 +112,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintLeft_toRightOf="@id/removeFromCart"
-                        app:layout_constraintRight_toLeftOf="@id/addToCart"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintRight_toLeftOf="@id/addToCart" />
                     <ImageView
                         android:layout_width="30dp"
                         app:layout_constraintLeft_toLeftOf="parent"
