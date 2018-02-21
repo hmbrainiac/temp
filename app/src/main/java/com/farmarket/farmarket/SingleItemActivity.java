@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -19,6 +20,7 @@ import com.farmarket.farmarket.RealmTables.CartDetailsTable;
 import com.farmarket.farmarket.RealmTables.CartsTable;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class SingleItemActivity extends AppCompatActivity {
     ProductEmpty productEmpty;
@@ -99,6 +101,14 @@ public class SingleItemActivity extends AppCompatActivity {
 
         doClick(one,"1 Kg",1);
 
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<CartDetailsTable> cartDetailsTableRealmResults = realm.where(CartDetailsTable.class).findAll();
+        for(int q = 0; q <cartDetailsTableRealmResults.size(); q++)
+        {
+            System.out.println(" Current Id "+cartDetailsTableRealmResults.get(q).getId()+" Cart Id "+cartDetailsTableRealmResults.get(q).getCart_id()+" produce id "+cartDetailsTableRealmResults.get(q).getProduce_id()+" Quantity "+cartDetailsTableRealmResults
+            .get(q).getWeight());
+        }
+
     }
 
     void addToCart()
@@ -106,9 +116,11 @@ public class SingleItemActivity extends AppCompatActivity {
 
         //check if there is an opened cart
         Realm realm = Realm.getDefaultInstance();
+
         CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
         if(cartsTable == null)
         {
+            //Toast.makeText(getApplicationContext(),"Empty Cart ",Toast.LENGTH_LONG).show();
             //if not create one
             cartsTable = new CartsTable();
             realm.beginTransaction();
@@ -123,18 +135,30 @@ public class SingleItemActivity extends AppCompatActivity {
             cartsTable.setPhone("");
             cartsTable.setStatus("Pending");
             cartsTable.setUser_id(0);
-            cartsTable.setId((realm.where(CartsTable.class).findAll().size()+1));
+            int size =realm.where(CartsTable.class).findAll().size() ;
+            size++;
+            cartsTable.setId(size);
             realm.copyToRealmOrUpdate(cartsTable);
-           // realm.close();
+            realm.commitTransaction();
+            Toast.makeText(getApplicationContext(),"Cart not found",Toast.LENGTH_LONG).show();
+            // realm.close();
+        }
+        else
+        {
+           // Toast.makeText(getApplicationContext(),"Cart found "+cartsTable.getId(),Toast.LENGTH_LONG).show();
         }
 
         //check of the there is this product in the cart
-        CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).equalTo("produce_id",productEmpty.getProduce_id()).findFirst();
+
+        CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",productEmpty.getProduce_id()).equalTo("cart_id",Integer.parseInt(cartsTable.getId()+"")).findFirst();
+
         if(cartDetailsTable == null)
         {
+            // Toast.makeText(getApplicationContext(),"Cart detail is null",Toast.LENGTH_LONG).show();
             //create one
             cartDetailsTable = new CartDetailsTable();
-            cartDetailsTable.setCart_id(cartDetailsTable.getId());
+            realm.beginTransaction();
+            cartDetailsTable.setCart_id(cartsTable.getId());
             cartDetailsTable.setCost_per_kg(Double.parseDouble(productEmpty.getPrice_per_kg()));
             cartDetailsTable.setWeight(weight);
             cartDetailsTable.setCreated_at("");
@@ -145,15 +169,21 @@ public class SingleItemActivity extends AppCompatActivity {
             cartDetailsTable.setUnique_code("");
             cartDetailsTable.setUpdated_at("");
             realm.copyToRealmOrUpdate(cartDetailsTable);
-           // realm.close();
+            // realm.close();
+            realm.commitTransaction();
+
         }
         else
         {
+
+            realm.beginTransaction();
             cartDetailsTable.setWeight(weight);
             cartDetailsTable.setCost_per_kg(Double.parseDouble(productEmpty.getPrice_per_kg()));
             cartDetailsTable.setPrice_per_kg(Double.parseDouble(productEmpty.getPrice_per_kg()));
             realm.copyToRealmOrUpdate(cartDetailsTable);
-          //  realm.close();
+            //  realm.close();
+            realm.commitTransaction();
+
         }
         Intent intent = new Intent(SingleItemActivity.this,MainActivity.class);
         startActivity(intent);

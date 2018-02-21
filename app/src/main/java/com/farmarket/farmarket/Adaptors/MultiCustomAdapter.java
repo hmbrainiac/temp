@@ -39,9 +39,12 @@ import com.farmarket.farmarket.DataView.ProductEmpty;
 import com.farmarket.farmarket.MainActivity;
 import com.farmarket.farmarket.Models.GeneralModel;
 import com.farmarket.farmarket.R;
+import com.farmarket.farmarket.RealmTables.CartDetailsTable;
+import com.farmarket.farmarket.RealmTables.CartsTable;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
 import com.farmarket.farmarket.SingleItemActivity;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -61,7 +64,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public static ImageView overflow;
         VideoView thumbnail;
         Activity mActivity;
-
+        private static DecimalFormat df2 = new DecimalFormat(".##");
         //http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4
 
 
@@ -94,13 +97,13 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     if(userViewSettingTable == null || userViewSettingTable.getViewType().equals("Single"))
                     {
                         view = itemView.inflate(R.layout.products_single_cart_grid, parent, false);
-                        viewHolder = new ProductEmpty(view);
+                        viewHolder = new ProductCart(view);
 
                     }
                     else
                     {
                         view = itemView.inflate(R.layout.products_double_cart_grid, parent, false);
-                        viewHolder = new ProductEmpty(view);
+                        viewHolder = new ProductCart(view);
 
                     }
                     break;
@@ -136,15 +139,15 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             {
                 case ProductCart:
                     com.farmarket.farmarket.DataView.ProductCart vh1 = (ProductCart) holder;
-                    configureCartProduct(vh1,(com.farmarket.farmarket.DataType.ProductCart) albumList.get(position));
+                    configureCartProduct(vh1,(com.farmarket.farmarket.DataType.ProductCart) albumList.get(position),position);
                     break;
                 case ProductEmpty:
                     ProductEmpty vh2 = (ProductEmpty) holder;
-                    configureEmptyProduct(vh2, (com.farmarket.farmarket.DataType.ProductEmpty) albumList.get(position));
+                    configureEmptyProduct(vh2, (com.farmarket.farmarket.DataType.ProductEmpty) albumList.get(position),position);
                     break;
                 default:
                     ProductEmpty vh3 = (ProductEmpty) holder;
-                    configureEmptyProduct(vh3, (com.farmarket.farmarket.DataType.ProductEmpty) albumList.get(position));
+                    configureEmptyProduct(vh3, (com.farmarket.farmarket.DataType.ProductEmpty) albumList.get(position),position);
 
             }
 
@@ -152,7 +155,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
 
-    private void configureEmptyProduct(ProductEmpty v, final com.farmarket.farmarket.DataType.ProductEmpty product)
+    private void configureEmptyProduct(ProductEmpty v, final com.farmarket.farmarket.DataType.ProductEmpty product, int position)
     {
         final Intent intent  = new Intent(mContext,SingleItemActivity.class);
         intent.putExtra("product", product);
@@ -219,30 +222,135 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
 
-    private void configureCartProduct(ProductCart v, final com.farmarket.farmarket.DataType.ProductCart product)
+    private void configureCartProduct(final ProductCart v, final com.farmarket.farmarket.DataType.ProductCart product, final int position)
     {
+        final Intent intent  = new Intent(mContext,SingleItemActivity.class);
+        intent.putExtra("product", product);
+
         v.getIncreaseCart().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 //Todo increase
+                //get current quantity
+                double currentQuantity = product.getInCart();
+                Realm realm =Realm.getDefaultInstance();
+                //increase by 0.2
+                currentQuantity += 0.2;
+                currentQuantity = Math.round(currentQuantity*100.0)/100.0;
+
+                //get new price
+
+                //effect change in object
+                com.farmarket.farmarket.DataType.ProductCart cart = (com.farmarket.farmarket.DataType.ProductCart) MainActivity.albumList.get(position);
+                cart.setInCart(currentQuantity);
+                //display change and get new price
+                v.getQuantityInCart().setText(currentQuantity+"");
+                //effect change in cart details
+
+                CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
+                realm.beginTransaction();
+                cartDetailsTable.setWeight(currentQuantity);
+                realm.copyToRealmOrUpdate(cartDetailsTable);
+                realm.commitTransaction();
+                notifyDataSetChanged();
             }
         });
         v.getReduceCart().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                //Todo decrease
+                //get current quantity
+                //increase by - 0.2
+                //effect change in object
+                //display change and get new price
+                //effect change in cart details
+
+                //get current quantity
+                double currentQuantity = product.getInCart();
+
+                //increase by 0.2
+                currentQuantity -= 0.2;
+                currentQuantity = Math.round(currentQuantity*100.0)/100.0;
+                //get new price
+                if(currentQuantity > 0.00)
+                {
+                    com.farmarket.farmarket.DataType.ProductCart cart = (com.farmarket.farmarket.DataType.ProductCart) MainActivity.albumList.get(position);
+                    cart.setInCart(currentQuantity);
+                    //display change and get new price
+                    v.getQuantityInCart().setText(currentQuantity+"");
+                    //effect change in cart details
+                }
+                else {
+                    com.farmarket.farmarket.DataType.ProductEmpty productEmpty = new com.farmarket.farmarket.DataType.ProductEmpty();
+                    productEmpty.setCreated_at(product.getCreated_at());
+                    productEmpty.setDescription(product.getDescription());
+                    productEmpty.setFile_blob(product.getFile_blob());
+                    productEmpty.setFile_name(product.getFile_name());
+                    productEmpty.setName(product.getName());
+                    productEmpty.setPrice_per_kg(product.getPrice_per_kg());
+                    productEmpty.setProduce_id(product.getProduce_id());
+                    productEmpty.setProduce_type(product.getProduce_type());
+                    productEmpty.setUnique_code(product.getUnique_code());
+                    productEmpty.setProduce_type(product.getProduce_type());
+                    productEmpty.setUpdated_at(product.getUpdated_at());
+                    productEmpty.setUuid(product.getUuid());
+                    Realm realm = Realm.getDefaultInstance();
+                    CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findFirst();
+                    realm.beginTransaction();
+                    cartDetailsTable.deleteFromRealm();
+                    realm.commitTransaction();
+                    MainActivity.albumList.set(position,productEmpty);
+                }
+                Realm realm = Realm.getDefaultInstance();
+                CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
+                realm.beginTransaction();
+                cartDetailsTable.setWeight(currentQuantity);
+                realm.copyToRealmOrUpdate(cartDetailsTable);
+                realm.commitTransaction();
+                //effect change in object
+                notifyDataSetChanged();
 
             }
         });
+        Glide.with(mContext).load(ApiLocation.getImageLocation()+product.getFile_name())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(v.getMainImage());
+        v.getMainImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+            }
+        });
 
-        byte[] decodedString = Base64.decode(product.getFile_blob(), Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        v.getMainImage().setImageBitmap(decodedByte);
+        v.getMeasurement().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+            }
+        });
+        v.getNameProduct().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+
+            }
+        });
+        v.getPrice().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+            }
+        });
+
+
+
         v.getDiscount().setVisibility(View.GONE);
         v.getMeasurement().setText("Per Kg.");
         v.getNameProduct().setText(product.getName());
         v.getPrice().setText("GhC "+product.getPrice_per_kg());
         v.getQuantityInCart().setText(product.getInCart()+"");
     }
+
 
 
     @Override

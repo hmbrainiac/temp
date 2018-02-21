@@ -8,7 +8,7 @@ public class GeneralCalculations {
 
     public static double getCost(double unitPrice,double weight)
     {
-        return weight*unitPrice;
+        return Math.round((weight*unitPrice)*100.0)/100.0;
     }
 
 }

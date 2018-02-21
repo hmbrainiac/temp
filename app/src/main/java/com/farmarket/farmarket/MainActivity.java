@@ -1,7 +1,9 @@
 package com.farmarket.farmarket;
 
+import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -159,6 +161,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -186,6 +189,19 @@ public class MainActivity extends AppCompatActivity
             }
         });
         */
+        Realm realm = Realm.getDefaultInstance();
+        if (realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()>0)
+        {
+         menu.findItem(R.id.action_cart).setIcon(R.drawable.ic_full_cart);
+         menu.findItem(R.id.action_cart).setTooltipText("View your cart details");
+         menu.findItem(R.id.action_cart).setTitle(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"") ;
+        }
+        else
+        {
+          menu.findItem(R.id.action_cart).setIcon(R.drawable.ic_empty_cart);
+          menu.findItem(R.id.action_cart).setTooltipText("Sorry your cart is empty");
+          menu.findItem(R.id.action_cart).setTitle("0");
+        }
         return true;
     }
 
@@ -197,7 +213,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_cart) {
             return true;
         }
 
@@ -313,12 +329,9 @@ public class MainActivity extends AppCompatActivity
                 {
                     ProduceModel produceModel = generalModels.get(i);
                     Realm realm = Realm.getDefaultInstance();
-                    CartDetailsTable cartDetailsTable = null;
-                    CartsTable orderDetailTable = realm.where(CartsTable.class).findFirst();
-                    if(orderDetailTable != null) {
-                        Toast.makeText(getApplicationContext(),orderDetailTable.getCart_status(),Toast.LENGTH_LONG).show();
-                        cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id", generalModels.get(i).getProduce_id()).equalTo("cart_id", orderDetailTable.getId()).findFirst();
-                    }
+                    CartsTable orderDetailTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
+                    CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",produceModel.getProduce_id()).equalTo("cart_id",orderDetailTable.getId()).findFirst();
+                    
 
                     if(cartDetailsTable != null && cartDetailsTable.getWeight() != 0.00)
                     {
