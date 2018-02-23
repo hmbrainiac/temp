@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
 
 import java.util.concurrent.TimeUnit;
@@ -48,10 +53,19 @@ public class SignUpActivity extends AppCompatActivity {
         phoneNumber = (EditText)findViewById(R.id.phoneNumberET);
         signInTV = (TitalliumWebText)findViewById(R.id.signUpTV);
         signUpBtn = (Button)findViewById(R.id.signUpBtn);
-        countryCodePicker.detectLocaleCountry(true);
-        countryCodePicker.setDefaultCountryUsingNameCode("Ghana");
+        //countryCodePicker.detectLocaleCountry(true);
+        countryCodePicker.setCountryForNameCode("Ghana");
         progressDialog = new ProgressDialog(SignUpActivity.this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        signInTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
 
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -106,10 +120,10 @@ public class SignUpActivity extends AppCompatActivity {
                 //mResendToken = token;
                 //TODO send user to enter verification code
                 // ...
-                String phone = phoneNumber.getText().toString();
-                final String phoneNumber = (phone.length() > 9)? phone.substring(phone.length() - 4, 4): phone;
+               
+               
 
-                final String finalPhone = countryCodePicker.getSelectedCountryCodeWithPlus().toString()+phoneNumber;
+                final String finalPhone = internationalFormat;
 
                 Intent intent = new Intent(SignUpActivity.this,ConfirmCodeActivity.class);
                 intent.putExtra("verificationId",verificationId);
@@ -140,15 +154,21 @@ public class SignUpActivity extends AppCompatActivity {
 
                     final String phoneNumber = phone;
 
-                    final String finalPhone = countryCodePicker.getSelectedCountryCodeWithPlus().toString()+phoneNumber;
-                    fullPhone = finalPhone;
+                    if(validateUsing_libphonenumber(countryCodePicker.getSelectedCountryCodeWithPlus().toString(),phoneNumber))
+                    {
+                            fullPhone = internationalFormat;
+                                PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                                fullPhone,        // Phone number to verify
+                                60,                 // Timeout duration
+                                TimeUnit.SECONDS,   // Unit of timeout
+                                SignUpActivity.this,               // Activity (for callback binding)
+                                mCallbacks);        // OnVerificationStateChangedCallbacks
 
-                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                            finalPhone,        // Phone number to verify
-                            60,                 // Timeout duration
-                            TimeUnit.SECONDS,   // Unit of timeout
-                            SignUpActivity.this,               // Activity (for callback binding)
-                            mCallbacks);        // OnVerificationStateChangedCallbacks
+                    }
+                    else
+                    {
+                        progressDialog.dismiss();
+                    }
 
                 }
                 else
@@ -211,5 +231,38 @@ public class SignUpActivity extends AppCompatActivity {
         //TODO: Replace this with your own logic
         return email.contains("@");
     }
+
+    static String internationalFormat;
+
+
+    private boolean isValidPhoneNumber(CharSequence phoneNumber) {
+        if (!TextUtils.isEmpty(phoneNumber)) {
+            return Patterns.PHONE.matcher(phoneNumber).matches();
+        }
+        return false;
+    }
+
+    private boolean validateUsing_libphonenumber(String countryCode, String phNumber) {
+        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+        String isoCode = phoneNumberUtil.getRegionCodeForCountryCode(Integer.parseInt(countryCode));
+        Phonenumber.PhoneNumber phoneNumber = null;
+        try {
+            //phoneNumber = phoneNumberUtil.parse(phNumber, "IN");  //if you want to pass region code
+            phoneNumber = phoneNumberUtil.parse(phNumber, isoCode);
+        } catch (NumberParseException e) {
+            System.err.println(e);
+        }
+
+        boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
+        if (isValid) {
+             internationalFormat = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+            return true;
+        } else {
+            Toast.makeText(this, "Phone Number is Invalid " + phoneNumber, Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
+
 
 }

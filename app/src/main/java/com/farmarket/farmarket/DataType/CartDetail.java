@@ -1,23 +1,22 @@
-package com.farmarket.farmarket.RealmTables;
+package com.farmarket.farmarket.DataType;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import java.io.Serializable;
 
 /**
- * Created by admin on 20/02/2018.
+ * Created by isaac on 2/22/18.
  */
 
-public class CartDetailsTable extends RealmObject{
-    @PrimaryKey
+public class CartDetail implements Serializable{
     int id;
 
-    int cart_id,produce_id;
+    int detail_id,order_id,produce_id;
     double weight,price_per_kg,cost_per_kg;
-    String remarks,unique_code,created_at,updated_at,file_name,product_name,produce_type;
+    String remarks,unique_code,created_at,updated_at,file_name,product_type,product_name;
 
-    public CartDetailsTable(int id, int cart_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at, String file_name, String product_name, String produce_type) {
+    public CartDetail(int id, int detail_id, int order_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at, String file_name, String product_type) {
         this.id = id;
-        this.cart_id = cart_id;
+        this.detail_id = detail_id;
+        this.order_id = order_id;
         this.produce_id = produce_id;
         this.weight = weight;
         this.price_per_kg = price_per_kg;
@@ -27,16 +26,24 @@ public class CartDetailsTable extends RealmObject{
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.file_name = file_name;
+        this.product_type = product_type;
+    }
+
+    public CartDetail(int id, int detail_id, int order_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at, String file_name, String product_type, String product_name) {
+        this.id = id;
+        this.detail_id = detail_id;
+        this.order_id = order_id;
+        this.produce_id = produce_id;
+        this.weight = weight;
+        this.price_per_kg = price_per_kg;
+        this.cost_per_kg = cost_per_kg;
+        this.remarks = remarks;
+        this.unique_code = unique_code;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.file_name = file_name;
+        this.product_type = product_type;
         this.product_name = product_name;
-        this.produce_type = produce_type;
-    }
-
-    public String getProduce_type() {
-        return produce_type;
-    }
-
-    public void setProduce_type(String produce_type) {
-        this.produce_type = produce_type;
     }
 
     public String getProduct_name() {
@@ -47,7 +54,12 @@ public class CartDetailsTable extends RealmObject{
         this.product_name = product_name;
     }
 
-    public CartDetailsTable() {
+    public String getProduct_type() {
+        return product_type;
+    }
+
+    public void setProduct_type(String product_type) {
+        this.product_type = product_type;
     }
 
     public String getFile_name() {
@@ -58,6 +70,9 @@ public class CartDetailsTable extends RealmObject{
         this.file_name = file_name;
     }
 
+    public CartDetail() {
+    }
+
     public int getId() {
         return id;
     }
@@ -66,12 +81,20 @@ public class CartDetailsTable extends RealmObject{
         this.id = id;
     }
 
-    public int getCart_id() {
-        return cart_id;
+    public int getDetail_id() {
+        return detail_id;
     }
 
-    public void setCart_id(int cart_id) {
-        this.cart_id = cart_id;
+    public void setDetail_id(int detail_id) {
+        this.detail_id = detail_id;
+    }
+
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
     }
 
     public int getProduce_id() {

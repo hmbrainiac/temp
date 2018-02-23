@@ -24,7 +24,7 @@
         <activity android:name=".SingleItemActivity" />
         <activity android:name=".CartActivity" />
         <activity android:name=".CheckOutInfoActivity" />
-        <activity android:name=".ChoosPaymentMethodActivity" />
+        <activity android:name=".ChoosePaymentMethodActivity" />
         <activity android:name=".CompletePaymentActivity" />
         <activity android:name=".PromotionalCodeActivity" />
         <activity

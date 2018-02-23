@@ -7,7 +7,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by isaac on 2/17/18.
  */
 
-public class OrderDetailModel{
+public class OrderDetailModel {
     int id;
 
     int detail_id,order_id,produce_id;

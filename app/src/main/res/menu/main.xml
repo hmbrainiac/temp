@@ -4,13 +4,14 @@
     <item
         android:id="@+id/action_view_type"
         android:orderInCategory="100"
+        android:icon="@drawable/ic_settings1"
         android:title="View Type"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_cart"
         android:orderInCategory="100"
         android:title="View Type"
-        android:icon="@drawable/icon_cart"
+        android:icon="@drawable/empty_cart"
         app:showAsAction="always|withText" />
     <item
         android:id="@+id/action_search"

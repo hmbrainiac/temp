@@ -4,40 +4,31 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.net.Uri;
 import android.os.Build;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Base64;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.farmarket.farmarket.Api.ApiLocation;
+import com.farmarket.farmarket.CartActivity;
+import com.farmarket.farmarket.DataView.CartDetail;
+import com.farmarket.farmarket.DataView.CartTotal;
 import com.farmarket.farmarket.DataView.ProductCart;
 import com.farmarket.farmarket.DataView.ProductEmpty;
 import com.farmarket.farmarket.MainActivity;
+import com.farmarket.farmarket.Misc.GeneralCalculations;
 import com.farmarket.farmarket.Models.GeneralModel;
+import com.farmarket.farmarket.MyAddressActivity;
+import com.farmarket.farmarket.MySingleOrderActivity;
 import com.farmarket.farmarket.R;
 import com.farmarket.farmarket.RealmTables.CartDetailsTable;
 import com.farmarket.farmarket.RealmTables.CartsTable;
@@ -59,7 +50,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         private Context mContext;
         private List<Object> albumList,albumList1;
-        private final int ProductEmpty = 1, ProductCart = 2;
+        private final int ProductEmpty = 1, ProductCart = 2, CartDetail = 3,CartTotal= 4;
         public static TextView title, count;
         public static ImageView overflow;
         VideoView thumbnail;
@@ -121,6 +112,17 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     }
                     break;
+
+                case CartDetail:
+                    view = itemView.inflate(R.layout.single_row_cart, parent, false);
+                    viewHolder = new CartDetail(view);
+                    break;
+
+                case CartTotal:
+                    view = itemView.inflate(R.layout.cart_bottom_row, parent, false);
+                    viewHolder = new CartTotal(view);
+                    break;
+
                 default:
                     view = itemView.inflate(R.layout.products_single_empty_grid, parent, false);
                     viewHolder = new ProductEmpty(view);
@@ -145,9 +147,18 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     ProductEmpty vh2 = (ProductEmpty) holder;
                     configureEmptyProduct(vh2, (com.farmarket.farmarket.DataType.ProductEmpty) albumList.get(position),position);
                     break;
+                case CartDetail:
+                    CartDetail vh3 = (CartDetail) holder;
+                    configureCartDetail(vh3, (com.farmarket.farmarket.DataType.CartDetail) albumList.get(position),position);
+                    break;
+                case CartTotal:
+                    CartTotal vh4 = (CartTotal) holder;
+                    configureCartTotal(vh4, (com.farmarket.farmarket.DataType.CartTotal) albumList.get(position),position);
+                    break;
+
                 default:
-                    ProductEmpty vh3 = (ProductEmpty) holder;
-                    configureEmptyProduct(vh3, (com.farmarket.farmarket.DataType.ProductEmpty) albumList.get(position),position);
+                    ProductEmpty vh10 = (ProductEmpty) holder;
+                    configureEmptyProduct(vh10, (com.farmarket.farmarket.DataType.ProductEmpty) albumList.get(position),position);
 
             }
 
@@ -171,7 +182,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 mContext.startActivity(intent);
             }
         });
-/*
+        /*
         v.getDividerView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,18 +224,203 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 mContext.startActivity(intent);
             }
         });
-        v.getDiscount().setVisibility(View.GONE);
+
+        if(product.getProduce_type().equals("Organic"))
+        {
+            v.getDiscount().setText(product.getProduce_type());
+        }
+        else
+        {
+            v.getDiscount().setVisibility(View.GONE);
+        }
+
         v.getMeasurement().setText("Per Kg.");
         v.getNameProduct().setText(product.getName());
         v.getPrice().setText("GhC "+product.getPrice_per_kg());
     }
 
 
+    private void configureCartDetail(final CartDetail v, final com.farmarket.farmarket.DataType.CartDetail product, final int position)
+    {
+        final Intent intent  = new Intent(mContext,MySingleOrderActivity.class);
+        intent.putExtra("product", product);
 
+        v.getPlusImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Todo increase
+                //get current quantity
+                double currentQuantity = product.getWeight();
+                Realm realm =Realm.getDefaultInstance();
+                //increase by 0.2
+                currentQuantity += 0.2;
+                currentQuantity = Math.round(currentQuantity*100.0)/100.0;
+
+                //get new price
+
+                //effect change in object
+                double currentPrice = GeneralCalculations.getCost(product.getPrice_per_kg(),currentQuantity);
+                //display change and get new price
+                v.getProductPrice().setText(currentPrice+"");
+                product.setWeight(currentQuantity);
+                CartActivity.albumList.set(position,product);
+                //effect change in cart details
+
+                CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
+                realm.beginTransaction();
+                cartDetailsTable.setWeight(currentQuantity);
+                realm.copyToRealmOrUpdate(cartDetailsTable);
+                realm.commitTransaction();
+                notifyDataSetChanged();
+                setCartTotal();
+            }
+        });
+        v.getRemoveFromCart().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CartActivity.albumList.remove(position);
+                notifyDataSetChanged();
+                setCartTotal();
+                Realm realm = Realm.getDefaultInstance();
+                CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
+                if(cartDetailsTable != null)
+                {
+                    realm.beginTransaction();
+                    cartDetailsTable.setWeight(0);
+                    realm.copyToRealmOrUpdate(cartDetailsTable);
+                    realm.commitTransaction();
+
+                }
+
+
+            }
+        });
+        v.getMinusImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //get current quantity
+                double currentQuantity = product.getWeight();
+
+                //increase by 0.2
+                currentQuantity -= 0.2;
+                if(currentQuantity < 0.00)
+                    currentQuantity = 0.00;
+
+                currentQuantity = Math.round(currentQuantity*100.0)/100.0;
+                double currentPrice = GeneralCalculations.getCost(product.getPrice_per_kg(),currentQuantity);
+
+                //get new price
+                if(currentQuantity > 0.00)
+                {
+                    //display change and get new price
+                    //effect change in cart details
+                    product.setWeight(currentQuantity);
+                    CartActivity.albumList.set(position,product);
+
+
+                }
+                else {
+                    Realm realm = Realm.getDefaultInstance();
+                    CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
+                    if(cartDetailsTable != null)
+                    {
+                        realm.beginTransaction();
+                        cartDetailsTable.setWeight(0);
+                        realm.copyToRealmOrUpdate(cartDetailsTable);
+                        realm.commitTransaction();
+
+                    }
+
+                    CartActivity.albumList.remove(position);
+                }
+                Realm realm = Realm.getDefaultInstance();
+                CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
+                if(cartDetailsTable != null)
+                {
+                    realm.beginTransaction();
+                    cartDetailsTable.setWeight(currentQuantity);
+                    realm.copyToRealmOrUpdate(cartDetailsTable);
+                    realm.commitTransaction();
+
+                }
+                //effect change in object
+                notifyDataSetChanged();
+                setCartTotal();
+
+            }
+        });
+        Glide.with(mContext).load(ApiLocation.getImageLocation()+product.getFile_name())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(v.getMainImage());
+        v.getMainImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(intent);
+            }
+        });
+
+        if(product.getProduct_type().equals("Organic"))
+        {
+            v.getProductType().setText(product.getProduct_type());
+        }
+        else
+        {
+            v.getProductType().setVisibility(View.GONE);
+        }
+
+        v.getProductPrice().setText(GeneralCalculations.getCost(product.getPrice_per_kg(),product.getWeight())+"");
+        v.getCurrentWeight().setText(product.getWeight()+"");
+        v.getProductWeight().setText(product.getWeight()+"");
+        v.getProductName().setText(product.getProduct_name());
+    }
+
+    void setCartTotal()
+    {
+        double subTotal,total;
+        com.farmarket.farmarket.DataType.CartTotal   cartTotal = (com.farmarket.farmarket.DataType.CartTotal) CartActivity.albumList.get(CartActivity.albumList.size()-1);
+        if(cartTotal != null)
+        {
+            subTotal = 0;
+            total = 0;
+            for(int i = 0; i< CartActivity.albumList.size(); i++)
+            {
+                if(CartActivity.albumList.get(i) instanceof com.farmarket.farmarket.DataType.CartDetail)
+                {
+
+                    subTotal += GeneralCalculations.getCost(((com.farmarket.farmarket.DataType.CartDetail) CartActivity.albumList.get(i)).getPrice_per_kg(),((com.farmarket.farmarket.DataType.CartDetail) CartActivity.albumList.get(i)).getWeight());
+                }
+
+            }
+            total = subTotal;
+            cartTotal.setTotal(total);
+            cartTotal.setSubTotal(subTotal);
+            notifyDataSetChanged();
+        }
+
+    }
+
+    private void configureCartTotal(final CartTotal v, final com.farmarket.farmarket.DataType.CartTotal product, final int position)
+    {
+        final Intent intent  = new Intent(mContext,MyAddressActivity.class);
+
+        v.getSubTotal().setText(product.getSubTotal()+"");
+        v.getTotal().setText(product.getTotal()+"");
+
+        v.getToCheckOutBtn().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.startActivity(intent);
+                mActivity.finish();
+                return;
+            }
+        });
+    }
 
     private void configureCartProduct(final ProductCart v, final com.farmarket.farmarket.DataType.ProductCart product, final int position)
     {
-        final Intent intent  = new Intent(mContext,SingleItemActivity.class);
+        final Intent intent  = new Intent(mContext,MySingleOrderActivity.class);
         intent.putExtra("product", product);
 
         v.getIncreaseCart().setOnClickListener(new View.OnClickListener() {
@@ -294,19 +490,26 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     productEmpty.setProduce_type(product.getProduce_type());
                     productEmpty.setUpdated_at(product.getUpdated_at());
                     productEmpty.setUuid(product.getUuid());
+                    /*
                     Realm realm = Realm.getDefaultInstance();
                     CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findFirst();
                     realm.beginTransaction();
-                    cartDetailsTable.deleteFromRealm();
+                    cartDetailsTable.setWeight(currentQuantity);
+                    realm.copyToRealmOrUpdate(cartDetailsTable);
                     realm.commitTransaction();
+                    */
                     MainActivity.albumList.set(position,productEmpty);
                 }
                 Realm realm = Realm.getDefaultInstance();
                 CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
-                realm.beginTransaction();
-                cartDetailsTable.setWeight(currentQuantity);
-                realm.copyToRealmOrUpdate(cartDetailsTable);
-                realm.commitTransaction();
+                if(cartDetailsTable != null)
+                {
+                    realm.beginTransaction();
+                    cartDetailsTable.setWeight(currentQuantity);
+                    realm.copyToRealmOrUpdate(cartDetailsTable);
+                    realm.commitTransaction();
+
+                }
                 //effect change in object
                 notifyDataSetChanged();
 
@@ -342,15 +545,19 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         });
 
-
-
-        v.getDiscount().setVisibility(View.GONE);
+        if(product.getProduce_type().equals("Organic"))
+        {
+            v.getDiscount().setText(product.getProduce_type());
+        }
+        else
+        {
+            v.getDiscount().setVisibility(View.GONE);
+        }
         v.getMeasurement().setText("Per Kg.");
         v.getNameProduct().setText(product.getName());
         v.getPrice().setText("GhC "+product.getPrice_per_kg());
         v.getQuantityInCart().setText(product.getInCart()+"");
     }
-
 
 
     @Override
@@ -363,6 +570,11 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return ProductCart;
         } else if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.ProductEmpty) {
             return ProductEmpty;
+        }if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.CartDetail) {
+            return CartDetail;
+        }
+        if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.CartTotal) {
+            return CartTotal;
         }
         return -1;
     }
@@ -455,6 +667,12 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return ProductEmpty;
         } else if (o instanceof com.farmarket.farmarket.DataType.ProductCart) {
             return ProductCart;
+        }
+        else if (o instanceof com.farmarket.farmarket.DataType.CartDetail) {
+            return CartDetail;
+        }
+        else if (o instanceof com.farmarket.farmarket.DataType.CartTotal) {
+            return CartTotal;
         }
         return -1;
     }
