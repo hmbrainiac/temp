@@ -1,5 +1,8 @@
 package com.farmarket.farmarket.Models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -117,5 +120,24 @@ public class OrderDetailModel {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+
+    public JSONObject toJSon() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("id",this.id);
+        jsonObject.put("detail_id",this.detail_id);
+        jsonObject.put("order_id",this.order_id);
+        jsonObject.put("produce_id",this.produce_id);
+        jsonObject.put("weight",this.weight);
+        jsonObject.put("price_per_kg",this.price_per_kg);
+        jsonObject.put("cost_per_kg",this.cost_per_kg);
+        jsonObject.put("remarks",this.remarks);
+        jsonObject.put("unique_code",this.unique_code);
+        jsonObject.put("created_at",this.created_at);
+        jsonObject.put("updated_at",this.updated_at);
+
+        return  jsonObject;
     }
 }

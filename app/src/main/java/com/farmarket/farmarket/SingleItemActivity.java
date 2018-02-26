@@ -146,12 +146,12 @@ public class SingleItemActivity extends AppCompatActivity {
             cartsTable.setId(size);
             realm.copyToRealmOrUpdate(cartsTable);
             realm.commitTransaction();
-            Toast.makeText(getApplicationContext(),"Cart not found",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"Cart not found",Toast.LENGTH_LONG).show();
             // realm.close();
         }
         else
         {
-           // Toast.makeText(getApplicationContext(),"Cart found "+cartsTable.getId(),Toast.LENGTH_LONG).show();
+
         }
 
         //check of the there is this product in the cart

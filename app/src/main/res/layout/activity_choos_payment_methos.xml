@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.farmarket.farmarket.ChoosePaymentMethodActivity"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools">
     <com.farmarket.farmarket.Fonts.TTCorals
         android:layout_width="wrap_content"
@@ -45,15 +43,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_below="@id/recycler_view"
-            android:layout_gravity="center"
             android:layout_margin="@dimen/card_margin"
             android:elevation="3dp"
-            card_view:cardCornerRadius="20dp"
-            card_view:ignore="MissingConstraints"
-            card_view:layout_editor_absoluteX="59dp"
-            card_view:layout_editor_absoluteY="5dp"
-            tools:layout_editor_absoluteX="5dp">
+            card_view:cardCornerRadius="20dp">
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,6 +116,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/offTopTV"
                 android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
                 android:layout_height="wrap_content">
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
@@ -177,7 +171,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Delivery Charge"
+                        android:text="Delivery"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -190,13 +184,14 @@
                         app:layout_constraintRight_toRightOf="parent"
                         android:layout_width="wrap_content"
                         android:id="@+id/deliveryTV"
-                        android:text="GhC 200"
+                        android:text="GhC 14"
                         android:textSize="16sp"
                         android:textAlignment="center"
                         app:layout_constraintTop_toBottomOf="@id/deliveryText"
                         android:textStyle="bold"
 
                         android:textColor="@color/colorPrimaryDark"
+                        android:layout_marginBottom="5dp"
                         android:layout_height="wrap_content" />
 
                 </android.support.constraint.ConstraintLayout>

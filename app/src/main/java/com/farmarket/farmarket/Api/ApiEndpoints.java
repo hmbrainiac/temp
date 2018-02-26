@@ -1,8 +1,15 @@
 package com.farmarket.farmarket.Api;
 
+import com.farmarket.farmarket.Models.OrderDetailModel;
+import com.farmarket.farmarket.Models.OrderModel;
 import com.farmarket.farmarket.Models.ProduceModel;
 import com.farmarket.farmarket.Models.UserModel;
+import com.mobsandgeeks.saripaar.annotation.Order;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Call;
@@ -29,6 +36,11 @@ public interface ApiEndpoints {
     @GET("products")
     Call<List<ProduceModel>> listProducts();
 
+
+
+    @FormUrlEncoded
+    @POST("complete-order")
+    Call<UserModel> completeOrder(@Field("order") JSONObject order, @Field("order_details") JSONArray orderDetail);
 
 
 }
