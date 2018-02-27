@@ -128,7 +128,7 @@ public class SignInActivity extends AppCompatActivity {
                         realm.beginTransaction();
                         realm.copyToRealmOrUpdate(userTable);
                         realm.commitTransaction();
-                        Toast.makeText(SignInActivity.this,user.getPhone(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(SignInActivity.this,user.getPhone(),Toast.LENGTH_LONG).show();
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

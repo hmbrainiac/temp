@@ -25,7 +25,7 @@ import io.realm.RealmResults;
 public class SingleItemActivity extends AppCompatActivity {
     ProductEmpty productEmpty;
     ImageView imageView;
-    TextView pointFive,one,five,ten,name,description,price;
+    TextView pointFive,one,five,ten,name,description,price,productType,percentageOff;
     Button button;
     static double weight,cost;
 
@@ -44,6 +44,11 @@ public class SingleItemActivity extends AppCompatActivity {
         one = (TextView)findViewById(R.id.id1);
         five = (TextView)findViewById(R.id.id5);
         ten = (TextView)findViewById(R.id.id10);
+        productType = (TextView)findViewById(R.id.percentOff);
+        percentageOff = (TextView)findViewById(R.id.likes);
+
+        percentageOff.setVisibility(View.GONE);
+        productType.setText(productEmpty.getProduce_type());
         pointFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +130,7 @@ public class SingleItemActivity extends AppCompatActivity {
             cartsTable = new CartsTable();
             realm.beginTransaction();
             cartsTable.setCart_status("Pending");
+
             cartsTable.setDelivery_gh_post_code("");
             cartsTable.setDelivery_id(0);
             cartsTable.setDelivery_lat("");
@@ -140,12 +146,12 @@ public class SingleItemActivity extends AppCompatActivity {
             cartsTable.setId(size);
             realm.copyToRealmOrUpdate(cartsTable);
             realm.commitTransaction();
-            Toast.makeText(getApplicationContext(),"Cart not found",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"Cart not found",Toast.LENGTH_LONG).show();
             // realm.close();
         }
         else
         {
-           // Toast.makeText(getApplicationContext(),"Cart found "+cartsTable.getId(),Toast.LENGTH_LONG).show();
+
         }
 
         //check of the there is this product in the cart
@@ -158,9 +164,12 @@ public class SingleItemActivity extends AppCompatActivity {
             //create one
             cartDetailsTable = new CartDetailsTable();
             realm.beginTransaction();
+            cartDetailsTable.setFile_name(productEmpty.getFile_name());
             cartDetailsTable.setCart_id(cartsTable.getId());
             cartDetailsTable.setCost_per_kg(Double.parseDouble(productEmpty.getPrice_per_kg()));
             cartDetailsTable.setWeight(weight);
+            cartDetailsTable.setProduct_name(productEmpty.getName());
+            cartDetailsTable.setProduce_type(productEmpty.getProduce_type());
             cartDetailsTable.setCreated_at("");
             cartDetailsTable.setId((realm.where(CartDetailsTable.class).findAll().size()+1));
             cartDetailsTable.setPrice_per_kg(Double.parseDouble(productEmpty.getPrice_per_kg()));

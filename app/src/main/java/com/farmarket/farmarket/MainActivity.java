@@ -1,6 +1,7 @@
 package com.farmarket.farmarket;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ import com.farmarket.farmarket.Models.ProduceModel;
 import com.farmarket.farmarket.RealmTables.CartDetailsTable;
 import com.farmarket.farmarket.RealmTables.CartsTable;
 import com.farmarket.farmarket.RealmTables.OrderDetailTable;
+import com.farmarket.farmarket.RealmTables.UserTable;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
 
 import java.util.ArrayList;
@@ -60,6 +63,9 @@ public class MainActivity extends AppCompatActivity
     Realm realm;
     UserViewSettingTable userViewSettingTable;
     private ShimmerFrameLayout mShimmerViewContainer;
+    TextView name,email;
+    ImageView profilePic;
+    UserTable userTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         realm = Realm.getDefaultInstance();
         userViewSettingTable = realm.where(UserViewSettingTable.class).findFirst();
+        userTable = realm.where(UserTable.class).findFirst();
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
 
         albumList = new ArrayList<>();
@@ -84,7 +91,21 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        name = (TextView) headerView.findViewById(R.id.userNameTV);
+        email = (TextView) headerView.findViewById(R.id.textView);
+        profilePic = (ImageView)headerView.findViewById(R.id.imageView);
+
+        name.setText("");
+        email.setText("");
+        if(userTable != null)
+        {
+            name.setText(userTable.getFirstname()+" "+userTable.getLastname());
+            email.setText(userTable.getEmail());
+        }
+
 
 
 
@@ -142,11 +163,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        adapter.notifyDataSetChanged();
         mShimmerViewContainer.startShimmerAnimation();
     }
 
     @Override
     public void onPause() {
+        adapter.notifyDataSetChanged();
         mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
     }
@@ -190,17 +213,18 @@ public class MainActivity extends AppCompatActivity
         });
         */
         Realm realm = Realm.getDefaultInstance();
-        if (realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()>0)
+        CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
+        if (cartsTable != null && realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).findAll().size()>0)
         {
-         menu.findItem(R.id.action_cart).setIcon(R.drawable.ic_full_cart);
-         menu.findItem(R.id.action_cart).setTooltipText("View your cart details");
-         menu.findItem(R.id.action_cart).setTitle(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"") ;
+         menu.findItem(R.id.action_cart).setIcon(R.drawable.full_cart);
+         //menu.findItem(R.id.action_cart).setTooltipText("View your cart details");
+         //menu.findItem(R.id.action_cart).setTitle(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"") ;
         }
         else
         {
-          menu.findItem(R.id.action_cart).setIcon(R.drawable.ic_empty_cart);
-          menu.findItem(R.id.action_cart).setTooltipText("Sorry your cart is empty");
-          menu.findItem(R.id.action_cart).setTitle("0");
+          menu.findItem(R.id.action_cart).setIcon(R.drawable.empty_cart);
+          //menu.findItem(R.id.action_cart).setTooltipText("Sorry your cart is empty");
+          //menu.findItem(R.id.action_cart).setTitle("0");
         }
         return true;
     }
@@ -214,6 +238,15 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cart) {
+            Realm realm = Realm.getDefaultInstance();
+            CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
+            if (cartsTable != null && realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).findAll().size()>0)
+            {
+
+                Intent intent = new Intent(MainActivity.this,CartActivity.class);
+                startActivity(intent);
+                finish();
+            }
             return true;
         }
 
@@ -226,17 +259,44 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.my_address) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            Intent intent = new Intent(MainActivity.this,MyAddressActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.my_order) {
+            Intent intent = new Intent(MainActivity.this,MyOrdersActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.my_settings) {
+            Intent intent = new Intent(MainActivity.this,MySettingsActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_send) {
+
+        } else if (id == R.id.my_transactions) {
+            Intent intent = new Intent(MainActivity.this,TransactionsActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.log_out) {
+            realm.beginTransaction();
+            userTable.deleteFromRealm();
+            realm.where(CartsTable.class).findAll().deleteAllFromRealm();
+            realm.where(CartDetailsTable.class).findAll().deleteAllFromRealm();
+            realm.where(UserViewSettingTable.class).findAll().deleteAllFromRealm();
+            realm.commitTransaction();
+            Intent intent = new Intent(MainActivity.this,SignInActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+
+        } else if (id == R.id.contact_us) {
+            Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.about_us) {
+            Intent intent = new Intent(MainActivity.this,ContactUsActivity.class);
+            startActivity(intent);
 
         }
 
@@ -330,7 +390,9 @@ public class MainActivity extends AppCompatActivity
                     ProduceModel produceModel = generalModels.get(i);
                     Realm realm = Realm.getDefaultInstance();
                     CartsTable orderDetailTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
-                    CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",produceModel.getProduce_id()).equalTo("cart_id",orderDetailTable.getId()).findFirst();
+                    CartDetailsTable cartDetailsTable = null;
+                    if(orderDetailTable != null)
+                     cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",produceModel.getProduce_id()).equalTo("cart_id",orderDetailTable.getId()).findFirst();
                     
 
                     if(cartDetailsTable != null && cartDetailsTable.getWeight() != 0.00)

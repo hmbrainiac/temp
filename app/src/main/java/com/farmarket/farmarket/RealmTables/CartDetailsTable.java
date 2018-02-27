@@ -13,9 +13,9 @@ public class CartDetailsTable extends RealmObject{
 
     int cart_id,produce_id;
     double weight,price_per_kg,cost_per_kg;
-    String remarks,unique_code,created_at,updated_at;
+    String remarks,unique_code,created_at,updated_at,file_name,product_name,produce_type;
 
-    public CartDetailsTable(int id, int cart_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at) {
+    public CartDetailsTable(int id, int cart_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at, String file_name, String product_name, String produce_type) {
         this.id = id;
         this.cart_id = cart_id;
         this.produce_id = produce_id;
@@ -26,9 +26,36 @@ public class CartDetailsTable extends RealmObject{
         this.unique_code = unique_code;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.file_name = file_name;
+        this.product_name = product_name;
+        this.produce_type = produce_type;
+    }
+
+    public String getProduce_type() {
+        return produce_type;
+    }
+
+    public void setProduce_type(String produce_type) {
+        this.produce_type = produce_type;
+    }
+
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
     public CartDetailsTable() {
+    }
+
+    public String getFile_name() {
+        return file_name;
+    }
+
+    public void setFile_name(String file_name) {
+        this.file_name = file_name;
     }
 
     public int getId() {
