@@ -5,6 +5,7 @@
         android:id="@+id/action_view_type"
         android:orderInCategory="100"
         android:title="View Type"
+        android:icon="@drawable/ic_settings"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_cart"
