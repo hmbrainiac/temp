@@ -103,7 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 // Show a message and update the UI
                 // ...
-                Toast.makeText(getApplicationContext(),"Kindly contact support with error code 213",Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(),"Kindly contact support with error code 213",Toast.LENGTH_LONG).show();
             }
 
             @Override

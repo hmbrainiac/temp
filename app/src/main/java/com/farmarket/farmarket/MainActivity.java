@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ import com.farmarket.farmarket.Models.ProduceModel;
 import com.farmarket.farmarket.RealmTables.CartDetailsTable;
 import com.farmarket.farmarket.RealmTables.CartsTable;
 import com.farmarket.farmarket.RealmTables.OrderDetailTable;
+import com.farmarket.farmarket.RealmTables.UserTable;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
 
 import java.util.ArrayList;
@@ -61,6 +63,9 @@ public class MainActivity extends AppCompatActivity
     Realm realm;
     UserViewSettingTable userViewSettingTable;
     private ShimmerFrameLayout mShimmerViewContainer;
+    TextView name,email;
+    ImageView profilePic;
+    UserTable userTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         realm = Realm.getDefaultInstance();
         userViewSettingTable = realm.where(UserViewSettingTable.class).findFirst();
+        userTable = realm.where(UserTable.class).findFirst();
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
 
         albumList = new ArrayList<>();
@@ -87,6 +93,19 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        name = (TextView) headerView.findViewById(R.id.userNameTV);
+        email = (TextView) headerView.findViewById(R.id.textView);
+        profilePic = (ImageView)headerView.findViewById(R.id.imageView);
+
+        name.setText("");
+        email.setText("");
+        if(userTable != null)
+        {
+            name.setText(userTable.getFirstname()+" "+userTable.getLastname());
+            email.setText(userTable.getEmail());
+        }
+
 
 
 
@@ -240,17 +259,44 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.my_address) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            Intent intent = new Intent(MainActivity.this,MyAddressActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.my_order) {
+            Intent intent = new Intent(MainActivity.this,MyOrdersActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.my_settings) {
+            Intent intent = new Intent(MainActivity.this,MySettingsActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_send) {
+
+        } else if (id == R.id.my_transactions) {
+            Intent intent = new Intent(MainActivity.this,TransactionsActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.log_out) {
+            realm.beginTransaction();
+            userTable.deleteFromRealm();
+            realm.where(CartsTable.class).findAll().deleteAllFromRealm();
+            realm.where(CartDetailsTable.class).findAll().deleteAllFromRealm();
+            realm.where(UserViewSettingTable.class).findAll().deleteAllFromRealm();
+            realm.commitTransaction();
+            Intent intent = new Intent(MainActivity.this,SignInActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+
+        } else if (id == R.id.contact_us) {
+            Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.about_us) {
+            Intent intent = new Intent(MainActivity.this,ContactUsActivity.class);
+            startActivity(intent);
 
         }
 

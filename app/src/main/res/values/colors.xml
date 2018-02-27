@@ -14,4 +14,7 @@
     <color name="chef">#777</color>
     <color name="timestamp">#777</color>
     <color name="darkGrey">#A9A9A9</color>
+    <color name="lighter">#cff2e7</color>
+    <color name="lighet2">#dff7ef</color>
+    <color name="light3">#81dec1</color>
 </resources>
