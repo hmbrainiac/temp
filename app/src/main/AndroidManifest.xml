@@ -54,7 +54,8 @@
         <activity android:name=".MainSelectionActivity" />
         <activity android:name=".ConfirmCodeActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".TransactionsActivity"></activity>
+        <activity android:name=".TransactionsActivity" />
+        <activity android:name=".SetupAddressActivity"></activity>
     </application>
 
 </manifest>

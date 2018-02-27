@@ -30,7 +30,7 @@
         </menu>
     </item>
 
-    <item android:title="Other">
+    <item  android:title="Other">
         <menu>
             <item
                 android:id="@+id/contact_us"

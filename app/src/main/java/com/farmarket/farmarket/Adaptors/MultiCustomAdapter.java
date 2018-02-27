@@ -22,11 +22,15 @@ import com.farmarket.farmarket.Api.ApiLocation;
 import com.farmarket.farmarket.CartActivity;
 import com.farmarket.farmarket.DataView.CartDetail;
 import com.farmarket.farmarket.DataView.CartTotal;
+import com.farmarket.farmarket.DataView.Order;
 import com.farmarket.farmarket.DataView.ProductCart;
 import com.farmarket.farmarket.DataView.ProductEmpty;
 import com.farmarket.farmarket.MainActivity;
 import com.farmarket.farmarket.Misc.GeneralCalculations;
 import com.farmarket.farmarket.Models.GeneralModel;
+import com.farmarket.farmarket.Models.OrderDetailModel;
+import com.farmarket.farmarket.Models.OrderModel;
+import com.farmarket.farmarket.Models.TransactionModel;
 import com.farmarket.farmarket.MyAddressActivity;
 import com.farmarket.farmarket.MySingleOrderActivity;
 import com.farmarket.farmarket.R;
@@ -50,7 +54,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         private Context mContext;
         private List<Object> albumList,albumList1;
-        private final int ProductEmpty = 1, ProductCart = 2, CartDetail = 3,CartTotal= 4;
+        private final int ProductEmpty = 1, ProductCart = 2, CartDetail = 3,CartTotal= 4,Order = 5,OrderDetail=6,Transaction=7;
         public static TextView title, count;
         public static ImageView overflow;
         VideoView thumbnail;
@@ -123,6 +127,20 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     viewHolder = new CartTotal(view);
                     break;
 
+                case Order:
+                    view = itemView.inflate(R.layout.single_order_row, parent, false);
+                    viewHolder = new CartTotal(view);
+                    break;
+
+                case OrderDetail:
+                    view = itemView.inflate(R.layout.single_order_detail_row, parent, false);
+                    viewHolder = new CartTotal(view);
+                    break;
+                case Transaction:
+                    view = itemView.inflate(R.layout.single_transaction_row, parent, false);
+                    viewHolder = new CartTotal(view);
+                    break;
+
                 default:
                     view = itemView.inflate(R.layout.products_single_empty_grid, parent, false);
                     viewHolder = new ProductEmpty(view);
@@ -156,6 +174,20 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     configureCartTotal(vh4, (com.farmarket.farmarket.DataType.CartTotal) albumList.get(position),position);
                     break;
 
+                case Order:
+                    Order vh5 = (com.farmarket.farmarket.DataView.Order) holder;
+                    configureOrder(vh5, (com.farmarket.farmarket.DataType.Order) albumList.get(position),position);
+                    break;
+                case OrderDetail:
+                    com.farmarket.farmarket.DataView.OrderDetail vh6 = (com.farmarket.farmarket.DataView.OrderDetail) holder;
+                    configureOrderDetail(vh6, (com.farmarket.farmarket.DataType.OrderDetail) albumList.get(position),position);
+                    break;
+                case Transaction:
+                    com.farmarket.farmarket.DataView.Transaction vh7 = (com.farmarket.farmarket.DataView.Transaction) holder;
+                    configureTransaction(vh7, (com.farmarket.farmarket.DataType.Transaction) albumList.get(position),position);
+                    break;
+
+
                 default:
                     ProductEmpty vh10 = (ProductEmpty) holder;
                     configureEmptyProduct(vh10, (com.farmarket.farmarket.DataType.ProductEmpty) albumList.get(position),position);
@@ -165,7 +197,24 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         }
 
+    private void configureOrder(final Order v, final com.farmarket.farmarket.DataType.Order order, final int position)
+    {
+        final Intent intent  = new Intent(mContext,MyAddressActivity.class);
 
+    }
+
+
+    private void configureOrderDetail(final com.farmarket.farmarket.DataView.OrderDetail v, final com.farmarket.farmarket.DataType.OrderDetail orderDetail, final int position)
+    {
+        final Intent intent  = new Intent(mContext,MyAddressActivity.class);
+
+    }
+
+    private void configureTransaction(final com.farmarket.farmarket.DataView.Transaction  v, final com.farmarket.farmarket.DataType.Transaction transaction, final int position)
+    {
+        final Intent intent  = new Intent(mContext,MyAddressActivity.class);
+
+    }
     private void configureEmptyProduct(ProductEmpty v, final com.farmarket.farmarket.DataType.ProductEmpty product, int position)
     {
         final Intent intent  = new Intent(mContext,SingleItemActivity.class);
@@ -576,6 +625,16 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.CartTotal) {
             return CartTotal;
         }
+        if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.Order) {
+            return Order;
+        }
+        if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.OrderDetail) {
+            return OrderDetail;
+        }
+        if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.Transaction) {
+            return Transaction;
+        }
+
         return -1;
     }
 
@@ -674,6 +733,16 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         else if (o instanceof com.farmarket.farmarket.DataType.CartTotal) {
             return CartTotal;
         }
+        else if (o instanceof com.farmarket.farmarket.DataType.Order) {
+            return Order;
+        }
+        else if (o instanceof com.farmarket.farmarket.DataType.OrderDetail) {
+            return OrderDetail;
+        }
+        else if (o instanceof com.farmarket.farmarket.DataType.Transaction) {
+            return Transaction;
+        }
+
         return -1;
     }
 

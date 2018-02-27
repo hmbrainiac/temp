@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity
         email.setText("");
         if(userTable != null)
         {
-            name.setText(userTable.getFirstname()+" "+userTable.getLastname());
+            name.setText(userTable.getPhone());
             email.setText(userTable.getEmail());
         }
 
@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.my_address) {
             // Handle the camera action
-            Intent intent = new Intent(MainActivity.this,MyAddressActivity.class);
+            Intent intent = new Intent(MainActivity.this,SetupAddressActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.my_order) {
@@ -291,11 +291,11 @@ public class MainActivity extends AppCompatActivity
             return true;
 
         } else if (id == R.id.contact_us) {
-            Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
+            Intent intent = new Intent(MainActivity.this,ContactUsActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.about_us) {
-            Intent intent = new Intent(MainActivity.this,ContactUsActivity.class);
+            Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
             startActivity(intent);
 
         }
@@ -383,65 +383,73 @@ public class MainActivity extends AppCompatActivity
         data.enqueue(new Callback<List<ProduceModel>>() {
             @Override
             public void onResponse(Response<List<ProduceModel>> response, Retrofit retrofit) {
-
-                List<ProduceModel> generalModels = response.body();
-                for(int i = 0; i<generalModels.size();i++)
+                if(response.isSuccess() && response.code() == 200)
                 {
-                    ProduceModel produceModel = generalModels.get(i);
-                    Realm realm = Realm.getDefaultInstance();
-                    CartsTable orderDetailTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
-                    CartDetailsTable cartDetailsTable = null;
-                    if(orderDetailTable != null)
-                     cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",produceModel.getProduce_id()).equalTo("cart_id",orderDetailTable.getId()).findFirst();
-                    
 
-                    if(cartDetailsTable != null && cartDetailsTable.getWeight() != 0.00)
+                    List<ProduceModel> generalModels = response.body();
+                    for(int i = 0; i<generalModels.size();i++)
                     {
-                        ProductCart productCart = new ProductCart();
-                        productCart.setCreated_at(produceModel.getCreated_at());
-                        productCart.setDescription(produceModel.getDescription());
-                        productCart.setFile_blob(produceModel.getFile_blob());
-                        productCart.setFile_name(produceModel.getFile_name());
-                        productCart.setInCart(cartDetailsTable.getWeight());
-                        productCart.setName(produceModel.getName());
-                        productCart.setPrice_per_kg(produceModel.getPrice_per_kg());
-                        productCart.setProduce_id(produceModel.getProduce_id());
-                        productCart.setProduce_type(produceModel.getProduce_type());
-                        productCart.setUnique_code(produceModel.getUnique_code());
-                        productCart.setProduce_type(produceModel.getProduce_type());
-                        productCart.setUpdated_at(produceModel.getUpdated_at());
-                        productCart.setUuid(produceModel.getUuid());
-                        albumList.add(productCart);
-                       // Toast.makeText(getApplicationContext(),productCart.getName(),Toast.LENGTH_LONG).show();
+                        ProduceModel produceModel = generalModels.get(i);
+                        Realm realm = Realm.getDefaultInstance();
+                        CartsTable orderDetailTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
+                        CartDetailsTable cartDetailsTable = null;
+                        if(orderDetailTable != null)
+                            cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",produceModel.getProduce_id()).equalTo("cart_id",orderDetailTable.getId()).findFirst();
 
+
+                        if(cartDetailsTable != null && cartDetailsTable.getWeight() != 0.00)
+                        {
+                            ProductCart productCart = new ProductCart();
+                            productCart.setCreated_at(produceModel.getCreated_at());
+                            productCart.setDescription(produceModel.getDescription());
+                            productCart.setFile_blob(produceModel.getFile_blob());
+                            productCart.setFile_name(produceModel.getFile_name());
+                            productCart.setInCart(cartDetailsTable.getWeight());
+                            productCart.setName(produceModel.getName());
+                            productCart.setPrice_per_kg(produceModel.getPrice_per_kg());
+                            productCart.setProduce_id(produceModel.getProduce_id());
+                            productCart.setProduce_type(produceModel.getProduce_type());
+                            productCart.setUnique_code(produceModel.getUnique_code());
+                            productCart.setProduce_type(produceModel.getProduce_type());
+                            productCart.setUpdated_at(produceModel.getUpdated_at());
+                            productCart.setUuid(produceModel.getUuid());
+                            albumList.add(productCart);
+                            // Toast.makeText(getApplicationContext(),productCart.getName(),Toast.LENGTH_LONG).show();
+
+                        }
+                        else
+                        {
+                            ProductEmpty productEmpty = new ProductEmpty();
+                            productEmpty.setCreated_at(produceModel.getCreated_at());
+                            productEmpty.setDescription(produceModel.getDescription());
+                            productEmpty.setFile_blob(produceModel.getFile_blob());
+                            productEmpty.setFile_name(produceModel.getFile_name());
+                            productEmpty.setName(produceModel.getName());
+                            productEmpty.setPrice_per_kg(produceModel.getPrice_per_kg());
+                            productEmpty.setProduce_id(produceModel.getProduce_id());
+                            productEmpty.setProduce_type(produceModel.getProduce_type());
+                            productEmpty.setUnique_code(produceModel.getUnique_code());
+                            productEmpty.setProduce_type(produceModel.getProduce_type());
+                            productEmpty.setUpdated_at(produceModel.getUpdated_at());
+                            productEmpty.setUuid(produceModel.getUuid());
+                            //System.out.println(productEmpty.getUuid());
+                            albumList.add(productEmpty);
+                            // Toast.makeText(getApplicationContext(),productEmpty.getName(),Toast.LENGTH_LONG).show();
+                        }
                     }
-                    else
-                    {
-                        ProductEmpty productEmpty = new ProductEmpty();
-                        productEmpty.setCreated_at(produceModel.getCreated_at());
-                        productEmpty.setDescription(produceModel.getDescription());
-                        productEmpty.setFile_blob(produceModel.getFile_blob());
-                        productEmpty.setFile_name(produceModel.getFile_name());
-                        productEmpty.setName(produceModel.getName());
-                        productEmpty.setPrice_per_kg(produceModel.getPrice_per_kg());
-                        productEmpty.setProduce_id(produceModel.getProduce_id());
-                        productEmpty.setProduce_type(produceModel.getProduce_type());
-                        productEmpty.setUnique_code(produceModel.getUnique_code());
-                        productEmpty.setProduce_type(produceModel.getProduce_type());
-                        productEmpty.setUpdated_at(produceModel.getUpdated_at());
-                        productEmpty.setUuid(produceModel.getUuid());
-                        //System.out.println(productEmpty.getUuid());
-                        albumList.add(productEmpty);
-                       // Toast.makeText(getApplicationContext(),productEmpty.getName(),Toast.LENGTH_LONG).show();
-                    }
+
+                    albumList1.clear();
+                    albumList1.addAll(albumList);
+                    adapter.notifyDataSetChanged();
+                    onItemsLoadComplete();
+                    mShimmerViewContainer.stopShimmerAnimation();
+                    mShimmerViewContainer.setVisibility(View.GONE);
+
                 }
-
-                albumList1.clear();
-                albumList1.addAll(albumList);
-                adapter.notifyDataSetChanged();
-                onItemsLoadComplete();
-                mShimmerViewContainer.stopShimmerAnimation();
-                mShimmerViewContainer.setVisibility(View.GONE);
+                else
+                {
+                    Toast.makeText(getApplicationContext(),response.message(),Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -453,4 +461,5 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
 }

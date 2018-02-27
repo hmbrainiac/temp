@@ -1,25 +1,18 @@
-package com.farmarket.farmarket.Models;
+package com.farmarket.farmarket.DataType;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import java.io.Serializable;
 
 /**
- * Created by isaac on 2/17/18.
+ * Created by admin on 27/02/2018.
  */
 
-public class OrderDetailModel {
-    int id;
-
+public class OrderDetail  implements Serializable {
     int detail_id,order_id,produce_id;
     double weight,price_per_kg,cost_per_kg;
     String remarks,unique_code,created_at,updated_at;
-    ProduceModel produce;
+    Product produce;
 
-    public OrderDetailModel(int id, int detail_id, int order_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at, ProduceModel produce) {
-        this.id = id;
+    public OrderDetail(int detail_id, int order_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at, Product produce) {
         this.detail_id = detail_id;
         this.order_id = order_id;
         this.produce_id = produce_id;
@@ -33,37 +26,28 @@ public class OrderDetailModel {
         this.produce = produce;
     }
 
-    public ProduceModel getProduce() {
+    public OrderDetail(int detail_id, int order_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at) {
+        this.detail_id = detail_id;
+        this.order_id = order_id;
+        this.produce_id = produce_id;
+        this.weight = weight;
+        this.price_per_kg = price_per_kg;
+        this.cost_per_kg = cost_per_kg;
+        this.remarks = remarks;
+        this.unique_code = unique_code;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public Product getProduce() {
         return produce;
     }
 
-    public void setProduce(ProduceModel produce) {
+    public void setProduce(Product produce) {
         this.produce = produce;
     }
 
-    public OrderDetailModel(int id, int detail_id, int order_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at) {
-        this.id = id;
-        this.detail_id = detail_id;
-        this.order_id = order_id;
-        this.produce_id = produce_id;
-        this.weight = weight;
-        this.price_per_kg = price_per_kg;
-        this.cost_per_kg = cost_per_kg;
-        this.remarks = remarks;
-        this.unique_code = unique_code;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
-
-    public OrderDetailModel() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public OrderDetail() {
     }
 
     public int getDetail_id() {
@@ -144,24 +128,5 @@ public class OrderDetailModel {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
-    }
-
-
-    public JSONObject toJSon() throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-
-        jsonObject.put("id",this.id);
-        jsonObject.put("detail_id",this.detail_id);
-        jsonObject.put("order_id",this.order_id);
-        jsonObject.put("produce_id",this.produce_id);
-        jsonObject.put("weight",this.weight);
-        jsonObject.put("price_per_kg",this.price_per_kg);
-        jsonObject.put("cost_per_kg",this.cost_per_kg);
-        jsonObject.put("remarks",this.remarks);
-        jsonObject.put("unique_code",this.unique_code);
-        jsonObject.put("created_at",this.created_at);
-        jsonObject.put("updated_at",this.updated_at);
-
-        return  jsonObject;
     }
 }

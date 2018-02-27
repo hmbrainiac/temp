@@ -1,14 +1,16 @@
-package com.farmarket.farmarket.Models;
+package com.farmarket.farmarket.DataType;
+
+import java.io.Serializable;
 
 /**
- * Created by isaac on 2/17/18.
+ * Created by admin on 27/02/2018.
  */
 
-public class InvoiceModel {
+public class Invoice  implements Serializable {
     int invoice_id;
-     String uuid,unique_code,amount,created_at,updated_at,reference,payment_status,amount_after_charge;
+    String uuid,unique_code,amount,created_at,updated_at,reference,payment_status,amount_after_charge;
 
-    public InvoiceModel(int invoice_id, String uuid, String unique_code, String amount, String created_at, String updated_at, String reference, String payment_status, String amount_after_charge) {
+    public Invoice(int invoice_id, String uuid, String unique_code, String amount, String created_at, String updated_at, String reference, String payment_status, String amount_after_charge) {
         this.invoice_id = invoice_id;
         this.uuid = uuid;
         this.unique_code = unique_code;
@@ -20,7 +22,7 @@ public class InvoiceModel {
         this.amount_after_charge = amount_after_charge;
     }
 
-    public InvoiceModel() {
+    public Invoice() {
     }
 
     public int getInvoice_id() {

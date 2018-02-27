@@ -17,6 +17,7 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 
 /**
  * Created by isaac on 2/17/18.
@@ -27,6 +28,9 @@ public interface ApiEndpoints {
     @POST("login")
     Call<UserModel> login(@Field("username") String userName, @Field("password") String password);
 
+    @FormUrlEncoded
+    @POST("contact-us")
+    Call<UserModel> contactUs(@Field("email") String userName, @Field("message") String password);
 
     @FormUrlEncoded
     @POST("register")
@@ -35,6 +39,10 @@ public interface ApiEndpoints {
 
     @GET("products")
     Call<List<ProduceModel>> listProducts();
+
+
+    @GET("orders/{id}")
+    Call<List<OrderModel>> listMyOrders(@Path(value = "id", encoded = true) int id);
 
 
 
