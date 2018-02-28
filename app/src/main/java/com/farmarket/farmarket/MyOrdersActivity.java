@@ -22,13 +22,8 @@ import com.farmarket.farmarket.DataType.Invoice;
 import com.farmarket.farmarket.DataType.Order;
 import com.farmarket.farmarket.DataType.OrderDetail;
 import com.farmarket.farmarket.DataType.Product;
-import com.farmarket.farmarket.DataType.ProductCart;
-import com.farmarket.farmarket.DataType.ProductEmpty;
 import com.farmarket.farmarket.Models.OrderDetailModel;
 import com.farmarket.farmarket.Models.OrderModel;
-import com.farmarket.farmarket.Models.ProduceModel;
-import com.farmarket.farmarket.RealmTables.CartDetailsTable;
-import com.farmarket.farmarket.RealmTables.CartsTable;
 import com.farmarket.farmarket.RealmTables.UserTable;
 
 import java.util.ArrayList;
@@ -207,7 +202,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                             orderDetails.add(orderDetail);
                         }
                         order.setDetails(orderDetails);
-                        albumList.add(orderModel);
+                        albumList.add(order);
                     }
 
                     albumList1.clear();

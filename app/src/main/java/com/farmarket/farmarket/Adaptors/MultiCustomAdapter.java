@@ -23,8 +23,10 @@ import com.farmarket.farmarket.CartActivity;
 import com.farmarket.farmarket.DataView.CartDetail;
 import com.farmarket.farmarket.DataView.CartTotal;
 import com.farmarket.farmarket.DataView.Order;
+import com.farmarket.farmarket.DataView.OrderDetail;
 import com.farmarket.farmarket.DataView.ProductCart;
 import com.farmarket.farmarket.DataView.ProductEmpty;
+import com.farmarket.farmarket.DataView.Transaction;
 import com.farmarket.farmarket.MainActivity;
 import com.farmarket.farmarket.Misc.GeneralCalculations;
 import com.farmarket.farmarket.Models.GeneralModel;
@@ -129,16 +131,16 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 case Order:
                     view = itemView.inflate(R.layout.single_order_row, parent, false);
-                    viewHolder = new CartTotal(view);
+                    viewHolder = new Order(view);
                     break;
 
                 case OrderDetail:
                     view = itemView.inflate(R.layout.single_order_detail_row, parent, false);
-                    viewHolder = new CartTotal(view);
+                    viewHolder = new OrderDetail(view);
                     break;
                 case Transaction:
                     view = itemView.inflate(R.layout.single_transaction_row, parent, false);
-                    viewHolder = new CartTotal(view);
+                    viewHolder = new Transaction(view);
                     break;
 
                 default:
@@ -175,7 +177,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     break;
 
                 case Order:
-                    Order vh5 = (com.farmarket.farmarket.DataView.Order) holder;
+                    Order vh5 = (Order) holder;
                     configureOrder(vh5, (com.farmarket.farmarket.DataType.Order) albumList.get(position),position);
                     break;
                 case OrderDetail:
@@ -186,8 +188,6 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     com.farmarket.farmarket.DataView.Transaction vh7 = (com.farmarket.farmarket.DataView.Transaction) holder;
                     configureTransaction(vh7, (com.farmarket.farmarket.DataType.Transaction) albumList.get(position),position);
                     break;
-
-
                 default:
                     ProductEmpty vh10 = (ProductEmpty) holder;
                     configureEmptyProduct(vh10, (com.farmarket.farmarket.DataType.ProductEmpty) albumList.get(position),position);
@@ -200,7 +200,12 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private void configureOrder(final Order v, final com.farmarket.farmarket.DataType.Order order, final int position)
     {
         final Intent intent  = new Intent(mContext,MyAddressActivity.class);
+        v.getCardView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
 
 
