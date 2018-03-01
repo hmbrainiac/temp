@@ -4,15 +4,25 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -71,6 +81,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             albumList1 = new ArrayList<Object>();
             this.albumList1.addAll(MainActivity.albumList1);
         }
+
     public MultiCustomAdapter(Context mContext, Activity mActivity ,List<Object> albumList) {
             this.mContext = mContext;
             this.albumList = albumList;
@@ -199,19 +210,123 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void configureOrder(final Order v, final com.farmarket.farmarket.DataType.Order order, final int position)
     {
-        final Intent intent  = new Intent(mContext,MyAddressActivity.class);
         v.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onShowPollPopup(v,order);
 
             }
         });
+        v.getOrderCode().setText("Order Code "+order.getUnique_code());
+        v.getOrderCreationDate().setText(order.getCreated());
+        if(order.getStatus().equalsIgnoreCase("Pending"))
+        {
+            v.getOrderStatus().setText(order.getStatus()+" Delivery");
+
+        }
+        else
+        {
+            v.getOrderStatus().setText(order.getStatus());
+        }
+        double sumTotal = 0.00;
+        for(int i = 0; i<order.getDetails().size(); i++)
+        {
+            double weight = order.getDetails().get(i).getWeight();
+            double total = GeneralCalculations.getCost(order.getDetails().get(i).getCost_per_kg(),weight);
+            sumTotal +=total;
+        }
+        v.getSumWeightOrder().setText("Invoice Code "+order.getInvoices().getUnique_code());
+        v.getOrderTotal().setText("GhC "+sumTotal);
+        v.getPaymentStatus().setText("Payment "+order.getInvoices().getPayment_status());
+    }
+
+
+    private PopupWindow popWindow;
+
+
+    // call this method when required to show popup
+    public void onShowPollPopup(View v, final com.farmarket.farmarket.DataType.Order order){
+        RecyclerView recyclerView;
+        MultiCustomAdapter adapter;
+        List<Object> albumList;
+
+
+        LayoutInflater layoutInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        // inflate the custom popup layout
+        final View inflatedView = layoutInflater.inflate(R.layout.activity_cart, null,false);
+        // find the ListView in the popup layout
+
+
+
+        recyclerView = (RecyclerView)inflatedView.findViewById(R.id.recycler_view);
+
+        albumList = new ArrayList<>();
+        adapter = new MultiCustomAdapter(mContext, mActivity ,albumList);
+        RecyclerView.LayoutManager mLayoutManager;
+
+        mLayoutManager = new GridLayoutManager(mContext, 1);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(10), true));
+
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
+        // get device size
+        WindowManager wm = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        final Point size = new Point();
+        display.getSize(size);
+
+
+
+        // set height depends on the device size
+        popWindow = new PopupWindow(inflatedView, size.x - 50,size.y - 400, true );
+        // set a background drawable with rounders corners
+        popWindow.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.pop_bg));
+        // make it focusable to show the keyboard to enter in `EditText`
+        popWindow.setFocusable(true);
+        // make it outside touchable to dismiss the popup window
+        popWindow.setOutsideTouchable(true);
+        popWindow.setAnimationStyle(R.style.PopupAnimation);
+        popWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+
+            }
+        });
+
+
+        // show the popup at bottom of the screen and set some margin at bottom ie,
+        popWindow.showAtLocation(v, Gravity.BOTTOM, 0,100);
+
+
+        popWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        albumList.addAll(order.getDetails());
+        adapter.notifyDataSetChanged();
+
     }
 
 
     private void configureOrderDetail(final com.farmarket.farmarket.DataView.OrderDetail v, final com.farmarket.farmarket.DataType.OrderDetail orderDetail, final int position)
     {
         final Intent intent  = new Intent(mContext,MyAddressActivity.class);
+
+        if(orderDetail.getProduce().getProduce_type().equals("Organic"))
+        {
+            v.getProductType().setText(orderDetail.getProduce().getProduce_type());
+        }
+        else
+        {
+            v.getProductType().setVisibility(View.GONE);
+        }
+        Glide.with(mContext).load(ApiLocation.getImageLocation()+orderDetail.getProduce().getFile_name())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(v.getMainImage());
+
+        v.getProductPrice().setText("GhC "+GeneralCalculations.getCost(orderDetail.getPrice_per_kg(),orderDetail.getWeight())+"");
+        v.getProductWeight().setText(orderDetail.getWeight()+" Kg");
+        v.getProductName().setText(orderDetail.getProduce().getName());
 
     }
 
@@ -220,6 +335,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         final Intent intent  = new Intent(mContext,MyAddressActivity.class);
 
     }
+
     private void configureEmptyProduct(ProductEmpty v, final com.farmarket.farmarket.DataType.ProductEmpty product, int position)
     {
         final Intent intent  = new Intent(mContext,SingleItemActivity.class);
@@ -424,9 +540,10 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             v.getProductType().setVisibility(View.GONE);
         }
 
-        v.getProductPrice().setText(GeneralCalculations.getCost(product.getPrice_per_kg(),product.getWeight())+"");
-        v.getCurrentWeight().setText(product.getWeight()+"");
-        v.getProductWeight().setText(product.getWeight()+"");
+        v.getProductPrice().setText("GhC "+GeneralCalculations.getCost(product.getPrice_per_kg(),product.getWeight())+"");
+        v.getCurrentWeight().setText(product.getWeight()+" Kg");
+        v.getCurrentWeight().setEnabled(false);
+        v.getProductWeight().setText(product.getWeight()+" Kg");
         v.getProductName().setText(product.getProduct_name());
     }
 
@@ -752,5 +869,50 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     ProgressDialog progressDialog;
+    /**
+     * RecyclerView item decoration - give equal margin around grid item
+     */
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing;
+                }
+                outRect.bottom = spacing; // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
+                }
+            }
+        }
+    }
+
+    /**
+     * Converting dp to pixel
+     */
+    private int dpToPx(int dp) {
+        Resources r = mContext.getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
 
 }

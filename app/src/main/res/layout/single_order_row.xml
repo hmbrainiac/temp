@@ -27,10 +27,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/top_left"
                 android:text="Order Status"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <TextView
                 android:id="@+id/closeTV"
@@ -39,7 +40,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Order creation"
                 android:layout_marginRight="10dp"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -65,17 +66,31 @@
                 app:layout_constraintTop_toBottomOf="@id/offTopTV"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imageSrc"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_order" />
+                    <TextView
+                        android:id="@+id/offBottomTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/top_right"
+                        android:text="Payment Pending"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
 
-                <ImageView
-                    android:id="@+id/imageSrc"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
+                </LinearLayout>
 
-                    android:scaleType="fitXY"
-                    android:src="@drawable/icon_order" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -89,7 +104,7 @@
                         android:layout_marginTop="10dp"
                         android:text="Order Code"
                         android:textColor="@color/colorDarkPrimary"
-                        android:textSize="20sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -99,7 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sum weight In Kg"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/nameProduct" />
 

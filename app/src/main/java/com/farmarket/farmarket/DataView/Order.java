@@ -12,7 +12,7 @@ import com.farmarket.farmarket.R;
  */
 
 public class Order extends RecyclerViewEmptySupport.ViewHolder{
-    TextView orderStatus,orderCreationDate,orderCode,sumWeightOrder,orderTotal;
+    TextView orderStatus,orderCreationDate,orderCode,sumWeightOrder,orderTotal,paymentStatus;
 
     CardView cardView;
 
@@ -26,6 +26,17 @@ public class Order extends RecyclerViewEmptySupport.ViewHolder{
         this.orderTotal =(TextView) itemView.findViewById(R.id.totalCost);
     }
 
+    public Order(View itemView, TextView orderStatus, TextView orderCreationDate, TextView orderCode, TextView sumWeightOrder, TextView orderTotal, TextView paymentStatus, CardView cardView) {
+        super(itemView);
+        this.orderCreationDate = (TextView) itemView.findViewById(R.id.closeTV);
+        this.orderCode = (TextView) itemView.findViewById(R.id.nameProduct);
+        this.sumWeightOrder = (TextView) itemView.findViewById(R.id.measurementType);
+        this.orderStatus =(TextView) itemView.findViewById(R.id.offTopTV);
+        this.cardView =(CardView) itemView.findViewById(R.id.card_view);
+        this.orderTotal =(TextView) itemView.findViewById(R.id.totalCost);
+        this.paymentStatus =(TextView) itemView.findViewById(R.id.offBottomTV);
+    }
+
     public Order(View itemView) {
         super(itemView);
         this.orderCreationDate = (TextView) itemView.findViewById(R.id.closeTV);
@@ -34,6 +45,15 @@ public class Order extends RecyclerViewEmptySupport.ViewHolder{
         this.orderStatus =(TextView) itemView.findViewById(R.id.offTopTV);
         this.cardView =(CardView) itemView.findViewById(R.id.card_view);
         this.orderTotal =(TextView) itemView.findViewById(R.id.totalCost);
+        this.paymentStatus =(TextView) itemView.findViewById(R.id.offBottomTV);
+    }
+
+    public TextView getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(TextView paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public CardView getCardView() {

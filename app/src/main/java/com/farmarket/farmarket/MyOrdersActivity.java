@@ -107,15 +107,6 @@ public class MyOrdersActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
 
     void loadOrders()
@@ -158,7 +149,9 @@ public class MyOrdersActivity extends AppCompatActivity {
                         order.setStatus(orderModel.getStatus());
                         order.setUpdated_at(orderModel.getUpdated_at());
                         order.setUser_id(orderModel.getUser_id());
+                        order.setUnique_code(orderModel.getUnique_code());
                         order.setUuid(orderModel.getUuid());
+                        order.setCreated(orderModel.getCreated());
                         Invoice invoice = new Invoice();
                         invoice.setAmount(orderModel.getInvoices().getAmount());
                         invoice.setAmount_after_charge(orderModel.getInvoices().getAmount_after_charge());
