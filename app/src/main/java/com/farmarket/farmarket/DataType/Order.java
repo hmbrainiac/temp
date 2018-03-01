@@ -12,9 +12,37 @@ import java.util.ArrayList;
 
 public class Order  implements Serializable {
     int order_id,user_id,delivery_id;
-    String uuid,created_at,updated_at,expected_delivery,status,invoice_id,delivery_lon,delivery_lat,delivery_gh_post_code,phone,email,name,cart_status,deliveryTown,delivryRegion,residentialAddress,accountNumber,accountNetwork,accountToken;
+    String uuid,created_at,updated_at,expected_delivery,status,invoice_id,delivery_lon,delivery_lat,delivery_gh_post_code,phone,email,name,cart_status,deliveryTown,delivryRegion,residentialAddress,accountNumber,accountNetwork,accountToken,unique_code,created;
     ArrayList<OrderDetail> details;
     Invoice invoices;
+
+    public Order(int order_id, int user_id, int delivery_id, String uuid, String created_at, String updated_at, String expected_delivery, String status, String invoice_id, String delivery_lon, String delivery_lat, String delivery_gh_post_code, String phone, String email, String name, String cart_status, String deliveryTown, String delivryRegion, String residentialAddress, String accountNumber, String accountNetwork, String accountToken, String unique_code, ArrayList<OrderDetail> details, Invoice invoices) {
+        this.order_id = order_id;
+        this.user_id = user_id;
+        this.delivery_id = delivery_id;
+        this.uuid = uuid;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.expected_delivery = expected_delivery;
+        this.status = status;
+        this.invoice_id = invoice_id;
+        this.delivery_lon = delivery_lon;
+        this.delivery_lat = delivery_lat;
+        this.delivery_gh_post_code = delivery_gh_post_code;
+        this.phone = phone;
+        this.email = email;
+        this.name = name;
+        this.cart_status = cart_status;
+        this.deliveryTown = deliveryTown;
+        this.delivryRegion = delivryRegion;
+        this.residentialAddress = residentialAddress;
+        this.accountNumber = accountNumber;
+        this.accountNetwork = accountNetwork;
+        this.accountToken = accountToken;
+        this.unique_code = unique_code;
+        this.details = details;
+        this.invoices = invoices;
+    }
 
     public Order(int order_id, int user_id, int delivery_id, String uuid, String created_at, String updated_at, String expected_delivery, String status, String invoice_id, String delivery_lon, String delivery_lat, String delivery_gh_post_code, String phone, String email, String name, String cart_status, String deliveryTown, String delivryRegion, String residentialAddress, String accountNumber, String accountNetwork, String accountToken, ArrayList<OrderDetail> details, Invoice invoices) {
         this.order_id = order_id;
@@ -236,5 +264,52 @@ public class Order  implements Serializable {
 
     public void setInvoices(Invoice invoices) {
         this.invoices = invoices;
+    }
+
+    public String getUnique_code() {
+        return unique_code;
+    }
+
+    public void setUnique_code(String unique_code) {
+        this.unique_code = unique_code;
+    }
+
+
+    public Order(int order_id, int user_id, int delivery_id, String uuid, String created_at, String updated_at, String expected_delivery, String status, String invoice_id, String delivery_lon, String delivery_lat, String delivery_gh_post_code, String phone, String email, String name, String cart_status, String deliveryTown, String delivryRegion, String residentialAddress, String accountNumber, String accountNetwork, String accountToken, String unique_code, String created, ArrayList<OrderDetail> details, Invoice invoices) {
+        this.order_id = order_id;
+        this.user_id = user_id;
+        this.delivery_id = delivery_id;
+        this.uuid = uuid;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.expected_delivery = expected_delivery;
+        this.status = status;
+        this.invoice_id = invoice_id;
+        this.delivery_lon = delivery_lon;
+        this.delivery_lat = delivery_lat;
+        this.delivery_gh_post_code = delivery_gh_post_code;
+        this.phone = phone;
+        this.email = email;
+        this.name = name;
+        this.cart_status = cart_status;
+        this.deliveryTown = deliveryTown;
+        this.delivryRegion = delivryRegion;
+        this.residentialAddress = residentialAddress;
+        this.accountNumber = accountNumber;
+        this.accountNetwork = accountNetwork;
+        this.accountToken = accountToken;
+        this.unique_code = unique_code;
+        this.created = created;
+        this.details = details;
+        this.invoices = invoices;
+    }
+
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 }
