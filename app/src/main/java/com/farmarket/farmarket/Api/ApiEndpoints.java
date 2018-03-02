@@ -37,6 +37,16 @@ public interface ApiEndpoints {
     Call<UserModel> register(@Field("email") String email, @Field("firstname") String firstname, @Field("lastname") String lastname, @Field("username") String username, @Field("phone") String phone, @Field("password") String password);
 
 
+    @FormUrlEncoded
+    @POST("update-user")
+    Call<UserModel> update(@Field("user_id") int user_id,@Field("email") String email, @Field("firstname") String firstname, @Field("lastname") String lastname,  @Field("phone") String phone);
+
+
+    @FormUrlEncoded
+    @POST("change-password")
+    Call<UserModel> updatePassword(@Field("user_id") int user_id,@Field("oldPassword") String oldPassword, @Field("password") String password);
+
+
     @GET("products")
     Call<List<ProduceModel>> listProducts();
 

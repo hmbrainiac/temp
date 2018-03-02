@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle("");
 
         setSupportActionBar(toolbar);
+
         realm = Realm.getDefaultInstance();
         userViewSettingTable = realm.where(UserViewSettingTable.class).findFirst();
         userTable = realm.where(UserTable.class).findFirst();
@@ -99,13 +100,12 @@ public class MainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         name = (TextView) headerView.findViewById(R.id.userNameTV);
         email = (TextView) headerView.findViewById(R.id.textView);
-        profilePic = (ImageView)headerView.findViewById(R.id.imageView);
 
         name.setText("");
         email.setText("");
         if(userTable != null)
         {
-            name.setText(userTable.getPhone());
+            name.setText(userTable.getFirstname()+" "+userTable.getLastname());
             email.setText(userTable.getEmail());
         }
 

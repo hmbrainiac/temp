@@ -56,7 +56,9 @@ public class SignUpActivity extends AppCompatActivity {
         signInTV = (TitalliumWebText)findViewById(R.id.signUpTV);
         signUpBtn = (Button)findViewById(R.id.signUpBtn);
         //countryCodePicker.detectLocaleCountry(true);
-        countryCodePicker.setCountryForNameCode("Ghana");
+        //countryCodePicker.setCountryForNameCode("Ghana");
+        //countryCodePicker.setAutoDetectedCountry(true);
+        //countryCodePicker.setCountryPreference("GH");
         progressDialog = new ProgressDialog(SignUpActivity.this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         signInTV.setOnClickListener(new View.OnClickListener() {
