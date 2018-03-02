@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    EditText phoneNumber,email;
+    EditText phoneNumber,firstName,lastName,email;
     CountryCodePicker countryCodePicker;
     TitalliumWebText signInTV;
     Button signUpBtn;
@@ -51,6 +51,8 @@ public class SignUpActivity extends AppCompatActivity {
         countryCodePicker = (CountryCodePicker)findViewById(R.id.ccp);
         email = (EditText)findViewById(R.id.emailET);
         phoneNumber = (EditText)findViewById(R.id.phoneNumberET);
+        firstName = (EditText)findViewById(R.id.firstName);
+        lastName = (EditText)findViewById(R.id.lastName);
         signInTV = (TitalliumWebText)findViewById(R.id.signUpTV);
         signUpBtn = (Button)findViewById(R.id.signUpBtn);
         //countryCodePicker.detectLocaleCountry(true);
@@ -130,6 +132,9 @@ public class SignUpActivity extends AppCompatActivity {
                 intent.putExtra("token",token);
                 intent.putExtra("phone",finalPhone);
                 intent.putExtra("email",email.getText().toString());
+                intent.putExtra("email",email.getText().toString().trim());
+                intent.putExtra("firstname",firstName.getText().toString().trim());
+                intent.putExtra("lastname",lastName.getText().toString().trim());
                 startActivity(intent);
                 finish();
                 return;
@@ -142,7 +147,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(isEmailValid(email.getText().toString()))
+                if(isEmailValid(email.getText().toString()) && isNameValid(firstName.getText().toString().trim()) && isNameValid(lastName.getText().toString().trim()))
                 {
 
                     progressDialog.setTitle("Verifying your contact details ..");
@@ -199,7 +204,9 @@ public class SignUpActivity extends AppCompatActivity {
                             //updateUI(STATE_SIGNIN_SUCCESS, user);
                             Intent intent = new Intent(SignUpActivity.this,CompleteSignUpFormActivity.class);
                             intent.putExtra("phone",fullPhone);
-                            intent.putExtra("email",email.getText().toString());
+                            intent.putExtra("email",email.getText().toString().trim());
+                            intent.putExtra("firstname",firstName.getText().toString().trim());
+                            intent.putExtra("lastname",lastName.getText().toString().trim());
                             startActivity(intent);
                             finish();
 
@@ -230,6 +237,10 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
+    }
+    private boolean isNameValid(String email) {
+        //TODO: Replace this with your own logic
+        return email.length()>1;
     }
 
     static String internationalFormat;

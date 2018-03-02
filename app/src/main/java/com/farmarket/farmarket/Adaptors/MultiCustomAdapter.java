@@ -789,10 +789,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 switch (myViewType(wp))
                 {
                     case ProductCart:
-                        wp = (com.farmarket.farmarket.DataType.ProductCart)wp;
                         if (((com.farmarket.farmarket.DataType.ProductCart) wp).getDescription().toLowerCase(Locale.getDefault()).contains(charText) || ((com.farmarket.farmarket.DataType.ProductCart) wp).getName().toLowerCase(Locale.getDefault()).contains(charText)) {
                             Boolean idExists = false;
-
                             if(idExists == false)
                                 MainActivity.albumList.add(wp);
                         }

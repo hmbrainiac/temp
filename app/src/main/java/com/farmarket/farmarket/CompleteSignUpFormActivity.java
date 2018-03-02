@@ -24,7 +24,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 public class CompleteSignUpFormActivity extends AppCompatActivity {
-    static String phone,email,user_name,pass,confirm_password;
+    static String phone,email,user_name,pass,confirm_password,firstname,lastname;
     Button completeBtn;
     TextView signIn;
     EditText userName,password,confirmPassword;
@@ -38,6 +38,8 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         phone = (String)intent.getExtras().get("phone");
         email = (String)intent.getExtras().get("email");
+        firstname = (String)intent.getExtras().get("firstname");
+        lastname = (String)intent.getExtras().get("lastname");
         progressDialog = new ProgressDialog(CompleteSignUpFormActivity.this);
         userName = (EditText) findViewById(R.id.userNameET);
         password = (EditText) findViewById(R.id.passwordET);
@@ -89,7 +91,7 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
 
             ApiEndpoints endpoints = retrofit.create(ApiEndpoints.class);
 
-            Call<UserModel> login = endpoints.register(email,"","",user_name,phone,pass);
+            Call<UserModel> login = endpoints.register(email,firstname,lastname,user_name,phone,pass);
             login.enqueue(new Callback<UserModel>() {
                 @Override
                 public void onResponse(Response<UserModel> response, Retrofit retrofit) {

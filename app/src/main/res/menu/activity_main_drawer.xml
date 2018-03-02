@@ -17,7 +17,7 @@
             <item
                 android:id="@+id/my_transactions"
                 android:icon="@drawable/transactions"
-                android:title="My Transactions" />
+                android:title="My Invoices" />
             <item
                 android:id="@+id/my_settings"
                 android:icon="@drawable/setting"

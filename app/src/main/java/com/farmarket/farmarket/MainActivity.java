@@ -1,16 +1,19 @@
 package com.farmarket.farmarket;
 
 import android.annotation.TargetApi;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -191,27 +194,27 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.main, menu);
-        /*
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        MenuItem myActionMenuItem = menu.findItem( R.id.action_search);
+        final SearchView searchView ;
+        searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setQueryHint("Type your search here");
-        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String text = query;
-               // adapter.filter(text);
+                adapter.filter(text);
                 return false;
             }
-
             @Override
-            public boolean onQueryTextChange(String newText) {
-                String text = newText;
-                //adapter.filter(text);
+            public boolean onQueryTextChange(String s) {
+                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                String text = s;
+                adapter.filter(text);
                 return false;
             }
         });
-        */
+
+
         Realm realm = Realm.getDefaultInstance();
         CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
         if (cartsTable != null && realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).findAll().size()>0)

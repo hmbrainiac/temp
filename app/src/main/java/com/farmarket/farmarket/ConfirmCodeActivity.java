@@ -38,7 +38,7 @@ public class ConfirmCodeActivity extends AppCompatActivity {
     Button activateLogin;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     static PhoneAuthProvider.ForceResendingToken mToken;
-    static String phoneNumber,verificationId,phone,email;
+    static String phoneNumber,verificationId,phone,email,firstname,lastname;
     ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,6 +207,8 @@ public class ConfirmCodeActivity extends AppCompatActivity {
         phone = (String)intent.getExtras().get("phone");
         verificationId = (String)intent.getExtras().get("verificationId");
         email = (String)intent.getExtras().get("email");
+        firstname = (String)intent.getExtras().get("firstname");
+        lastname = (String)intent.getExtras().get("lastname");
 
 
         activateLogin.setOnClickListener(new View.OnClickListener() {
@@ -344,6 +346,8 @@ public class ConfirmCodeActivity extends AppCompatActivity {
                             Intent intent = new Intent(ConfirmCodeActivity.this,CompleteSignUpFormActivity.class);
                             intent.putExtra("phone",phone);
                             intent.putExtra("email",email);
+                            intent.putExtra("firstname",firstname);
+                            intent.putExtra("lastname",lastname);
                             startActivity(intent);
                             finish();
                             return;
