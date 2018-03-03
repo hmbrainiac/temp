@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity
 
             TextView tv = (TextView) notifCount.findViewById(R.id.actionbar_notifcation_textview);
             tv.setText("12");
-
+//https://stackoverflow.com/questions/39496301/how-to-add-item-number-on-the-cart-icon-at-top-toolbar-android
             RelativeLayout badgeLayout = (RelativeLayout)    menu.findItem(R.id.action_cart).getActionView();
             TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
             tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
