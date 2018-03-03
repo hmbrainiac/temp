@@ -44,11 +44,14 @@ import com.farmarket.farmarket.Models.OrderDetailModel;
 import com.farmarket.farmarket.Models.OrderModel;
 import com.farmarket.farmarket.Models.TransactionModel;
 import com.farmarket.farmarket.MyAddressActivity;
+import com.farmarket.farmarket.MyOrdersActivity;
 import com.farmarket.farmarket.MySingleOrderActivity;
+import com.farmarket.farmarket.PayForOrderActivity;
 import com.farmarket.farmarket.R;
 import com.farmarket.farmarket.RealmTables.CartDetailsTable;
 import com.farmarket.farmarket.RealmTables.CartsTable;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
+import com.farmarket.farmarket.ReviewActivity;
 import com.farmarket.farmarket.SingleItemActivity;
 
 import java.text.DecimalFormat;
@@ -210,11 +213,35 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void configureOrder(final Order v, final com.farmarket.farmarket.DataType.Order order, final int position)
     {
-        v.getCardView().setOnClickListener(new View.OnClickListener() {
+        v.getViewDetails().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onShowPollPopup(v,order);
-
+            }
+        });
+        if(!order.getInvoices().getPayment_status().equalsIgnoreCase("Pending"))
+        {
+            v.getCompletePayment().setText("Rate Delivery");
+        }
+        v.getCompletePayment().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(order.getInvoices().getPayment_status().equalsIgnoreCase("Pending"))
+                {
+                    Intent intent = new Intent(mActivity,PayForOrderActivity.class);
+                    intent.putExtra("order", order);
+                    mActivity.startActivity(intent);
+                    mActivity.finish();
+                    return;
+                }
+                else
+                {
+                    Intent intent = new Intent(mActivity,ReviewActivity.class);
+                    intent.putExtra("order", order);
+                    mActivity.startActivity(intent);
+                    mActivity.finish();
+                    return;
+                }
             }
         });
         v.getOrderCode().setText("Order Code "+order.getUnique_code());
@@ -222,7 +249,6 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if(order.getStatus().equalsIgnoreCase("Pending"))
         {
             v.getOrderStatus().setText(order.getStatus()+" Delivery");
-
         }
         else
         {

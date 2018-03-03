@@ -13,22 +13,21 @@ import android.widget.Toast;
 
 import com.farmarket.farmarket.Api.ApiEndpoints;
 import com.farmarket.farmarket.Api.ApiLocation;
+import com.farmarket.farmarket.DataType.Order;
+import com.farmarket.farmarket.DataType.OrderDetail;
 import com.farmarket.farmarket.Misc.GeneralCalculations;
-import com.farmarket.farmarket.Misc.JsonHelper;
 import com.farmarket.farmarket.Models.OrderDetailModel;
 import com.farmarket.farmarket.Models.OrderModel;
 import com.farmarket.farmarket.Models.UserModel;
 import com.farmarket.farmarket.RealmTables.CartDetailsTable;
 import com.farmarket.farmarket.RealmTables.CartsTable;
 import com.farmarket.farmarket.RealmTables.UserTable;
-import com.google.gson.Gson;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class CompletePaymentActivity extends AppCompatActivity {
+public class CompleteRePaymentActivity extends AppCompatActivity {
     ImageView logoImage;
     LinearLayout tokenLayout;
     TextView phoneNumber,token;
@@ -48,26 +47,40 @@ public class CompletePaymentActivity extends AppCompatActivity {
     Button completePayment;
     Realm realm;
     TextView subtotalCost,deliveryCost,totalCost;
-    ArrayList<OrderDetailModel> orderDetailModels;
-    OrderModel orderModel;
+    ArrayList<OrderDetail> orderDetails;
+    Order order;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complete_payment);
+        setContentView(R.layout.activity_complete_re_payment);
         Intent intent = getIntent();
+        try
+        {
+            order = (Order) intent.getExtras().get("order");
+            networkString = intent.getExtras().get("network").toString();
+            System.out.print(order.getAccountNetwork());
+        }
+        catch (Exception e)
+        {
+            intent = new Intent(CompleteRePaymentActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         realm = Realm.getDefaultInstance();
-        networkString = intent.getExtras().get("network").toString();
         logoImage = (ImageView)findViewById(R.id.networkLogo);
         tokenLayout = (LinearLayout)findViewById(R.id.tokenLayout);
         phoneNumber = (TextView)findViewById(R.id.phoneNumberET);
         token = (TextView)findViewById(R.id.vodafoneTokenET);
         completePayment= (Button)findViewById(R.id.completePayment);
-        orderDetailModels = new ArrayList<>();
+        orderDetails = new ArrayList<>();
         subtotalCost = (TextView)findViewById(R.id.subTotalTV);
         deliveryCost= (TextView)findViewById(R.id.deliveryTV);
         totalCost = (TextView)findViewById(R.id.totalCostTV);
-
+        setCartDetails();
 
         if(networkString != null)
         {
@@ -126,9 +139,11 @@ public class CompletePaymentActivity extends AppCompatActivity {
                 }
             }
         });
-        setCartDetails();
 
     }
+
+
+
 
     private boolean validateUsing_libphonenumber(String countryCode, String phNumber) {
         PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
@@ -153,43 +168,23 @@ public class CompletePaymentActivity extends AppCompatActivity {
 
     void setCartDetails()
     {
-        CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
-        if(cartsTable != null)
+        if(order != null)
         {
-            orderModel = new OrderModel();
-            orderModel.setDeliveryTown(cartsTable.getDeliveryTown());
-            orderModel.setDelivery_gh_post_code(cartsTable.getDelivery_gh_post_code());
-            orderModel.setUser_id(realm.where(UserTable.class).findFirst().getServer_id());
-            orderModel.setDelivryRegion(cartsTable.getDelivryRegion());
-            orderModel.setResidentialAddress(cartsTable.getResidentialAddress());
-            orderModel.setAccountNumber(phoneString);
-            orderModel.setAccountNetwork(networkString);
-            orderModel.setAccountToken(tokenString);
-            orderModel.setEmail(realm.where(UserTable.class).findFirst().getEmail());
-            orderModel.setPhone(realm.where(UserTable.class).findFirst().getPhone());
             double subTotal = 0;
             double total = 0;
-            RealmResults<CartDetailsTable> cartDetailsTableRealmResults = realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).findAll();
-            if(cartDetailsTableRealmResults != null)
-            {
-                for (int i= 0; i<cartDetailsTableRealmResults.size();i++) {
-                    CartDetailsTable cartDetailsTable = cartDetailsTableRealmResults.get(i);
-                    OrderDetailModel orderDetailModel = new OrderDetailModel();
-                    orderDetailModel.setCost_per_kg(cartDetailsTable.getCost_per_kg());
-                    orderDetailModel.setPrice_per_kg(cartDetailsTable.getPrice_per_kg());
-                    orderDetailModel.setProduce_id(cartDetailsTable.getProduce_id());
-                    orderDetailModel.setWeight(cartDetailsTable.getWeight());
-                    orderDetailModel.setRemarks(cartDetailsTable.getRemarks());
-                    orderDetailModel.setOrder_id(cartDetailsTable.getCart_id());
-                    orderDetailModels.add(orderDetailModel);
-                    if(cartDetailsTable.getWeight() >0.00)
-                    {
-                        subTotal += GeneralCalculations.getCost(cartDetailsTable.getPrice_per_kg(),cartDetailsTable.getWeight());
+            ArrayList<OrderDetail> orderDetails = order.getDetails();
+            for (int i= 0; i<orderDetails.size();i++
+                    ) {
 
-                    }
+                OrderDetail orderDetail = orderDetails.get(i);
+                if(orderDetail.getWeight() >0.00)
+                {
+                    subTotal += GeneralCalculations.getCost(orderDetail.getPrice_per_kg(),orderDetail.getWeight());
+
                 }
-
             }
+
+
             total = subTotal +14;
             totalCost.setText("GhC "+total);
             subtotalCost.setText("GhC "+subTotal);
@@ -203,7 +198,7 @@ public class CompletePaymentActivity extends AppCompatActivity {
     {
 
 
-        final ProgressDialog pd  = ProgressDialog.show(CompletePaymentActivity.this,"Completing payment request ..."," Please Wait  ...", true);
+        final ProgressDialog pd  = ProgressDialog.show(CompleteRePaymentActivity.this,"Completing payment request ..."," Please Wait  ...", true);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiLocation.getApiLocation1())
@@ -211,17 +206,7 @@ public class CompletePaymentActivity extends AppCompatActivity {
                 .build();
 
         ApiEndpoints endpoints = retrofit.create(ApiEndpoints.class);
-        JSONArray jsArray = new JSONArray();
-        for (int i=0;i<orderDetailModels.size();i++)
-        {
-            try {
-                jsArray.put(i,orderDetailModels.get(i).toJSon());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        //System.out.println(json);
-        Call<UserModel> login = endpoints.completeOrder(orderModel.toJSon(),jsArray);
+        Call<UserModel> login = endpoints.completePayment(order.getUser_id(),order.getInvoices().getInvoice_id(),phoneString,networkString);
         login.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Response<UserModel> response, Retrofit retrofit) {
@@ -236,7 +221,8 @@ public class CompletePaymentActivity extends AppCompatActivity {
                         cartsTable.setCart_status("Closed");
                         realm.copyToRealmOrUpdate(cartsTable);
                         realm.commitTransaction();
-                        Intent intent = new Intent(CompletePaymentActivity.this,MyOrdersActivity.class);
+                        Toast.makeText(getApplicationContext(),"Payment request sent, Kindly wait for a prompt to complete payment",Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(CompleteRePaymentActivity.this,MyOrdersActivity.class);
                         startActivity(intent);
                         finish();
                         return;
@@ -262,6 +248,7 @@ public class CompletePaymentActivity extends AppCompatActivity {
 
 
     }
+
 
 
 }

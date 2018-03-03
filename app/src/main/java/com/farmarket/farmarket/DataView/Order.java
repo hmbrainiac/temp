@@ -2,6 +2,7 @@ package com.farmarket.farmarket.DataView;
 
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.farmarket.farmarket.Misc.RecyclerViewEmptySupport;
@@ -13,20 +14,11 @@ import com.farmarket.farmarket.R;
 
 public class Order extends RecyclerViewEmptySupport.ViewHolder{
     TextView orderStatus,orderCreationDate,orderCode,sumWeightOrder,orderTotal,paymentStatus;
+    TextView completePayment,viewDetails;
 
     CardView cardView;
 
-    public Order(View itemView, TextView orderStatus, TextView orderCreationDate, TextView orderCode, TextView sumWeightOrder, TextView orderTotal, CardView cardView) {
-        super(itemView);
-        this.orderCreationDate = (TextView) itemView.findViewById(R.id.closeTV);
-        this.orderCode = (TextView) itemView.findViewById(R.id.nameProduct);
-        this.sumWeightOrder = (TextView) itemView.findViewById(R.id.measurementType);
-        this.orderStatus =(TextView) itemView.findViewById(R.id.offTopTV);
-        this.cardView =(CardView) itemView.findViewById(R.id.card_view);
-        this.orderTotal =(TextView) itemView.findViewById(R.id.totalCost);
-    }
-
-    public Order(View itemView, TextView orderStatus, TextView orderCreationDate, TextView orderCode, TextView sumWeightOrder, TextView orderTotal, TextView paymentStatus, CardView cardView) {
+    public Order(View itemView, TextView orderStatus, TextView orderCreationDate, TextView orderCode, TextView sumWeightOrder, TextView orderTotal, TextView paymentStatus, TextView completePayment, TextView viewDetails, CardView cardView) {
         super(itemView);
         this.orderCreationDate = (TextView) itemView.findViewById(R.id.closeTV);
         this.orderCode = (TextView) itemView.findViewById(R.id.nameProduct);
@@ -35,6 +27,8 @@ public class Order extends RecyclerViewEmptySupport.ViewHolder{
         this.cardView =(CardView) itemView.findViewById(R.id.card_view);
         this.orderTotal =(TextView) itemView.findViewById(R.id.totalCost);
         this.paymentStatus =(TextView) itemView.findViewById(R.id.offBottomTV);
+        this.completePayment =(TextView) itemView.findViewById(R.id.completePayment);
+        this.viewDetails =(TextView) itemView.findViewById(R.id.viewDetails);
     }
 
     public Order(View itemView) {
@@ -46,6 +40,24 @@ public class Order extends RecyclerViewEmptySupport.ViewHolder{
         this.cardView =(CardView) itemView.findViewById(R.id.card_view);
         this.orderTotal =(TextView) itemView.findViewById(R.id.totalCost);
         this.paymentStatus =(TextView) itemView.findViewById(R.id.offBottomTV);
+        this.completePayment =(TextView) itemView.findViewById(R.id.completePayment);
+        this.viewDetails =(TextView) itemView.findViewById(R.id.viewDetails);
+    }
+
+    public TextView getCompletePayment() {
+        return completePayment;
+    }
+
+    public void setCompletePayment(Button completePayment) {
+        this.completePayment = completePayment;
+    }
+
+    public TextView getViewDetails() {
+        return viewDetails;
+    }
+
+    public void setViewDetails(Button viewDetails) {
+        this.viewDetails = viewDetails;
     }
 
     public TextView getPaymentStatus() {

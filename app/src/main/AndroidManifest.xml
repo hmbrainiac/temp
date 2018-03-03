@@ -56,7 +56,10 @@
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".TransactionsActivity" />
         <activity android:name=".SetupAddressActivity" />
-        <activity android:name=".MyPasswordActivity"></activity>
+        <activity android:name=".MyPasswordActivity" />
+        <activity android:name=".PayForOrderActivity" />
+        <activity android:name=".ReviewActivity" />
+        <activity android:name=".CompleteRePaymentActivity"></activity>
     </application>
 
 </manifest>
