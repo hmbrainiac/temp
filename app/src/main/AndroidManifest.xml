@@ -59,7 +59,8 @@
         <activity android:name=".MyPasswordActivity" />
         <activity android:name=".PayForOrderActivity" />
         <activity android:name=".ReviewActivity" />
-        <activity android:name=".CompleteRePaymentActivity"></activity>
+        <activity android:name=".CompleteRePaymentActivity" />
+        <activity android:name=".SetPasswordActivity"></activity>
     </application>
 
 </manifest>

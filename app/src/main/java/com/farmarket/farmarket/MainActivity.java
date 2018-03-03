@@ -222,15 +222,15 @@ public class MainActivity extends AppCompatActivity
         {
          menu.findItem(R.id.action_cart).setIcon(R.drawable.full_cart);
             MenuItem item = menu.findItem(R.id.action_cart);
-            MenuItemCompat.setActionView(item, R.layout.actionbar_badge_layout);
+            MenuItemCompat.setActionView(item, R.layout.cart_layout);
             RelativeLayout notifCount = (RelativeLayout)   MenuItemCompat.getActionView(item);
 
             TextView tv = (TextView) notifCount.findViewById(R.id.actionbar_notifcation_textview);
-            tv.setText("12");
-//https://stackoverflow.com/questions/39496301/how-to-add-item-number-on-the-cart-icon-at-top-toolbar-android
-            RelativeLayout badgeLayout = (RelativeLayout)    menu.findItem(R.id.action_cart).getActionView();
-            TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
             tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
+
+           // RelativeLayout badgeLayout = (RelativeLayout)    menu.findItem(R.id.action_cart).getActionView();
+           // TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
+           // tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
 
             //menu.findItem(R.id.action_cart).setTooltipText("View your cart details");
          //menu.findItem(R.id.action_cart).setTitle(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"") ;

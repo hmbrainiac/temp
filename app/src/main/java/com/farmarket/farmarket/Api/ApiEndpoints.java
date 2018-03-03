@@ -51,6 +51,11 @@ public interface ApiEndpoints {
     @POST("pay-invoice")
     Call<UserModel> completePayment(@Field("user_id") int user_id,@Field("invoice_id") int invoice_id, @Field("phone") String phone, @Field("network") String network);
 
+    @FormUrlEncoded
+    @POST("set-password")
+    Call<UserModel> setPassword(@Field("phone") String phone,@Field("new_password") String new_password);
+
+
 
     @GET("products")
     Call<List<ProduceModel>> listProducts();

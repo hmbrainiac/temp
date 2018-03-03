@@ -46,8 +46,9 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
 
+        setContentView(R.layout.activity_sign_up);
+        mAuth = FirebaseAuth.getInstance();
         countryCodePicker = (CountryCodePicker)findViewById(R.id.ccp);
         email = (EditText)findViewById(R.id.emailET);
         phoneNumber = (EditText)findViewById(R.id.phoneNumberET);
@@ -130,6 +131,7 @@ public class SignUpActivity extends AppCompatActivity {
                 final String finalPhone = internationalFormat;
 
                 Intent intent = new Intent(SignUpActivity.this,ConfirmCodeActivity.class);
+                intent.putExtra("type","SignUp");
                 intent.putExtra("verificationId",verificationId);
                 intent.putExtra("token",token);
                 intent.putExtra("phone",finalPhone);

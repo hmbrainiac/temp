@@ -38,7 +38,7 @@ public class ConfirmCodeActivity extends AppCompatActivity {
     Button activateLogin;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     static PhoneAuthProvider.ForceResendingToken mToken;
-    static String phoneNumber,verificationId,phone,email,firstname,lastname;
+    static String phoneNumber,verificationId,phone,email,firstname,lastname,type;
     ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +209,7 @@ public class ConfirmCodeActivity extends AppCompatActivity {
         email = (String)intent.getExtras().get("email");
         firstname = (String)intent.getExtras().get("firstname");
         lastname = (String)intent.getExtras().get("lastname");
+        type = (String)intent.getExtras().get("type");
 
 
         activateLogin.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +225,12 @@ public class ConfirmCodeActivity extends AppCompatActivity {
         changeNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent1 = new Intent(ConfirmCodeActivity.this,SignUpActivity.class);
+                if(type.equalsIgnoreCase("Forgot"))
+                {
+                    intent1 = new Intent(ConfirmCodeActivity.this,ForgotPasswordActivity.class);
+                }
                 startActivity(intent1);
                 finish();
                 return;
@@ -342,15 +348,25 @@ public class ConfirmCodeActivity extends AppCompatActivity {
                             // [START_EXCLUDE]
                             //updateUI(STATE_SIGNIN_SUCCESS, user);
                             //Toast.makeText(getApplicationContext(),"User id "+user.getUid(),Toast.LENGTH_LONG).show();
-
-                            Intent intent = new Intent(ConfirmCodeActivity.this,CompleteSignUpFormActivity.class);
-                            intent.putExtra("phone",phone);
-                            intent.putExtra("email",email);
-                            intent.putExtra("firstname",firstname);
-                            intent.putExtra("lastname",lastname);
-                            startActivity(intent);
-                            finish();
-                            return;
+                            if(type.equalsIgnoreCase("SignUp"))
+                            {
+                                Intent intent = new Intent(ConfirmCodeActivity.this,CompleteSignUpFormActivity.class);
+                                intent.putExtra("phone",phone);
+                                intent.putExtra("email",email);
+                                intent.putExtra("firstname",firstname);
+                                intent.putExtra("lastname",lastname);
+                                startActivity(intent);
+                                finish();
+                                return;
+                            }
+                            else
+                            {
+                                Intent intent = new Intent(ConfirmCodeActivity.this,SetPasswordActivity.class);
+                                intent.putExtra("phone",phone);
+                                startActivity(intent);
+                                finish();
+                                return;
+                            }
                             // [END_EXCLUDE]
                         } else {
                             // Sign in failed, display a message and update the UI
