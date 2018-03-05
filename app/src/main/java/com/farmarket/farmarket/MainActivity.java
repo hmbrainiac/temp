@@ -221,19 +221,26 @@ public class MainActivity extends AppCompatActivity
         if (cartsTable != null && realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).findAll().size()>0)
         {
          menu.findItem(R.id.action_cart).setIcon(R.drawable.full_cart);
+
             MenuItem item = menu.findItem(R.id.action_cart);
+
+            item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+
+                    Intent intent = new Intent(MainActivity.this,CartActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                    return true;
+                }
+            });
+
             MenuItemCompat.setActionView(item, R.layout.cart_layout);
             RelativeLayout notifCount = (RelativeLayout)   MenuItemCompat.getActionView(item);
 
             TextView tv = (TextView) notifCount.findViewById(R.id.actionbar_notifcation_textview);
             tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
-
-           // RelativeLayout badgeLayout = (RelativeLayout)    menu.findItem(R.id.action_cart).getActionView();
-           // TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
-           // tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
-
-            //menu.findItem(R.id.action_cart).setTooltipText("View your cart details");
-         //menu.findItem(R.id.action_cart).setTitle(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"") ;
         }
         else
         {

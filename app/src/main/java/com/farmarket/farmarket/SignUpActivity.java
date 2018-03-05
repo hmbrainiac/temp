@@ -3,6 +3,7 @@ package com.farmarket.farmarket;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -28,6 +30,15 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
+import com.karan.churi.PermissionManager.PermissionManager;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -42,13 +53,19 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     static String fullPhone;
     ProgressDialog progressDialog;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    PermissionManager permission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_sign_up);
+        permission=new PermissionManager() {};
+        permission.checkAndRequestPermissions(this);
         mAuth = FirebaseAuth.getInstance();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //mAuth = FirebaseAuth.getInstance();
         countryCodePicker = (CountryCodePicker)findViewById(R.id.ccp);
         email = (EditText)findViewById(R.id.emailET);
         phoneNumber = (EditText)findViewById(R.id.phoneNumberET);
@@ -95,15 +112,41 @@ public class SignUpActivity extends AppCompatActivity {
                 // for instance if the the phone number format is not valid.
                 Log.w(TAG, "onVerificationFailed", e);
                 progressDialog.dismiss();
+                e.printStackTrace();
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Error on signup");
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Error code 211");
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT, e.getMessage());
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                     Toast.makeText(getApplicationContext(),"Sorry an error was encountered please try again later",Toast.LENGTH_LONG).show();
                     // Invalid request
                     // ...
                 } else if (e instanceof FirebaseTooManyRequestsException) {
                     // The SMS quota for the project has been exceeded
                     // ...
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Error on signup");
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Error code 212");
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT, e.getMessage());
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                     Toast.makeText(getApplicationContext(),"Kindly contact support with error code 212",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Error on signup");
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Error code 213");
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT, e.getMessage());
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                     Toast.makeText(getApplicationContext(),"Kindly contact support with error code 213",Toast.LENGTH_LONG).show();
+
                 }
 
                 // Show a message and update the UI
@@ -278,6 +321,11 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        permission.checkResult(requestCode,permissions, grantResults);
+    }
 
 
 }
