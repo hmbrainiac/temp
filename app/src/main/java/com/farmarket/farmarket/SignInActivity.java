@@ -15,6 +15,9 @@ import com.farmarket.farmarket.Api.ApiLocation;
 import com.farmarket.farmarket.Fonts.TitalliumWebText;
 import com.farmarket.farmarket.Models.UserModel;
 import com.farmarket.farmarket.RealmTables.UserTable;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.karan.churi.PermissionManager.PermissionManager;
 
 import io.realm.Realm;
 import retrofit.Call;
@@ -28,11 +31,20 @@ public class SignInActivity extends AppCompatActivity {
     static String username,password;
     TitalliumWebText goToSignUp,forgotPassword;
     Button signInbtn;
+    PermissionManager permission;
+    FirebaseAuth mAuth;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mAuth = FirebaseAuth.getInstance();
+        permission=new PermissionManager() {};
+        permission.checkAndRequestPermissions(this);
+
         goToSignUp = (TitalliumWebText)findViewById(R.id.signUpTV);
         usernameET = (EditText)findViewById(R.id.emailET);
         passwordET = (EditText)findViewById(R.id.passwordET);
@@ -169,6 +181,11 @@ public class SignInActivity extends AppCompatActivity {
     private boolean isUserNameValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 1;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        permission.checkResult(requestCode,permissions, grantResults);
     }
 
 }

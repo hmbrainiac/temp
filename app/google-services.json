@@ -1,56 +1,21 @@
 {
   "project_info": {
-    "project_number": "959643729618",
-    "firebase_url": "https://verifie-1383.firebaseio.com",
-    "project_id": "verifie-1383",
-    "storage_bucket": "verifie-1383.appspot.com"
+    "project_number": "706549232005",
+    "firebase_url": "https://kyih-toolbox.firebaseio.com",
+    "project_id": "kyih-toolbox",
+    "storage_bucket": "kyih-toolbox.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:959643729618:android:0cffc8755478b7c9",
-        "android_client_info": {
-          "package_name": "com.devappstudio.verifie"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "959643729618-qj3qmemg67be3laghdbnvasrp87pq09t.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "959643729618-34qni9duh3f9bg1bp7of6ua7467p95up.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyA6p_AscDdubKiFZcQEy5e3qgF48avQP1s"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:959643729618:android:bd132451a97524fc",
+        "mobilesdk_app_id": "1:706549232005:android:bd132451a97524fc",
         "android_client_info": {
           "package_name": "com.farmarket.farmarket"
         }
       },
       "oauth_client": [
         {
-          "client_id": "959643729618-ffk206nrcjabe4m8tpes2mlqo4lcq4vd.apps.googleusercontent.com",
+          "client_id": "706549232005-lm6in2ps0mv1p2j8suoeohbl69ss943a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.farmarket.farmarket",
@@ -58,25 +23,13 @@
           }
         },
         {
-          "client_id": "959643729618-ltg78429u3c5nnsl59l2gnk1sjhvf3se.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.farmarket.farmarket",
-            "certificate_hash": "f55f8a6d2889dd948744ca4bd2253f4fc282713f"
-          }
-        },
-        {
-          "client_id": "959643729618-qj3qmemg67be3laghdbnvasrp87pq09t.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "959643729618-34qni9duh3f9bg1bp7of6ua7467p95up.apps.googleusercontent.com",
+          "client_id": "706549232005-d906k4sur78ap5osjgigb1gqo5b5bcm3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA6p_AscDdubKiFZcQEy5e3qgF48avQP1s"
+          "current_key": "AIzaSyCjnvx1CPjHAqiZt6n9z3VgT4ZGBZIBK7U"
         }
       ],
       "services": {
@@ -87,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "959643729618-qj3qmemg67be3laghdbnvasrp87pq09t.apps.googleusercontent.com",
+              "client_id": "706549232005-d906k4sur78ap5osjgigb1gqo5b5bcm3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
