@@ -111,7 +111,7 @@ public class CompletePaymentActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Kindly provide your generated token",Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if(validateUsing_libphonenumber("+233",phoneString) ==false)
+                    if(validateUsing_libphonenumber("+233",phoneNumber.getText().toString()) ==false)
                     {
                         Toast.makeText(getApplicationContext(),"Kindly provide a valid phone number",Toast.LENGTH_LONG).show();
                     }
