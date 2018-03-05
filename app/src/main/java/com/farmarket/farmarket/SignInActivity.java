@@ -42,9 +42,6 @@ public class SignInActivity extends AppCompatActivity {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
-        permission=new PermissionManager() {};
-        permission.checkAndRequestPermissions(this);
-
         goToSignUp = (TitalliumWebText)findViewById(R.id.signUpTV);
         usernameET = (EditText)findViewById(R.id.emailET);
         passwordET = (EditText)findViewById(R.id.passwordET);

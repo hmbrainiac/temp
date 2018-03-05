@@ -61,9 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_sign_up);
-        permission=new PermissionManager() {};
-        permission.checkAndRequestPermissions(this);
-        mAuth = FirebaseAuth.getInstance();
+                mAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         //mAuth = FirebaseAuth.getInstance();
         countryCodePicker = (CountryCodePicker)findViewById(R.id.ccp);
