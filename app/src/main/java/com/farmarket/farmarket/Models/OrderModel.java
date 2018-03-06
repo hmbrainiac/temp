@@ -66,58 +66,6 @@ public class OrderModel {
         this.unique_code = unique_code;
     }
 
-    public OrderModel(int order_id, int user_id, int delivery_id, String uuid, String created_at, String updated_at, String expected_delivery, String status, String invoice_id, String delivery_lon, String delivery_lat, String delivery_gh_post_code, String phone, String email, String name, String cart_status, String deliveryTown, String delivryRegion, String residentialAddress, String accountNumber, String accountNetwork, String accountToken, String unique_code, ArrayList<OrderDetailModel> details, InvoiceModel invoices) {
-        this.order_id = order_id;
-        this.user_id = user_id;
-        this.delivery_id = delivery_id;
-        this.uuid = uuid;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.expected_delivery = expected_delivery;
-        this.status = status;
-        this.invoice_id = invoice_id;
-        this.delivery_lon = delivery_lon;
-        this.delivery_lat = delivery_lat;
-        this.delivery_gh_post_code = delivery_gh_post_code;
-        this.phone = phone;
-        this.email = email;
-        this.name = name;
-        this.cart_status = cart_status;
-        this.deliveryTown = deliveryTown;
-        this.delivryRegion = delivryRegion;
-        this.residentialAddress = residentialAddress;
-        this.accountNumber = accountNumber;
-        this.accountNetwork = accountNetwork;
-        this.accountToken = accountToken;
-        this.unique_code = unique_code;
-        this.details = details;
-        this.invoices = invoices;
-    }
-
-    public OrderModel(int order_id, int user_id, int delivery_id, String uuid, String created_at, String updated_at, String expected_delivery, String status, String invoice_id, String delivery_lon, String delivery_lat, String delivery_gh_post_code, String phone, String email, String name, String cart_status, String deliveryTown, String delivryRegion, String residentialAddress, String accountNumber, String accountNetwork, String accountToken) {
-        this.order_id = order_id;
-        this.user_id = user_id;
-        this.delivery_id = delivery_id;
-        this.uuid = uuid;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.expected_delivery = expected_delivery;
-        this.status = status;
-        this.invoice_id = invoice_id;
-        this.delivery_lon = delivery_lon;
-        this.delivery_lat = delivery_lat;
-        this.delivery_gh_post_code = delivery_gh_post_code;
-        this.phone = phone;
-        this.email = email;
-        this.name = name;
-        this.cart_status = cart_status;
-        this.deliveryTown = deliveryTown;
-        this.delivryRegion = delivryRegion;
-        this.residentialAddress = residentialAddress;
-        this.accountNumber = accountNumber;
-        this.accountNetwork = accountNetwork;
-        this.accountToken = accountToken;
-    }
 
     public OrderModel() {
     }
@@ -303,26 +251,26 @@ public class OrderModel {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("order_id",this.order_id);
-            jsonObject.put("user_id",this.user_id);
+            jsonObject.put("order_id",this.getOrder_id());
+            jsonObject.put("user_id",this.getUser_id());
             jsonObject.put("delivery_id",this.delivery_id);
             jsonObject.put("uuid",this.uuid);
-            jsonObject.put("expected_delivery",this.expected_delivery);
-            jsonObject.put("status",this.status);
-            jsonObject.put("invoice_id",this.invoice_id);
-            jsonObject.put("delivery_lon",this.delivery_lon);
-            jsonObject.put("delivery_lat",this.delivery_lat);
-            jsonObject.put("delivery_gh_post_code",this.delivery_gh_post_code);
-            jsonObject.put("phone",this.phone);
-            jsonObject.put("email",this.email);
-            jsonObject.put("name",this.name);
-            jsonObject.put("cart_status",this.cart_status);
-            jsonObject.put("deliveryTown",this.deliveryTown);
-            jsonObject.put("delivryRegion",this.delivryRegion);
-            jsonObject.put("residentialAddress",this.residentialAddress);
-            jsonObject.put("accountNumber",this.accountNumber);
-            jsonObject.put("accountNetwork",this.accountNetwork);
-            jsonObject.put("accountToken",this.accountToken);
+            jsonObject.put("expected_delivery",this.getExpected_delivery());
+            jsonObject.put("status",this.getStatus());
+            jsonObject.put("invoice_id",this.getInvoice_id());
+            jsonObject.put("delivery_lon",this.getDelivery_lon());
+            jsonObject.put("delivery_lat",this.getDelivery_lat());
+            jsonObject.put("delivery_gh_post_code",this.getDelivery_gh_post_code());
+            jsonObject.put("phone",this.getPhone());
+            jsonObject.put("email",this.getEmail());
+            jsonObject.put("name",this.getName());
+            jsonObject.put("cart_status",this.getCart_status());
+            jsonObject.put("deliveryTown",this.getDeliveryTown());
+            jsonObject.put("delivryRegion",this.getDelivryRegion());
+            jsonObject.put("residentialAddress",this.getResidentialAddress());
+            jsonObject.put("accountNumber",this.getAccountNumber());
+            jsonObject.put("accountNetwork",this.getAccountNetwork());
+            jsonObject.put("accountToken",this.getAccountToken());
         } catch (JSONException e) {
             e.printStackTrace();
         }

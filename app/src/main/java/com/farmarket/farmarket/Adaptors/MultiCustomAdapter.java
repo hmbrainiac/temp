@@ -336,7 +336,6 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void configureOrderDetail(final com.farmarket.farmarket.DataView.OrderDetail v, final com.farmarket.farmarket.DataType.OrderDetail orderDetail, final int position)
     {
-        final Intent intent  = new Intent(mContext,MyAddressActivity.class);
 
         if(orderDetail.getProduce().getProduce_type().equals("Organic"))
         {
@@ -370,12 +369,15 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
+                mActivity.finish();
             }
         });
         v.getAddToCartTV().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
+                mActivity.finish();
+
             }
         });
         /*
@@ -390,12 +392,14 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
+                mActivity.finish();
             }
         });
         v.getNameProduct().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
+                mActivity.finish();
 
             }
         });
@@ -403,6 +407,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
+                mActivity.finish();
             }
         });
 
@@ -418,6 +423,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
+                mActivity.finish();
+
             }
         });
 
@@ -458,6 +465,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 double currentPrice = GeneralCalculations.getCost(product.getPrice_per_kg(),currentQuantity);
                 //display change and get new price
                 v.getProductPrice().setText(currentPrice+"");
+
                 product.setWeight(currentQuantity);
                 CartActivity.albumList.set(position,product);
                 //effect change in cart details
@@ -502,7 +510,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 //increase by 0.2
                 currentQuantity -= 0.2;
                 if(currentQuantity < 0.00)
-                    currentQuantity = 0.00;
+                    currentQuantity = 0.02;
 
                 currentQuantity = Math.round(currentQuantity*100.0)/100.0;
                 double currentPrice = GeneralCalculations.getCost(product.getPrice_per_kg(),currentQuantity);
@@ -663,6 +671,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 //increase by 0.2
                 currentQuantity -= 0.2;
+                if(currentQuantity <= 0.00)
+                    currentQuantity = 0.20;
                 currentQuantity = Math.round(currentQuantity*100.0)/100.0;
                 //get new price
                 if(currentQuantity > 0.00)

@@ -47,36 +47,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/text1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ghana Post GPS Address"
-                android:textSize="14sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:layout_editor_absoluteY="24dp" />
-
             <EditText
                 android:id="@+id/postGPS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:hint="GH Post GPS Address"
                 android:lines="1"
                 android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@id/text1" />
-
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Residential Address"
-                android:textSize="14sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/postGPS" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/physicalAddress"
@@ -85,50 +66,38 @@
                 android:layout_marginTop="10dp"
                 android:hint="Address"
                 android:inputType="textMultiLine"
-                app:layout_constraintTop_toBottomOf="@id/text" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
 
-            <TextView
-                android:id="@+id/regionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Region"
-                android:textSize="14sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/city"
-                />
+                app:layout_constraintTop_toBottomOf="@id/postGPS" />
+
 
             <Spinner
 
                 android:id="@+id/Regionspinner"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/regionText"
+                app:layout_constraintTop_toBottomOf="@id/city"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
 
 
-            <TextView
-                android:id="@+id/text3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="City / Town"
-                android:layout_marginTop="5dp"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/physicalAddress"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:layout_editor_absoluteY="24dp" />
 
             <EditText
                 android:id="@+id/city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+
                 android:layout_marginBottom="20dp"
                 android:hint="City / Town"
                 android:lines="1"
                 android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@id/text3" />
+                app:layout_constraintTop_toBottomOf="@id/physicalAddress" />
 
         </android.support.constraint.ConstraintLayout>
 

@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:text="Tomatoe Goes here"
                         android:textAlignment="textStart"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"

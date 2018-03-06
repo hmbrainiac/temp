@@ -117,6 +117,7 @@ public class CompletePaymentActivity extends AppCompatActivity {
                     }
                     else
                     {
+                        System.out.println("Current phone number "+phoneString);
                         completePayment();
                     }
                 }
@@ -221,6 +222,9 @@ public class CompletePaymentActivity extends AppCompatActivity {
             }
         }
         //System.out.println(json);
+        orderModel.setAccountNumber(phoneString);
+        orderModel.setAccountToken(tokenString);
+        System.out.println(orderModel.toJSon()+" Data threw");
         Call<UserModel> login = endpoints.completeOrder(orderModel.toJSon(),jsArray);
         login.enqueue(new Callback<UserModel>() {
             @Override

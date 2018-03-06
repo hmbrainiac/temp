@@ -67,8 +67,8 @@ public class MySingleOrderActivity extends AppCompatActivity {
                 //get current quantity
                 //increase by 0.2
                 weight -= 0.2;
-                if(weight < 0.00)
-                    weight = 0.00;
+                if(weight <= 0.00)
+                    weight = 0.20;
                 weight = Math.round(weight*100.0)/100.0;
                 cost = (GeneralCalculations.getCost(Double.parseDouble(productCart.getPrice_per_kg()),weight));
                 Realm realm = Realm.getDefaultInstance();

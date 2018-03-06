@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        loadProducts();
         adapter.notifyDataSetChanged();
         mShimmerViewContainer.startShimmerAnimation();
     }
