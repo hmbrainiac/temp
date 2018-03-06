@@ -122,6 +122,7 @@ public class MyOrdersActivity extends AppCompatActivity {
             public void onResponse(Response<List<OrderModel>> response, Retrofit retrofit) {
                 if(response.isSuccess() && response.code() == 200)
                 {
+                    albumList.clear();
 
                     List<OrderModel> generalModels = response.body();
                     for(int i = 0; i<generalModels.size();i++)

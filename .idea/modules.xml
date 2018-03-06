@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Farmarket.iml" filepath="$PROJECT_DIR$/Farmarket.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FudFarma.iml" filepath="$PROJECT_DIR$/FudFarma.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/farmarket-android.iml" filepath="$PROJECT_DIR$/.idea/farmarket-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fudfarma.iml" filepath="$PROJECT_DIR$/fudfarma.iml" />
     </modules>
   </component>
 </project>

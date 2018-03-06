@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
@@ -213,6 +214,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void configureOrder(final Order v, final com.farmarket.farmarket.DataType.Order order, final int position)
     {
+        //Toast.makeText(mContext,order.getUnique_code(),Toast.LENGTH_LONG).show();
+        System.out.println("Order displaying one "+order.getOrder_id());
         v.getViewDetails().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -769,6 +772,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
+       // Toast.makeText(mContext, ""+albumList.size(), Toast.LENGTH_SHORT).show();
         return albumList.size();
     }
     @Override

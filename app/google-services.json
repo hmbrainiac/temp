@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "706549232005-5v0qm999vbom2bc947pu3n6o97ktls46.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.farmarket.farmarket",
+            "certificate_hash": "d86fe031e49131ef3a0dac4fee2d4e508e60b7b2"
+          }
+        },
+        {
+          "client_id": "706549232005-j8r05b3aqsof4ovmcqvs8pq14o7sov4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.farmarket.farmarket",
+            "certificate_hash": "cbf2a371a7da96a879f079541072e6cc7ad107d8"
+          }
+        },
+        {
           "client_id": "706549232005-lm6in2ps0mv1p2j8suoeohbl69ss943a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
