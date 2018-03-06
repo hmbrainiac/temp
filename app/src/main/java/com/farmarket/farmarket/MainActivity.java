@@ -34,6 +34,7 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.farmarket.farmarket.Adaptors.MultiCustomAdapter;
 import com.farmarket.farmarket.Api.ApiEndpoints;
 import com.farmarket.farmarket.Api.ApiLocation;
+import com.farmarket.farmarket.DataType.Product;
 import com.farmarket.farmarket.DataType.ProductCart;
 import com.farmarket.farmarket.DataType.ProductEmpty;
 import com.farmarket.farmarket.Models.ProduceModel;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
+        toolbar.setTitle("Fud Farma");
 
         setSupportActionBar(toolbar);
 
@@ -225,23 +226,34 @@ public class MainActivity extends AppCompatActivity
 
             MenuItem item = menu.findItem(R.id.action_cart);
 
-            item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-
-                    Intent intent = new Intent(MainActivity.this,CartActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                    return true;
-                }
-            });
-
             MenuItemCompat.setActionView(item, R.layout.cart_layout);
             RelativeLayout notifCount = (RelativeLayout)   MenuItemCompat.getActionView(item);
 
             TextView tv = (TextView) notifCount.findViewById(R.id.actionbar_notifcation_textview);
             tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
+
+            notifCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(MainActivity.this,CartActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+
+                }
+            });
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,CartActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }
+            });
         }
         else
         {
@@ -267,6 +279,9 @@ public class MainActivity extends AppCompatActivity
             {
 
                 Intent intent = new Intent(MainActivity.this,CartActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 finish();
             }
@@ -291,11 +306,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this,MyOrdersActivity.class);
             startActivity(intent);
 
-
         } else if (id == R.id.my_settings) {
             Intent intent = new Intent(MainActivity.this,MySettingsActivity.class);
             startActivity(intent);
-
+            finish();
 
         } else if (id == R.id.my_transactions) {
             Intent intent = new Intent(MainActivity.this,TransactionsActivity.class);
@@ -412,52 +426,77 @@ public class MainActivity extends AppCompatActivity
                     List<ProduceModel> generalModels = response.body();
                     for(int i = 0; i<generalModels.size();i++)
                     {
+                        boolean nue = true;
                         ProduceModel produceModel = generalModels.get(i);
-                        Realm realm = Realm.getDefaultInstance();
-                        CartsTable orderDetailTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
-                        CartDetailsTable cartDetailsTable = null;
-                        if(orderDetailTable != null)
-                            cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",produceModel.getProduce_id()).equalTo("cart_id",orderDetailTable.getId()).findFirst();
-
-
-                        if(cartDetailsTable != null && cartDetailsTable.getWeight() != 0.00)
+                        for (int j=0; j<albumList.size();j++)
                         {
-                            ProductCart productCart = new ProductCart();
-                            productCart.setCreated_at(produceModel.getCreated_at());
-                            productCart.setDescription(produceModel.getDescription());
-                            productCart.setFile_blob(produceModel.getFile_blob());
-                            productCart.setFile_name(produceModel.getFile_name());
-                            productCart.setInCart(cartDetailsTable.getWeight());
-                            productCart.setName(produceModel.getName());
-                            productCart.setPrice_per_kg(produceModel.getPrice_per_kg());
-                            productCart.setProduce_id(produceModel.getProduce_id());
-                            productCart.setProduce_type(produceModel.getProduce_type());
-                            productCart.setUnique_code(produceModel.getUnique_code());
-                            productCart.setProduce_type(produceModel.getProduce_type());
-                            productCart.setUpdated_at(produceModel.getUpdated_at());
-                            productCart.setUuid(produceModel.getUuid());
-                            albumList.add(productCart);
-                            // Toast.makeText(getApplicationContext(),productCart.getName(),Toast.LENGTH_LONG).show();
+                            if(albumList.get(j) instanceof  ProductCart)
+                            {
+                                ProductCart productCart = (ProductCart) albumList.get(j);
+                                if(productCart.getUuid().equalsIgnoreCase(produceModel.getUuid()))
+                                    nue = false;
+                                break;
+                            }
+                            if(albumList.get(j) instanceof  ProductEmpty)
+                            {
+                                ProductEmpty productEmpty = (ProductEmpty) albumList.get(j);
+                                if(productEmpty.getUuid().equalsIgnoreCase(produceModel.getUuid()))
+                                    nue = false;
+                                break;
+
+                            }
 
                         }
-                        else
+                        if(nue)
                         {
-                            ProductEmpty productEmpty = new ProductEmpty();
-                            productEmpty.setCreated_at(produceModel.getCreated_at());
-                            productEmpty.setDescription(produceModel.getDescription());
-                            productEmpty.setFile_blob(produceModel.getFile_blob());
-                            productEmpty.setFile_name(produceModel.getFile_name());
-                            productEmpty.setName(produceModel.getName());
-                            productEmpty.setPrice_per_kg(produceModel.getPrice_per_kg());
-                            productEmpty.setProduce_id(produceModel.getProduce_id());
-                            productEmpty.setProduce_type(produceModel.getProduce_type());
-                            productEmpty.setUnique_code(produceModel.getUnique_code());
-                            productEmpty.setProduce_type(produceModel.getProduce_type());
-                            productEmpty.setUpdated_at(produceModel.getUpdated_at());
-                            productEmpty.setUuid(produceModel.getUuid());
-                            //System.out.println(productEmpty.getUuid());
-                            albumList.add(productEmpty);
-                            // Toast.makeText(getApplicationContext(),productEmpty.getName(),Toast.LENGTH_LONG).show();
+                            Realm realm = Realm.getDefaultInstance();
+                            CartsTable orderDetailTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
+                            CartDetailsTable cartDetailsTable = null;
+                            if(orderDetailTable != null)
+                                cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",produceModel.getProduce_id()).equalTo("cart_id",orderDetailTable.getId()).findFirst();
+
+
+                            if(cartDetailsTable != null && cartDetailsTable.getWeight() != 0.00)
+                            {
+                                ProductCart productCart = new ProductCart();
+                                productCart.setCreated_at(produceModel.getCreated_at());
+                                productCart.setDescription(produceModel.getDescription());
+                                productCart.setFile_blob(produceModel.getFile_blob());
+                                productCart.setFile_name(produceModel.getFile_name());
+                                productCart.setInCart(cartDetailsTable.getWeight());
+                                productCart.setName(produceModel.getName());
+                                productCart.setPrice_per_kg(produceModel.getPrice_per_kg());
+                                productCart.setProduce_id(produceModel.getProduce_id());
+                                productCart.setProduce_type(produceModel.getProduce_type());
+                                productCart.setUnique_code(produceModel.getUnique_code());
+                                productCart.setProduce_type(produceModel.getProduce_type());
+                                productCart.setUpdated_at(produceModel.getUpdated_at());
+                                productCart.setUuid(produceModel.getUuid());
+                                // Toast.makeText(getApplicationContext(),productCart.getName(),Toast.LENGTH_LONG).show();
+                                albumList.add(productCart);
+
+                            }
+                            else
+                            {
+                                ProductEmpty productEmpty = new ProductEmpty();
+                                productEmpty.setCreated_at(produceModel.getCreated_at());
+                                productEmpty.setDescription(produceModel.getDescription());
+                                productEmpty.setFile_blob(produceModel.getFile_blob());
+                                productEmpty.setFile_name(produceModel.getFile_name());
+                                productEmpty.setName(produceModel.getName());
+                                productEmpty.setPrice_per_kg(produceModel.getPrice_per_kg());
+                                productEmpty.setProduce_id(produceModel.getProduce_id());
+                                productEmpty.setProduce_type(produceModel.getProduce_type());
+                                productEmpty.setUnique_code(produceModel.getUnique_code());
+                                productEmpty.setProduce_type(produceModel.getProduce_type());
+                                productEmpty.setUpdated_at(produceModel.getUpdated_at());
+                                productEmpty.setUuid(produceModel.getUuid());
+                                //System.out.println(productEmpty.getUuid());
+                                // Toast.makeText(getApplicationContext(),productEmpty.getName(),Toast.LENGTH_LONG).show();
+                                albumList.add(productEmpty);
+
+                            }
+
                         }
                     }
 

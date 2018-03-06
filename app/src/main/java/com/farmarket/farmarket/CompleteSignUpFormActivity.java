@@ -100,6 +100,7 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
 
                     try
                     {
+                        System.out.print(user.getFirstname());
                         Realm realm = Realm.getDefaultInstance();
                         UserTable userTable = new UserTable();
 

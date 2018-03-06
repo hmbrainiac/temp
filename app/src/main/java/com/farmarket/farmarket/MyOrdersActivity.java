@@ -197,6 +197,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                         order.setDetails(orderDetails);
                         albumList.add(order);
                     }
+                   // Toast.makeText(getApplicationContext(),""+albumList.size()+" "+generalModels.size(),Toast.LENGTH_LONG).show();
 
                     albumList1.clear();
                     albumList1.addAll(albumList);

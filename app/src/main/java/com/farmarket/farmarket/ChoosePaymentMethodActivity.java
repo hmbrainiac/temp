@@ -73,6 +73,8 @@ public class ChoosePaymentMethodActivity extends AppCompatActivity {
                     Intent intent = new Intent(ChoosePaymentMethodActivity.this,CompletePaymentActivity.class);
                     intent.putExtra("network",selected);
                     startActivity(intent);
+                    finish();
+                    return;
                 }
 
             }
