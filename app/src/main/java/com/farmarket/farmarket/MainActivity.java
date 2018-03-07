@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     TextView name,email;
     ImageView profilePic;
     UserTable userTable;
+    public static MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +165,7 @@ public class MainActivity extends AppCompatActivity
        // Toast.makeText(getApplicationContext(),realm.where(CartsTable.class).findFirst().getCart_status()+"",Toast.LENGTH_LONG).show();
         loadProducts();
 
+
     }
     @Override
     public void onResume() {
@@ -198,6 +200,7 @@ public class MainActivity extends AppCompatActivity
 
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem myActionMenuItem = menu.findItem( R.id.action_search);
+        //menuItem = menu.findItem( R.id.action_search);
         final SearchView searchView ;
         searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setQueryHint("Type your search here");
@@ -220,14 +223,15 @@ public class MainActivity extends AppCompatActivity
 
         Realm realm = Realm.getDefaultInstance();
         CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
+        menuItem = menu.findItem(R.id.action_cart);
+
         if (cartsTable != null && realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).findAll().size()>0)
         {
-         menu.findItem(R.id.action_cart).setIcon(R.drawable.full_cart);
+         menuItem.setIcon(R.drawable.full_cart);
 
-            MenuItem item = menu.findItem(R.id.action_cart);
 
-            MenuItemCompat.setActionView(item, R.layout.cart_layout);
-            RelativeLayout notifCount = (RelativeLayout)   MenuItemCompat.getActionView(item);
+            MenuItemCompat.setActionView(menuItem, R.layout.cart_layout);
+            RelativeLayout notifCount = (RelativeLayout)   MenuItemCompat.getActionView(menuItem);
 
             TextView tv = (TextView) notifCount.findViewById(R.id.actionbar_notifcation_textview);
             tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
@@ -257,7 +261,7 @@ public class MainActivity extends AppCompatActivity
         }
         else
         {
-          menu.findItem(R.id.action_cart).setIcon(R.drawable.empty_cart);
+          menuItem.setIcon(R.drawable.empty_cart);
           //menu.findItem(R.id.action_cart).setTooltipText("Sorry your cart is empty");
           //menu.findItem(R.id.action_cart).setTitle("0");
         }
@@ -311,11 +315,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             finish();
 
-        } else if (id == R.id.my_transactions) {
-            Intent intent = new Intent(MainActivity.this,TransactionsActivity.class);
-            startActivity(intent);
-
-        } else if (id == R.id.log_out) {
+        }  else if (id == R.id.log_out) {
             realm.beginTransaction();
             userTable.deleteFromRealm();
             realm.where(CartsTable.class).findAll().deleteAllFromRealm();
@@ -422,33 +422,12 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Response<List<ProduceModel>> response, Retrofit retrofit) {
                 if(response.isSuccess() && response.code() == 200)
                 {
+                    albumList.clear();
 
                     List<ProduceModel> generalModels = response.body();
                     for(int i = 0; i<generalModels.size();i++)
                     {
-                        boolean nue = true;
                         ProduceModel produceModel = generalModels.get(i);
-                        for (int j=0; j<albumList.size();j++)
-                        {
-                            if(albumList.get(j) instanceof  ProductCart)
-                            {
-                                ProductCart productCart = (ProductCart) albumList.get(j);
-                                if(productCart.getUuid().equalsIgnoreCase(produceModel.getUuid()))
-                                    nue = false;
-                                break;
-                            }
-                            if(albumList.get(j) instanceof  ProductEmpty)
-                            {
-                                ProductEmpty productEmpty = (ProductEmpty) albumList.get(j);
-                                if(productEmpty.getUuid().equalsIgnoreCase(produceModel.getUuid()))
-                                    nue = false;
-                                break;
-
-                            }
-
-                        }
-                        if(nue)
-                        {
                             Realm realm = Realm.getDefaultInstance();
                             CartsTable orderDetailTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
                             CartDetailsTable cartDetailsTable = null;
@@ -497,7 +476,6 @@ public class MainActivity extends AppCompatActivity
 
                             }
 
-                        }
                     }
 
                     albumList1.clear();
@@ -521,6 +499,56 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+    }
+
+    void recheckMenu()
+    {
+
+
+        Realm realm = Realm.getDefaultInstance();
+        CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
+
+        if (cartsTable != null && realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).findAll().size()>0)
+        {
+            menuItem.setIcon(R.drawable.full_cart);
+
+
+            MenuItemCompat.setActionView(menuItem, R.layout.cart_layout);
+            RelativeLayout notifCount = (RelativeLayout)   MenuItemCompat.getActionView(menuItem);
+
+            TextView tv = (TextView) notifCount.findViewById(R.id.actionbar_notifcation_textview);
+            tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
+
+            notifCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(MainActivity.this,CartActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+
+                }
+            });
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,CartActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }
+            });
+        }
+        else
+        {
+            menuItem.setIcon(R.drawable.empty_cart);
+            //menu.findItem(R.id.action_cart).setTooltipText("Sorry your cart is empty");
+            //menu.findItem(R.id.action_cart).setTitle("0");
+        }
 
     }
 

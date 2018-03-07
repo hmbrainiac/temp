@@ -56,7 +56,7 @@ public class MyAddressActivity extends AppCompatActivity {
                 gps = postGPS.getText().toString();
                 address = residentionalAddress.getText().toString();
                 city = cityTown.getText().toString();
-                if(isValid(region) && isValid(gps) && isValid(address) && isValid(city))
+                if(isValid(region) && isValid(address) && isValid(city))
                 {
                     CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
                     if(cartsTable != null)

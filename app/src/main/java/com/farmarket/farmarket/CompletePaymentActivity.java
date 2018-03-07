@@ -31,6 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -222,28 +224,38 @@ public class CompletePaymentActivity extends AppCompatActivity {
             }
         }
         //System.out.println(json);
+        Date m = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(m);
+        cal.add(Calendar.DATE, 7); // 10 is the days you want to add or subtract
+        m = cal.getTime();
+        orderModel.setExpected_delivery(m.toString());
         orderModel.setAccountNumber(phoneString);
         orderModel.setAccountToken(tokenString);
         System.out.println(orderModel.toJSon()+" Data threw");
-        Call<UserModel> login = endpoints.completeOrder(orderModel.toJSon(),jsArray);
-        login.enqueue(new Callback<UserModel>() {
+        Call<OrderModel> login = endpoints.completeOrder(orderModel.toJSon(),jsArray);
+        login.enqueue(new Callback<OrderModel>() {
             @Override
-            public void onResponse(Response<UserModel> response, Retrofit retrofit) {
-                UserModel user = response.body();
+            public void onResponse(Response<OrderModel> response, Retrofit retrofit) {
+                OrderModel user = response.body();
                 pd.hide();
                 try
                 {
-                    if(user.getResponseCode() ==200)
+                    if(!user.getUuid().equalsIgnoreCase(null))
                     {
                         CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
                         realm.beginTransaction();
                         cartsTable.setCart_status("Closed");
                         realm.copyToRealmOrUpdate(cartsTable);
                         realm.commitTransaction();
-                        Intent intent = new Intent(CompletePaymentActivity.this,MyOrdersActivity.class);
+                        Intent intent = new Intent(CompletePaymentActivity.this,ThamkYouActivity.class);
+                        intent.putExtra("order",user.getOrder_id());
+                        intent.putExtra("uuid",user.getUuid());
+                        intent.putExtra("expected",user.getExpected_delivery());
                         startActivity(intent);
                         finish();
                         return;
+
                     }
                     else
                     {

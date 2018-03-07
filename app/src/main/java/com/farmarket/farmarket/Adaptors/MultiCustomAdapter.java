@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -214,8 +216,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void configureOrder(final Order v, final com.farmarket.farmarket.DataType.Order order, final int position)
     {
-        //Toast.makeText(mContext,order.getUnique_code(),Toast.LENGTH_LONG).show();
-        System.out.println("Order displaying one "+order.getOrder_id());
+       // Toast.makeText(mContext,order.getUnique_code(),Toast.LENGTH_LONG).show();
+       // System.out.println("Order displaying one "+order.getOrder_id());
         v.getViewDetails().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,7 +242,9 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 else
                 {
                     Intent intent = new Intent(mActivity,ReviewActivity.class);
-                    intent.putExtra("order", order);
+                    intent.putExtra("order",order.getOrder_id());
+                    intent.putExtra("uuid",order.getUuid());
+                    intent.putExtra("expected",order.getExpected_delivery());
                     mActivity.startActivity(intent);
                     mActivity.finish();
                     return;
@@ -361,6 +365,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private void configureTransaction(final com.farmarket.farmarket.DataView.Transaction  v, final com.farmarket.farmarket.DataType.Transaction transaction, final int position)
     {
         final Intent intent  = new Intent(mContext,MyAddressActivity.class);
+
+
 
     }
 
@@ -496,6 +502,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     realm.beginTransaction();
                     cartDetailsTable.setWeight(0);
                     realm.copyToRealmOrUpdate(cartDetailsTable);
+                    cartDetailsTable.deleteFromRealm();
                     realm.commitTransaction();
 
                 }
@@ -778,8 +785,98 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemViewType(int position) {
         if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.ProductCart) {
+
+            Realm realm = Realm.getDefaultInstance();
+            CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
+
+            if (cartsTable != null && realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).findAll().size()>0)
+            {
+               MainActivity. menuItem.setIcon(R.drawable.full_cart);
+
+
+                MenuItemCompat.setActionView(MainActivity.menuItem, R.layout.cart_layout);
+                RelativeLayout notifCount = (RelativeLayout)   MenuItemCompat.getActionView(MainActivity.menuItem);
+
+                TextView tv = (TextView) notifCount.findViewById(R.id.actionbar_notifcation_textview);
+                tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
+
+                notifCount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(mActivity,CartActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        mContext.startActivity(intent);
+
+                    }
+                });
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mActivity,CartActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        mContext.startActivity(intent);
+                    }
+                });
+            }
+            else
+            {
+                MainActivity.menuItem.setIcon(R.drawable.empty_cart);
+                //menu.findItem(R.id.action_cart).setTooltipText("Sorry your cart is empty");
+                //menu.findItem(R.id.action_cart).setTitle("0");
+            }
             return ProductCart;
         } else if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.ProductEmpty) {
+            ((Activity)this.mContext).invalidateOptionsMenu();
+
+            Realm realm = Realm.getDefaultInstance();
+            CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
+
+            if (cartsTable != null && realm.where(CartDetailsTable.class).equalTo("cart_id",cartsTable.getId()).findAll().size()>0)
+            {
+                MainActivity. menuItem.setIcon(R.drawable.full_cart);
+
+
+                MenuItemCompat.setActionView(MainActivity.menuItem, R.layout.cart_layout);
+                RelativeLayout notifCount = (RelativeLayout)   MenuItemCompat.getActionView(MainActivity.menuItem);
+
+                TextView tv = (TextView) notifCount.findViewById(R.id.actionbar_notifcation_textview);
+                tv.setText(realm.where(CartDetailsTable.class).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findAll().size()+"");
+
+                notifCount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(mActivity,CartActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        mContext.startActivity(intent);
+
+                    }
+                });
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mActivity,CartActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        mContext.startActivity(intent);
+                    }
+                });
+            }
+            else
+            {
+                MainActivity.menuItem.setIcon(R.drawable.empty_cart);
+                //menu.findItem(R.id.action_cart).setTooltipText("Sorry your cart is empty");
+                //menu.findItem(R.id.action_cart).setTitle("0");
+            }
+
             return ProductEmpty;
         }if (albumList.get(position) instanceof com.farmarket.farmarket.DataType.CartDetail) {
             return CartDetail;

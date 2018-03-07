@@ -101,6 +101,18 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
                     try
                     {
                         System.out.print(user.getFirstname());
+                        if(user.getFirstname().equalsIgnoreCase(null) )
+                        {
+                            Intent intent1 = new Intent(CompleteSignUpFormActivity.this,SignUpActivity.class);
+                            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(intent1);
+                            finish();
+                            Toast.makeText(getApplicationContext(),"Sorry registration failed, kindly try again",Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
                         Realm realm = Realm.getDefaultInstance();
                         UserTable userTable = new UserTable();
 
@@ -126,7 +138,6 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
                         realm.copyToRealmOrUpdate(userTable);
                         realm.commitTransaction();
 
-                        Toast.makeText(CompleteSignUpFormActivity.this,user.getPhone(),Toast.LENGTH_LONG).show();
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

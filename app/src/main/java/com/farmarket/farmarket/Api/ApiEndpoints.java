@@ -68,7 +68,13 @@ public interface ApiEndpoints {
 
     @FormUrlEncoded
     @POST("complete-order")
-    Call<UserModel> completeOrder(@Field("order") JSONObject order, @Field("order_details") JSONArray orderDetail);
+    Call<OrderModel> completeOrder(@Field("order") JSONObject order, @Field("order_details") JSONArray orderDetail);
+
+
+
+    @FormUrlEncoded
+    @POST("review-order")
+    Call<UserModel> reviewOrder(@Field("order_id") String orderId, @Field("extra") String extra, @Field("delivery") Float delivery, @Field("packaging") Float packaging, @Field("experience") Float experience);
 
 
 }
