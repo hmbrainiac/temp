@@ -2,6 +2,7 @@ package com.farmarket.farmarket;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -204,8 +205,16 @@ public class MyOrdersActivity extends AppCompatActivity {
                     albumList1.addAll(albumList);
                     adapter.notifyDataSetChanged();
                     onItemsLoadComplete();
-                    mShimmerViewContainer.stopShimmerAnimation();
-                    mShimmerViewContainer.setVisibility(View.GONE);
+                    if(albumList.size() >0)
+                    {
+                        mShimmerViewContainer.stopShimmerAnimation();
+                        mShimmerViewContainer.setVisibility(View.GONE);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"Sorry you dont have any orders",Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar.make(getCurrentFocus(),"Ooops you dont have any orders",Snackbar.LENGTH_INDEFINITE);
+                        snackbar.show();
+                    }
 
                 }
                 else

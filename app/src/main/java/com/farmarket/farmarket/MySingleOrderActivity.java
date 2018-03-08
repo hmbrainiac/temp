@@ -53,9 +53,9 @@ public class MySingleOrderActivity extends AppCompatActivity {
 
         name.setText(productCart.getName());
         description.setText(productCart.getDescription());
-        singlePrice.setText("GhC "+productCart.getPrice_per_kg()+"/ Kg X");
-        currentWeight.setText(weight+"");
-        totalPrice.setText("= Cost : GhC "+cost+"");
+        singlePrice.setText("GhC "+productCart.getPrice_per_kg()+"/Kg");
+        currentWeight.setText("X "+weight+" =");
+        totalPrice.setText("GhC "+cost+"");
 
         Glide.with(MySingleOrderActivity.this).load(ApiLocation.getImageLocation()+productCart.getFile_name())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -73,8 +73,8 @@ public class MySingleOrderActivity extends AppCompatActivity {
                 cost = (GeneralCalculations.getCost(Double.parseDouble(productCart.getPrice_per_kg()),weight));
                 Realm realm = Realm.getDefaultInstance();
                 currentCartDetail = realm.where(CartDetailsTable.class).equalTo("produce_id",productCart.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
-                currentWeight.setText(weight+"");
-                totalPrice.setText("= GhC "+cost+"");
+                currentWeight.setText("X "+weight+" =");
+                totalPrice.setText("GhC "+cost+"");
 
                 CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",productCart.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
                 realm.beginTransaction();
@@ -106,8 +106,8 @@ public class MySingleOrderActivity extends AppCompatActivity {
                     realm.commitTransaction();
 
                 }
-                currentWeight.setText(weight+"");
-                totalPrice.setText("= Cost : GhC "+cost+"");
+                currentWeight.setText("X "+weight+" =");
+                totalPrice.setText("GhC "+cost+"");
 
 
                 CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",productCart.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();

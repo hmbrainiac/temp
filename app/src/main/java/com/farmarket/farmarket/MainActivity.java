@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -43,6 +44,7 @@ import com.farmarket.farmarket.RealmTables.CartsTable;
 import com.farmarket.farmarket.RealmTables.OrderDetailTable;
 import com.farmarket.farmarket.RealmTables.UserTable;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -336,12 +338,39 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         }
+        else if (id == R.id.share) {
+                Intent intent = new AppInviteInvitation.IntentBuilder("Checkout FudFarma")
+                        .setMessage("Hello checkout this awesome app")
+                        .setDeepLink(Uri.parse("https://play.google.com/apps/testing/com.farmarket.farmarket"))
+                        .setCustomImage(Uri.parse("https://lh3.googleusercontent.com/-E9hmbXjjtn7YVf6cF3-wX23Ru5w0LlwyRDpy1AzUWzhbVWW-6YiXXVH1xZVnMhehRg"))
+                        .setCallToActionText("FudFarma")
+                        .build();
+                startActivityForResult(intent, REQUEST_INVITE);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    final int REQUEST_INVITE = 202;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+       // Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
 
+        if (requestCode == REQUEST_INVITE) {
+            if (resultCode == RESULT_OK) {
+                // Get the invitation IDs of all sent messages
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                for (String id : ids) {
+                    //Log.d(TAG, "onActivityResult: sent invitation " + id);
+                }
+            } else {
+                // Sending failed or it was canceled, show failure message to the user
+                // ...
+            }
+        }
+    }
     /**
      * RecyclerView item decoration - give equal margin around grid item
      */

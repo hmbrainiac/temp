@@ -29,7 +29,7 @@
                 android:layout_marginTop="10dp"
                 android:text="GhC100"
                 android:layout_marginRight="10dp"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +41,7 @@
                 android:background="@drawable/top_left"
                 android:text="30% Off"
                 android:layout_marginRight="10dp"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -56,8 +56,8 @@
 
                 <ImageView
                     android:id="@+id/imageSrc"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:text="Tomatoe Goes here"
                         android:textAlignment="textStart"
-                        android:textSize="16sp"
+                        android:textSize="12sp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"
@@ -86,10 +86,10 @@
                         android:layout_height="wrap_content"
                         android:text="Per Kg"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:textSize="16sp"
+                        android:textSize="12sp"
                         app:layout_constraintTop_toBottomOf="@id/nameProduct" />
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         android:layout_marginTop="10dp"
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content">
 
                         <android.support.constraint.ConstraintLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <TextView
                                 android:layout_width="wrap_content"
@@ -118,17 +118,17 @@
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="5dp"
                                 android:id="@+id/removeFromCart"
-                                android:layout_marginLeft="25dp"
+                                android:layout_marginLeft="10dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 android:src="@drawable/minus"
                                 android:layout_height="30dp" />
                             <ImageView
                                 android:layout_width="30dp"
                                 app:layout_constraintRight_toRightOf="parent"
-                                android:layout_marginTop="15dp"
+                                android:layout_marginTop="10dp"
                                 android:id="@+id/addToCart"
-                                android:layout_marginRight="25dp"
-                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginLeft="10dp"
                                 android:layout_marginBottom="5dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 android:src="@drawable/plus"

@@ -33,6 +33,11 @@
                 android:icon="@drawable/contact"
                 android:title="Contact Us" />
             <item
+                android:id="@+id/share"
+                android:icon="@drawable/share_3"
+                android:title="Share" />
+
+            <item
                 android:id="@+id/about_us"
                 android:icon="@drawable/about"
                 android:title="About Us" />

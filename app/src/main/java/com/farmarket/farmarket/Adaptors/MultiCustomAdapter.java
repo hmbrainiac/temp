@@ -770,9 +770,9 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         {
             v.getDiscount().setVisibility(View.GONE);
         }
-        v.getMeasurement().setText("Per Kg.");
+        v.getMeasurement().setText("GhC "+GeneralCalculations.getCost(product.getInCart(),Double.parseDouble(product.getPrice_per_kg())));
         v.getNameProduct().setText(product.getName());
-        v.getPrice().setText("GhC "+product.getPrice_per_kg());
+        v.getPrice().setText("GhC "+product.getPrice_per_kg()+ "/Kg");
         v.getQuantityInCart().setText(product.getInCart()+"");
     }
 
