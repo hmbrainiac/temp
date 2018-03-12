@@ -655,7 +655,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 com.farmarket.farmarket.DataType.ProductCart cart = (com.farmarket.farmarket.DataType.ProductCart) MainActivity.albumList.get(position);
                 cart.setInCart(currentQuantity);
                 //display change and get new price
-                v.getQuantityInCart().setText(currentQuantity+"");
+                v.getQuantityInCart().setText(currentQuantity+" Kg");
                 //effect change in cart details
 
                 CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
@@ -690,7 +690,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     com.farmarket.farmarket.DataType.ProductCart cart = (com.farmarket.farmarket.DataType.ProductCart) MainActivity.albumList.get(position);
                     cart.setInCart(currentQuantity);
                     //display change and get new price
-                    v.getQuantityInCart().setText(currentQuantity+"");
+                    v.getQuantityInCart().setText(currentQuantity+" Kg");
                     //effect change in cart details
                 }
                 else {
@@ -773,7 +773,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         v.getMeasurement().setText("GhC "+GeneralCalculations.getCost(product.getInCart(),Double.parseDouble(product.getPrice_per_kg())));
         v.getNameProduct().setText(product.getName());
         v.getPrice().setText("GhC "+product.getPrice_per_kg()+ "/Kg");
-        v.getQuantityInCart().setText(product.getInCart()+"");
+        v.getQuantityInCart().setText(product.getInCart()+" Kg");
     }
 
 
