@@ -27,7 +27,15 @@
         <activity android:name=".CompleteSignUpFormActivity" />
         <activity android:name=".ItemsListSingleActivity" />
         <activity android:name=".ItemsListDoubleActivity" />
-        <activity android:name=".SingleItemActivity" />
+        <activity
+            android:name=".SingleItemActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.farmarket.farmarket.MainActivity" />
+        </activity>
+
         <activity android:name=".CartActivity" />
         <activity android:name=".CheckOutInfoActivity" />
         <activity android:name=".ChoosePaymentMethodActivity" />
@@ -41,7 +49,15 @@
         <activity android:name=".MyAddressActivity" />
         <activity android:name=".MySettingsActivity" />
         <activity android:name=".MyOrdersActivity" />
-        <activity android:name=".MySingleOrderActivity" />
+        <activity
+            android:name=".MySingleOrderActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.farmarket.farmarket.MainActivity" />
+        </activity>
+
         <activity android:name=".ContactUsActivity" />
         <activity android:name=".AboutUsActivity" />
         <activity android:name=".FAQActivity" />
