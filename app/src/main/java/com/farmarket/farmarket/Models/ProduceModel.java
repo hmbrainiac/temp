@@ -7,6 +7,50 @@ package com.farmarket.farmarket.Models;
 public class ProduceModel {
     int produce_id;
     String uuid,unique_code,name,produce_type,created_at,updated_at,file_name,description,price_per_kg,file_blob;
+    double incremental;
+    String measurement;
+    int category_id;
+
+    public ProduceModel(int produce_id, String uuid, String unique_code, String name, String produce_type, String created_at, String updated_at, String file_name, String description, String price_per_kg, String file_blob, double incremental, String measurement, int category_id) {
+        this.produce_id = produce_id;
+        this.uuid = uuid;
+        this.unique_code = unique_code;
+        this.name = name;
+        this.produce_type = produce_type;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.file_name = file_name;
+        this.description = description;
+        this.price_per_kg = price_per_kg;
+        this.file_blob = file_blob;
+        this.incremental = incremental;
+        this.measurement = measurement;
+        this.category_id = category_id;
+    }
+
+    public double getIncremental() {
+        return incremental;
+    }
+
+    public void setIncremental(double incremental) {
+        this.incremental = incremental;
+    }
+
+    public String getMeasurement() {
+        return measurement;
+    }
+
+    public void setMeasurement(String measurement) {
+        this.measurement = measurement;
+    }
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
 
     public ProduceModel(int produce_id, String uuid, String unique_code, String name, String produce_type, String created_at, String updated_at, String file_name, String description, String price_per_kg, String file_blob) {
         this.produce_id = produce_id;

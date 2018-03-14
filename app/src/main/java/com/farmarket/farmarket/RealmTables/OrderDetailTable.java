@@ -11,9 +11,50 @@ public class OrderDetailTable  extends RealmObject{
     @PrimaryKey
     int id;
 
-    int detail_id,order_id,produce_id;
-    double weight,price_per_kg,cost_per_kg;
-    String remarks,unique_code,created_at,updated_at;
+    int detail_id,order_id,produce_id,category_id;
+    double weight,price_per_kg,cost_per_kg,incremental;
+    String remarks,unique_code,created_at,updated_at,measurement;
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
+
+    public double getIncremental() {
+        return incremental;
+    }
+
+    public void setIncremental(double incremental) {
+        this.incremental = incremental;
+    }
+
+    public String getMeasurement() {
+        return measurement;
+    }
+
+    public void setMeasurement(String measurement) {
+        this.measurement = measurement;
+    }
+
+    public OrderDetailTable(int id, int detail_id, int order_id, int produce_id, int category_id, double weight, double price_per_kg, double cost_per_kg, double incremental, String remarks, String unique_code, String created_at, String updated_at, String measurement) {
+        this.id = id;
+        this.detail_id = detail_id;
+        this.order_id = order_id;
+        this.produce_id = produce_id;
+        this.category_id = category_id;
+        this.weight = weight;
+        this.price_per_kg = price_per_kg;
+        this.cost_per_kg = cost_per_kg;
+        this.incremental = incremental;
+        this.remarks = remarks;
+        this.unique_code = unique_code;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.measurement = measurement;
+    }
 
     public OrderDetailTable(int id, int detail_id, int order_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at) {
         this.id = id;

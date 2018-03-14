@@ -11,14 +11,18 @@ package com.farmarket.farmarket.Misc;
 
 public class MyApplication extends Application {
     private static MyApplication mInstance;
-    public RealmConfiguration realmConfiguration;
+    public RealmConfiguration config;
     @Override
     public void onCreate() {
 
         super.onCreate();
         Realm.init(getApplicationContext());
 
-       // Realm.setDefaultConfiguration(realmConfiguration);
+        config = new RealmConfiguration.Builder()
+                .schemaVersion(1) // Must be bumped when the schema changes
+                .migration(new MyMigration()) // Migration to run
+                .build();
+        Realm.setDefaultConfiguration(config);
 
     }
 

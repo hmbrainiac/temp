@@ -1,10 +1,12 @@
 package com.farmarket.farmarket.DataType;
 
+import java.io.Serializable;
+
 /**
  * Created by isaac on 2/22/18.
  */
 
-public class CartTotal {
+public class CartTotal implements Serializable {
     double total, subTotal;
 
     public CartTotal() {

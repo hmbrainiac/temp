@@ -1,5 +1,6 @@
 package com.farmarket.farmarket.Api;
 
+import com.farmarket.farmarket.Models.CategoryModel;
 import com.farmarket.farmarket.Models.OrderDetailModel;
 import com.farmarket.farmarket.Models.OrderModel;
 import com.farmarket.farmarket.Models.ProduceModel;
@@ -61,9 +62,16 @@ public interface ApiEndpoints {
     Call<List<ProduceModel>> listProducts();
 
 
+    @GET("categories")
+    Call<List<CategoryModel>> listCategories();
+
+
     @GET("orders/{id}")
     Call<List<OrderModel>> listMyOrders(@Path(value = "id", encoded = true) int id);
 
+
+    @GET("products/{id}")
+    Call<List<ProduceModel>> listCategoryProducts(@Path(value = "id", encoded = true) int id);
 
 
     @FormUrlEncoded

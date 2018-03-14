@@ -23,6 +23,9 @@ public class ProductEmpty implements Serializable {
     * */
     int produce_id;
     String uuid,unique_code,name,produce_type,created_at,updated_at,file_name,description,price_per_kg,file_blob;
+    double incremental;
+    String measurement;
+    int category_id;
 
     public ProductEmpty(int produce_id, String uuid, String unique_code, String name, String produce_type, String created_at, String updated_at, String file_name, String description, String price_per_kg, String file_blob) {
         this.produce_id = produce_id;

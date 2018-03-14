@@ -15,6 +15,55 @@ public class CartDetailsTable extends RealmObject{
     double weight,price_per_kg,cost_per_kg;
     String remarks,unique_code,created_at,updated_at,file_name,product_name,produce_type;
 
+    double incremental;
+    String measurement;
+    int category_id;
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
+
+    public CartDetailsTable(int id, int cart_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at, String file_name, String product_name, String produce_type, double incremental, String measurement, int category_id) {
+        this.id = id;
+        this.cart_id = cart_id;
+        this.produce_id = produce_id;
+        this.weight = weight;
+        this.price_per_kg = price_per_kg;
+        this.cost_per_kg = cost_per_kg;
+        this.remarks = remarks;
+        this.unique_code = unique_code;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.file_name = file_name;
+        this.product_name = product_name;
+        this.produce_type = produce_type;
+        this.incremental = incremental;
+        this.measurement = measurement;
+        this.category_id = category_id;
+    }
+
+    public CartDetailsTable(int id, int cart_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, double incremental, String remarks, String unique_code, String created_at, String updated_at, String file_name, String product_name, String produce_type, String measurement) {
+        this.id = id;
+        this.cart_id = cart_id;
+        this.produce_id = produce_id;
+        this.weight = weight;
+        this.price_per_kg = price_per_kg;
+        this.cost_per_kg = cost_per_kg;
+        this.incremental = incremental;
+        this.remarks = remarks;
+        this.unique_code = unique_code;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.file_name = file_name;
+        this.product_name = product_name;
+        this.produce_type = produce_type;
+        this.measurement = measurement;
+    }
+
     public CartDetailsTable(int id, int cart_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at, String file_name, String product_name, String produce_type) {
         this.id = id;
         this.cart_id = cart_id;
@@ -136,5 +185,22 @@ public class CartDetailsTable extends RealmObject{
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+
+    public double getIncremental() {
+        return incremental;
+    }
+
+    public void setIncremental(double incremental) {
+        this.incremental = incremental;
+    }
+
+    public String getMeasurement() {
+        return measurement;
+    }
+
+    public void setMeasurement(String measurement) {
+        this.measurement = measurement;
     }
 }
