@@ -12,9 +12,12 @@ import android.widget.Toast;
 
 import com.farmarket.farmarket.Api.ApiEndpoints;
 import com.farmarket.farmarket.Api.ApiLocation;
+import com.farmarket.farmarket.DataType.Category;
 import com.farmarket.farmarket.Models.UserModel;
 import com.farmarket.farmarket.RealmTables.UserTable;
 import com.google.firebase.auth.PhoneAuthProvider;
+
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import retrofit.Call;
@@ -29,13 +32,23 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
     TextView signIn;
     EditText userName,password,confirmPassword;
     ProgressDialog progressDialog;
+    static ArrayList<Category> categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_sign_up_form);
+        Intent intent = getIntent();
+        try
+        {
+            categories = (ArrayList<Category>) intent.getExtras().get("categories");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
-        final Intent intent = getIntent();
+        intent = getIntent();
         phone = (String)intent.getExtras().get("phone");
         email = (String)intent.getExtras().get("email");
         firstname = (String)intent.getExtras().get("firstname");
@@ -68,6 +81,8 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(CompleteSignUpFormActivity.this,SignInActivity.class);
+                intent1.putExtra("categories",categories);
+
                 startActivity(intent1);
                 finish();
                 return;
@@ -83,6 +98,7 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
 
             final ProgressDialog pd  = ProgressDialog.show(CompleteSignUpFormActivity.this,"Completing registration request ..."," Please Wait  ...", true);
             final Intent intent = new Intent(CompleteSignUpFormActivity.this, MainActivity.class);
+            intent.putExtra("categories",categories);
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(ApiLocation.getApiLocation1())
@@ -104,6 +120,8 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
                         if(user.getFirstname().equalsIgnoreCase(null) )
                         {
                             Intent intent1 = new Intent(CompleteSignUpFormActivity.this,SignUpActivity.class);
+                            intent1.putExtra("categories",categories);
+
                             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -137,6 +155,7 @@ public class CompleteSignUpFormActivity extends AppCompatActivity {
                         realm.beginTransaction();
                         realm.copyToRealmOrUpdate(userTable);
                         realm.commitTransaction();
+                        intent.putExtra("categories",categories);
 
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

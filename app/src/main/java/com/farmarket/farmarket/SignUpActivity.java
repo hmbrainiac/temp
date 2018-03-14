@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.farmarket.farmarket.DataType.Category;
 import com.farmarket.farmarket.Fonts.TitalliumWebText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +41,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -55,6 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     private FirebaseAnalytics mFirebaseAnalytics;
     PermissionManager permission;
+    static ArrayList<Category> categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,16 @@ public class SignUpActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_sign_up);
                 mAuth = FirebaseAuth.getInstance();
+        Intent intent = getIntent();
+        try
+        {
+            categories = (ArrayList<Category>) intent.getExtras().get("categories");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         //mAuth = FirebaseAuth.getInstance();
         countryCodePicker = (CountryCodePicker)findViewById(R.id.ccp);
@@ -81,6 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                intent.putExtra("categories",categories);
                 startActivity(intent);
                 finish();
                 return;
@@ -172,6 +186,7 @@ public class SignUpActivity extends AppCompatActivity {
                 final String finalPhone = internationalFormat;
 
                 Intent intent = new Intent(SignUpActivity.this,ConfirmCodeActivity.class);
+                intent.putExtra("categories",categories);
                 intent.putExtra("type","SignUp");
                 intent.putExtra("verificationId",verificationId);
                 intent.putExtra("token",token);
@@ -248,12 +263,11 @@ public class SignUpActivity extends AppCompatActivity {
                             // [START_EXCLUDE]
                             //updateUI(STATE_SIGNIN_SUCCESS, user);
                             Intent intent = new Intent(SignUpActivity.this,CompleteSignUpFormActivity.class);
+                            intent.putExtra("categories",categories);
                             intent.putExtra("phone",fullPhone);
                             intent.putExtra("email",email.getText().toString().trim());
                             intent.putExtra("firstname",firstName.getText().toString().trim());
                             intent.putExtra("lastname",lastName.getText().toString().trim());
-                            startActivity(intent);
-                            finish();
 
                             startActivity(intent);
                             finish();

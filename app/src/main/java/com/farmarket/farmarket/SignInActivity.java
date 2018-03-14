@@ -12,12 +12,15 @@ import android.widget.Toast;
 
 import com.farmarket.farmarket.Api.ApiEndpoints;
 import com.farmarket.farmarket.Api.ApiLocation;
+import com.farmarket.farmarket.DataType.Category;
 import com.farmarket.farmarket.Fonts.TitalliumWebText;
 import com.farmarket.farmarket.Models.UserModel;
 import com.farmarket.farmarket.RealmTables.UserTable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.karan.churi.PermissionManager.PermissionManager;
+
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import retrofit.Call;
@@ -33,12 +36,22 @@ public class SignInActivity extends AppCompatActivity {
     Button signInbtn;
     PermissionManager permission;
     FirebaseAuth mAuth;
+    static ArrayList<Category> categories;
 
     private FirebaseAnalytics mFirebaseAnalytics;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        Intent intent = getIntent();
+        try
+        {
+            categories = (ArrayList<Category>) intent.getExtras().get("categories");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
@@ -52,6 +65,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SignInActivity.this,SignUpActivity.class);
+                intent.putExtra("categories",categories);
 
                 startActivity(intent);
                 finish();
@@ -64,6 +78,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SignInActivity.this,ForgotPasswordActivity.class);
+                intent.putExtra("categories",categories);
 
                 startActivity(intent);
                 finish();
@@ -138,6 +153,7 @@ public class SignInActivity extends AppCompatActivity {
                         realm.copyToRealmOrUpdate(userTable);
                         realm.commitTransaction();
                         //Toast.makeText(SignInActivity.this,user.getPhone(),Toast.LENGTH_LONG).show();
+                        intent.putExtra("categories",categories);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

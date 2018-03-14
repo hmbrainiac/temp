@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.farmarket.farmarket.DataType.Category;
 import com.farmarket.farmarket.Fonts.TitalliumWebText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +30,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
@@ -41,12 +43,22 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     static String fullPhone;
     ProgressDialog progressDialog;
+    static ArrayList<Category> categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         mAuth = FirebaseAuth.getInstance();
+        Intent intent = getIntent();
+        try
+        {
+            categories = (ArrayList<Category>) intent.getExtras().get("categories");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         countryCodePicker = (CountryCodePicker)findViewById(R.id.ccp);
         phoneNumber = (EditText)findViewById(R.id.phoneNumberET);
@@ -62,6 +74,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ForgotPasswordActivity.this, SignInActivity.class);
+                intent.putExtra("categories",categories);
                 startActivity(intent);
                 finish();
                 return;
@@ -127,6 +140,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 final String finalPhone = internationalFormat;
 
                 Intent intent = new Intent(ForgotPasswordActivity.this,ConfirmCodeActivity.class);
+                intent.putExtra("categories",categories);
+
                 intent.putExtra("type","Forgot");
                 intent.putExtra("verificationId",verificationId);
                 intent.putExtra("token",token);
@@ -189,10 +204,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             // [START_EXCLUDE]
                             //updateUI(STATE_SIGNIN_SUCCESS, user);
                             Intent intent = new Intent(ForgotPasswordActivity.this,SetPasswordActivity.class);
+                            intent.putExtra("categories",categories);
                             intent.putExtra("phone",fullPhone);
-                            startActivity(intent);
-                            finish();
-
                             startActivity(intent);
                             finish();
                             return;

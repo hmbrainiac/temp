@@ -18,4 +18,8 @@
     <color name="red">#cc0000</color>
     <color name="lighet2">#dff7ef</color>
     <color name="light3">#81dec1</color>
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
 </resources>

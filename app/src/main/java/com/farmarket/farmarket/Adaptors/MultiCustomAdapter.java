@@ -40,6 +40,13 @@ import com.farmarket.farmarket.DataView.OrderDetail;
 import com.farmarket.farmarket.DataView.ProductCart;
 import com.farmarket.farmarket.DataView.ProductEmpty;
 import com.farmarket.farmarket.DataView.Transaction;
+import com.farmarket.farmarket.Fragments.AllProductsFragment;
+import com.farmarket.farmarket.Fragments.BakeryFragment;
+import com.farmarket.farmarket.Fragments.BeveragesFragment;
+import com.farmarket.farmarket.Fragments.DiaryEggFragment;
+import com.farmarket.farmarket.Fragments.FishMeatFragment;
+import com.farmarket.farmarket.Fragments.FruitsVeggiesFragment;
+import com.farmarket.farmarket.Fragments.ProductsFragment;
 import com.farmarket.farmarket.MainActivity;
 import com.farmarket.farmarket.Misc.GeneralCalculations;
 import com.farmarket.farmarket.Models.GeneralModel;
@@ -78,6 +85,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         VideoView thumbnail;
         Activity mActivity;
         private static DecimalFormat df2 = new DecimalFormat(".##");
+        private int myPosition;
+
         //http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4
 
 
@@ -85,17 +94,59 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             this.mContext = mContext;
             this.albumList = albumList;
             albumList1 = new ArrayList<Object>();
-            this.albumList1.addAll(MainActivity.albumList1);
+            this.albumList1.addAll(ProductsFragment.albumList1);
         }
 
-    public MultiCustomAdapter(Context mContext, Activity mActivity ,List<Object> albumList) {
+    public MultiCustomAdapter(Context mContext, Activity mActivity ,List<Object> albumList, int position) {
             this.mContext = mContext;
             this.albumList = albumList;
             this.mActivity = mActivity;
+            this.myPosition = position;
             albumList1 = new ArrayList<Object>();
-            this.albumList1.addAll(MainActivity.albumList1);
+            if(position == 0)
+            {
+                this.albumList1.addAll(AllProductsFragment.albumList1);
+            }
+            else if(position == 1)
+            {
+                this.albumList1.addAll(FruitsVeggiesFragment.albumList1);
+
+            }
+            else if(position == 2)
+            {
+                this.albumList1.addAll(BakeryFragment.albumList1);
+
+            }
+            else if(position == 3)
+            {
+                this.albumList1.addAll(DiaryEggFragment.albumList1);
+            }
+            else if(position == 4)
+            {
+                this.albumList1.addAll(FishMeatFragment.albumList1);
+
+            }
+            else if (position == 5)
+            {
+                this.albumList1.addAll(BeveragesFragment.albumList1);
+            }
         }
 
+    public MultiCustomAdapter(Context mContext, Activity mActivity ,List<Object> albumList,List<Object> albumList1) {
+        this.mContext = mContext;
+        this.albumList = albumList;
+        this.mActivity = mActivity;
+        albumList1 = new ArrayList<Object>();
+        this.albumList1.addAll(albumList1);
+    }
+
+
+    public MultiCustomAdapter(Context mContext, Activity mActivity ,List<Object> albumList) {
+        this.mContext = mContext;
+        this.albumList = albumList;
+        this.mActivity = mActivity;
+        albumList1 = new ArrayList<Object>();
+    }
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater itemView = LayoutInflater.from(parent.getContext());
@@ -652,7 +703,36 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 //get new price
 
                 //effect change in object
-                com.farmarket.farmarket.DataType.ProductCart cart = (com.farmarket.farmarket.DataType.ProductCart) MainActivity.albumList.get(position);
+
+
+                com.farmarket.farmarket.DataType.ProductCart cart;
+                switch (myPosition)
+                {
+                    case 0:
+                        cart = (com.farmarket.farmarket.DataType.ProductCart) AllProductsFragment.albumList.get(position);
+                        break;
+                    case 1:
+                        cart = (com.farmarket.farmarket.DataType.ProductCart) FruitsVeggiesFragment.albumList.get(position);
+                    break;
+
+                    case 2:
+                        cart = (com.farmarket.farmarket.DataType.ProductCart) BakeryFragment.albumList.get(position);
+
+                        break;
+                    case 3:
+                        cart = (com.farmarket.farmarket.DataType.ProductCart) DiaryEggFragment.albumList.get(position);
+                        break;
+                    case 4:
+                        cart = (com.farmarket.farmarket.DataType.ProductCart) FishMeatFragment.albumList.get(position);
+
+                        break;
+                    case 5:
+                        cart = (com.farmarket.farmarket.DataType.ProductCart) BeveragesFragment.albumList.get(position);
+                        break;
+                    default:
+                        cart = (com.farmarket.farmarket.DataType.ProductCart) AllProductsFragment.albumList.get(position);
+                        break;
+                }
                 cart.setInCart(currentQuantity);
                 //display change and get new price
                 v.getQuantityInCart().setText(currentQuantity+" Kg");
@@ -687,7 +767,36 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 //get new price
                 if(currentQuantity > 0.00)
                 {
-                    com.farmarket.farmarket.DataType.ProductCart cart = (com.farmarket.farmarket.DataType.ProductCart) MainActivity.albumList.get(position);
+
+                    com.farmarket.farmarket.DataType.ProductCart cart;
+                    switch (myPosition)
+                    {
+                        case 0:
+                            cart = (com.farmarket.farmarket.DataType.ProductCart) AllProductsFragment.albumList.get(position);
+                            break;
+                        case 1:
+                            cart = (com.farmarket.farmarket.DataType.ProductCart) FruitsVeggiesFragment.albumList.get(position);
+                            break;
+
+                        case 2:
+                            cart = (com.farmarket.farmarket.DataType.ProductCart) BakeryFragment.albumList.get(position);
+
+                            break;
+                        case 3:
+                            cart = (com.farmarket.farmarket.DataType.ProductCart) DiaryEggFragment.albumList.get(position);
+                            break;
+                        case 4:
+                            cart = (com.farmarket.farmarket.DataType.ProductCart) FishMeatFragment.albumList.get(position);
+
+                            break;
+                        case 5:
+                            cart = (com.farmarket.farmarket.DataType.ProductCart) BeveragesFragment.albumList.get(position);
+                            break;
+                        default:
+                            cart = (com.farmarket.farmarket.DataType.ProductCart) AllProductsFragment.albumList.get(position);
+                            break;
+                    }
+
                     cart.setInCart(currentQuantity);
                     //display change and get new price
                     v.getQuantityInCart().setText(currentQuantity+" Kg");
@@ -715,7 +824,35 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     realm.copyToRealmOrUpdate(cartDetailsTable);
                     realm.commitTransaction();
                     */
-                    MainActivity.albumList.set(position,productEmpty);
+
+                    switch (myPosition)
+                    {
+                        case 0:
+                             AllProductsFragment.albumList.set(position,productEmpty);
+                            break;
+                        case 1:
+                            FruitsVeggiesFragment.albumList.set(position,productEmpty);
+                            break;
+
+                        case 2:
+                             BakeryFragment.albumList.set(position,productEmpty);
+
+                            break;
+                        case 3:
+                            DiaryEggFragment.albumList.set(position,productEmpty);
+                            break;
+                        case 4:
+                             FishMeatFragment.albumList.set(position,productEmpty);
+
+                            break;
+                        case 5:
+                            BeveragesFragment.albumList.set(position,productEmpty);
+                            break;
+                        default:
+                            AllProductsFragment.albumList.set(position,productEmpty);
+                            break;
+                    }
+
                 }
                 Realm realm = Realm.getDefaultInstance();
                 CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
@@ -914,12 +1051,92 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     // Filter Class
     public void filter(String charText) {
         this.albumList1.clear();
-        this.albumList1.addAll(MainActivity.albumList1);
+        switch (myPosition)
+        {
+            case 0:
+                this.albumList1.addAll(AllProductsFragment.albumList1);
+                break;
+            case 1:
+                this.albumList1.addAll(FruitsVeggiesFragment.albumList1);
+                break;
+
+            case 2:
+                this.albumList1.addAll(BakeryFragment.albumList1);
+
+                break;
+            case 3:
+                this.albumList1.addAll(DiaryEggFragment.albumList1);
+                break;
+            case 4:
+                this.albumList1.addAll(FishMeatFragment.albumList1);
+                break;
+            case 5:
+                this.albumList1.addAll(BeveragesFragment.albumList1);
+                break;
+            default:
+                this.albumList1.addAll(AllProductsFragment.albumList1);
+                break;
+        }
+
         charText = charText.toLowerCase(Locale.getDefault());
-        MainActivity.albumList.clear();
+        switch (myPosition)
+        {
+            case 0:
+                AllProductsFragment.albumList.clear();
+                break;
+            case 1:
+                FruitsVeggiesFragment.albumList.clear();
+                break;
+
+            case 2:
+                BakeryFragment.albumList.clear();
+
+                break;
+            case 3:
+                DiaryEggFragment.albumList.clear();
+                break;
+            case 4:
+                FishMeatFragment.albumList.clear();
+
+                break;
+            case 5:
+                BeveragesFragment.albumList.clear();
+                break;
+            default:
+                AllProductsFragment.albumList.clear();
+                break;
+        }
+
         albumList.clear();
         if (charText.length() == 0) {
-            MainActivity.albumList.addAll(albumList1);
+            switch (myPosition)
+            {
+                case 0:
+                    AllProductsFragment.albumList.addAll(albumList1);
+                    break;
+                case 1:
+                    FruitsVeggiesFragment.albumList.addAll(albumList1);
+                    break;
+
+                case 2:
+                    BakeryFragment.albumList.addAll(albumList1);
+
+                    break;
+                case 3:
+                    DiaryEggFragment.albumList.addAll(albumList1);
+                    break;
+                case 4:
+                    FishMeatFragment.albumList.addAll(albumList1);
+
+                    break;
+                case 5:
+                    BeveragesFragment.albumList.addAll(albumList1);
+                    break;
+                default:
+                    AllProductsFragment.albumList.addAll(albumList1);
+                    break;
+            }
+
         } else {
             int count =0;
             for (Object wp : albumList1) {
@@ -929,7 +1146,35 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         if (((com.farmarket.farmarket.DataType.ProductCart) wp).getDescription().toLowerCase(Locale.getDefault()).contains(charText) || ((com.farmarket.farmarket.DataType.ProductCart) wp).getName().toLowerCase(Locale.getDefault()).contains(charText)) {
                             Boolean idExists = false;
                             if(idExists == false)
-                                MainActivity.albumList.add(wp);
+                            {
+                                switch (myPosition)
+                                {
+                                    case 0:
+                                        AllProductsFragment.albumList.add(wp);
+                                        break;
+                                    case 1:
+                                        FruitsVeggiesFragment.albumList.add(wp);
+                                        break;
+
+                                    case 2:
+                                        BakeryFragment.albumList.add(wp);
+
+                                        break;
+                                    case 3:
+                                        DiaryEggFragment.albumList.add(wp);
+                                        break;
+                                    case 4:
+                                        FishMeatFragment.albumList.add(wp);
+
+                                        break;
+                                    case 5:
+                                        BeveragesFragment.albumList.add(wp);
+                                        break;
+                                    default:
+                                        AllProductsFragment.albumList.add(wp);
+                                        break;
+                                }
+                            }
                         }
 
                         break;
@@ -939,7 +1184,33 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             Boolean idExists = false;
 
                             if(idExists == false)
-                                MainActivity.albumList.add(wp);
+                                switch (myPosition)
+                                {
+                                    case 0:
+                                        AllProductsFragment.albumList.add(wp);
+                                        break;
+                                    case 1:
+                                        FruitsVeggiesFragment.albumList.add(wp);
+                                        break;
+
+                                    case 2:
+                                        BakeryFragment.albumList.add(wp);
+
+                                        break;
+                                    case 3:
+                                        DiaryEggFragment.albumList.add(wp);
+                                        break;
+                                    case 4:
+                                        FishMeatFragment.albumList.add(wp);
+
+                                        break;
+                                    case 5:
+                                        BeveragesFragment.albumList.add(wp);
+                                        break;
+                                    default:
+                                        AllProductsFragment.albumList.add(wp);
+                                        break;
+                                }
                         }
 
                         break;
@@ -953,7 +1224,33 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         Boolean idExists = false;
 
                         if(idExists == false)
-                            MainActivity.albumList.add(wp);
+                            switch (myPosition)
+                            {
+                                case 0:
+                                    AllProductsFragment.albumList.add(wp);
+                                    break;
+                                case 1:
+                                    FruitsVeggiesFragment.albumList.add(wp);
+                                    break;
+
+                                case 2:
+                                    BakeryFragment.albumList.add(wp);
+
+                                    break;
+                                case 3:
+                                    DiaryEggFragment.albumList.add(wp);
+                                    break;
+                                case 4:
+                                    FishMeatFragment.albumList.add(wp);
+
+                                    break;
+                                case 5:
+                                    BeveragesFragment.albumList.add(wp);
+                                    break;
+                                default:
+                                    AllProductsFragment.albumList.add(wp);
+                                    break;
+                            }
                     }
 
                 }

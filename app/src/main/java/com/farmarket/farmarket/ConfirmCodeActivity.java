@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.farmarket.farmarket.DataType.Category;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -25,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
@@ -40,11 +42,22 @@ public class ConfirmCodeActivity extends AppCompatActivity {
     static PhoneAuthProvider.ForceResendingToken mToken;
     static String phoneNumber,verificationId,phone,email,firstname,lastname,type;
     ProgressDialog progressDialog;
+    static ArrayList<Category> categories;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_code);
         progressDialog = new ProgressDialog(ConfirmCodeActivity.this);
+        Intent intent = getIntent();
+        try
+        {
+            categories = (ArrayList<Category>) intent.getExtras().get("categories");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         mAuth = FirebaseAuth.getInstance();
         verificationCode1 = (EditText)findViewById(R.id.verificationCodeET1);
@@ -62,7 +75,9 @@ public class ConfirmCodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ConfirmCodeActivity.this,SignInActivity.class);
+                intent.putExtra("categories",categories);
                 startActivity(intent);
+                return;
             }
         });
 
@@ -191,17 +206,15 @@ public class ConfirmCodeActivity extends AppCompatActivity {
             }
             public void beforeTextChanged(CharSequence s, int start,
                                           int count, int after) {
-                // TODO Auto-generated method stub
 
             }
 
             public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
             }
 
         });
 
-        Intent intent = getIntent();
+        intent = getIntent();
         mToken = (PhoneAuthProvider.ForceResendingToken)intent.getExtras().get("token");
         phoneNumber = (String)intent.getExtras().get("phone");
         phone = (String)intent.getExtras().get("phone");
@@ -227,10 +240,13 @@ public class ConfirmCodeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent1 = new Intent(ConfirmCodeActivity.this,SignUpActivity.class);
+                intent1.putExtra("categories",categories);
+
                 if(type.equalsIgnoreCase("Forgot"))
                 {
                     intent1 = new Intent(ConfirmCodeActivity.this,ForgotPasswordActivity.class);
                 }
+                intent1.putExtra("categories",categories);
                 startActivity(intent1);
                 finish();
                 return;
@@ -351,6 +367,8 @@ public class ConfirmCodeActivity extends AppCompatActivity {
                             if(type.equalsIgnoreCase("SignUp"))
                             {
                                 Intent intent = new Intent(ConfirmCodeActivity.this,CompleteSignUpFormActivity.class);
+
+                                intent.putExtra("categories",categories);
                                 intent.putExtra("phone",phone);
                                 intent.putExtra("email",email);
                                 intent.putExtra("firstname",firstname);
@@ -363,6 +381,7 @@ public class ConfirmCodeActivity extends AppCompatActivity {
                             {
                                 Intent intent = new Intent(ConfirmCodeActivity.this,SetPasswordActivity.class);
                                 intent.putExtra("phone",phone);
+                                intent.putExtra("categories",categories);
                                 startActivity(intent);
                                 finish();
                                 return;
