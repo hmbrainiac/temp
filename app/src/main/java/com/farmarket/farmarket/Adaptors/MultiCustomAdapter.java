@@ -236,8 +236,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     Intent intent = new Intent(mActivity,PayForOrderActivity.class);
                     intent.putExtra("order", order);
                     mActivity.startActivity(intent);
-                    mActivity.finish();
-                    return;
+                    //mActivity.finish();
+                    //return;
                 }
                 else
                 {
@@ -246,8 +246,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     intent.putExtra("uuid",order.getUuid());
                     intent.putExtra("expected",order.getExpected_delivery());
                     mActivity.startActivity(intent);
-                    mActivity.finish();
-                    return;
+                    //mActivity.finish();
+                    //return;
                 }
             }
         });
@@ -378,14 +378,14 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
-                mActivity.finish();
+                //mActivity.finish();
             }
         });
         v.getAddToCartTV().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
-                mActivity.finish();
+                //mActivity.finish();
 
             }
         });
@@ -401,14 +401,14 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
-                mActivity.finish();
+                //mActivity.finish();
             }
         });
         v.getNameProduct().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
-                mActivity.finish();
+               //mActivity.finish();
 
             }
         });
@@ -416,7 +416,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
-                mActivity.finish();
+                //mActivity.finish();
             }
         });
 
@@ -432,7 +432,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 mContext.startActivity(intent);
-                mActivity.finish();
+                //mActivity.finish();
 
             }
         });
@@ -627,8 +627,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 mActivity.startActivity(intent);
-                mActivity.finish();
-                return;
+                //mActivity.finish();
+                //return;
             }
         });
     }

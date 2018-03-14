@@ -48,8 +48,9 @@ public class MySingleOrderActivity extends AppCompatActivity {
         toolbar.setTitle("Fud Farma");
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         Intent intent = getIntent();
         productCart = (ProductCart) intent.getSerializableExtra("product");
         weight = productCart.getInCart();
