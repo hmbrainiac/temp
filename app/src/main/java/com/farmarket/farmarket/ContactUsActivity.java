@@ -2,7 +2,10 @@ package com.farmarket.farmarket;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,9 +33,9 @@ public class ContactUsActivity extends AppCompatActivity {
 
     Realm realm;
     UserTable userTable;
-    EditText message,Email;
-    Button button;
-    TextInputLayout messageLayout,emailLayout;
+    EditText message, Email;
+    Button button, call;
+    TextInputLayout messageLayout, emailLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +44,14 @@ public class ContactUsActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
         userTable = realm.where(UserTable.class).findFirst();
-        message = (EditText)findViewById(R.id.message);
-        Email = (EditText)findViewById(R.id.userEmail);
+        message = (EditText) findViewById(R.id.message);
+        Email = (EditText) findViewById(R.id.userEmail);
 
 
-        button = (Button)findViewById(R.id.toPayment);
-        emailLayout = (TextInputLayout)findViewById(R.id.input_layout_name);
-        messageLayout = (TextInputLayout)findViewById(R.id.input_layout_name1);
+        button = (Button) findViewById(R.id.toPayment);
+        call = (Button) findViewById(R.id.toPhoneCall);
+        emailLayout = (TextInputLayout) findViewById(R.id.input_layout_name);
+        messageLayout = (TextInputLayout) findViewById(R.id.input_layout_name1);
 
         Email.addTextChangedListener(new MyTextWatcher(Email));
         message.addTextChangedListener(new MyTextWatcher(message));
@@ -55,10 +59,28 @@ public class ContactUsActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateName() && validateEmail())
-                {
+                if (validateName() && validateEmail()) {
                     loginUser();
                 }
+            }
+        });
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+
+                intent.setData(Uri.parse("tel: +233262141279"));
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                startActivity(intent);
             }
         });
 
