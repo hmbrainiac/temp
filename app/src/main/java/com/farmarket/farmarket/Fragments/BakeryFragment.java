@@ -366,6 +366,7 @@ public class BakeryFragment extends Fragment {
                             productCart.setUuid(produceModel.getUuid());
                             productCart.setMeasurement(produceModel.getMeasurement());
                             productCart.setIncremental(produceModel.getIncremental());
+                            productCart.setMeasurement_full(produceModel.getMeasurement_full());
                             // Toast.makeText(getApplicationContext(),productCart.getName(),Toast.LENGTH_LONG).show();
                             albumList.add(productCart);
 
@@ -387,6 +388,7 @@ public class BakeryFragment extends Fragment {
                             productEmpty.setUuid(produceModel.getUuid());
                             productEmpty.setMeasurement(produceModel.getMeasurement());
                             productEmpty.setIncremental(produceModel.getIncremental());
+                            productEmpty.setMeasurement_full(produceModel.getMeasurement_full());
 
                             //System.out.println(productEmpty.getUuid());
                             // Toast.makeText(getApplicationContext(),productEmpty.getName(),Toast.LENGTH_LONG).show();

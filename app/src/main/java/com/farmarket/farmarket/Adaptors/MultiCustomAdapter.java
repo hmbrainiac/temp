@@ -497,7 +497,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             v.getDiscount().setVisibility(View.GONE);
         }
 
-        v.getMeasurement().setText("Per "+product.getMeasurement());
+        v.getMeasurement().setText("Per "+product.getMeasurement_full());
         v.getNameProduct().setText(product.getName());
         v.getPrice().setText("GhC "+product.getPrice_per_kg());
     }
@@ -906,8 +906,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
         v.getMeasurement().setText("GhC "+GeneralCalculations.getCost(product.getInCart(),Double.parseDouble(product.getPrice_per_kg())));
         v.getNameProduct().setText(product.getName());
-        v.getPrice().setText("GhC "+product.getPrice_per_kg()+ "/"+product.getMeasurement());
-        v.getQuantityInCart().setText(product.getInCart()+" "+product.getMeasurement());
+        v.getPrice().setText("GhC "+product.getPrice_per_kg()+ "/"+product.getMeasurement_full());
+        v.getQuantityInCart().setText(product.getInCart()+" "+product.getMeasurement_full());
     }
 
 

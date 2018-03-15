@@ -24,8 +24,34 @@ public class ProductEmpty implements Serializable {
     int produce_id;
     String uuid,unique_code,name,produce_type,created_at,updated_at,file_name,description,price_per_kg,file_blob;
     double incremental;
-    String measurement;
+    String measurement,measurement_full;
     int category_id;
+
+    public String getMeasurement_full() {
+        return measurement_full;
+    }
+
+    public void setMeasurement_full(String measurement_full) {
+        this.measurement_full = measurement_full;
+    }
+
+    public ProductEmpty(int produce_id, String uuid, String unique_code, String name, String produce_type, String created_at, String updated_at, String file_name, String description, String price_per_kg, String file_blob, double incremental, String measurement, String measurement_full, int category_id) {
+        this.produce_id = produce_id;
+        this.uuid = uuid;
+        this.unique_code = unique_code;
+        this.name = name;
+        this.produce_type = produce_type;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.file_name = file_name;
+        this.description = description;
+        this.price_per_kg = price_per_kg;
+        this.file_blob = file_blob;
+        this.incremental = incremental;
+        this.measurement = measurement;
+        this.measurement_full = measurement_full;
+        this.category_id = category_id;
+    }
 
     public double getIncremental() {
         return incremental;
