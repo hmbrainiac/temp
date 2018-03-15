@@ -86,6 +86,8 @@ public class CartActivity extends AppCompatActivity {
                         cartDetail.setProduce_id(cartDetailsTable.getProduce_id());
                         cartDetail.setProduct_type(cartDetailsTable.getProduce_type());
                         cartDetail.setWeight(cartDetailsTable.getWeight());
+                        cartDetail.setIncremental(cartDetailsTable.getIncremental());
+                        cartDetail.setMeasurement(cartDetailsTable.getMeasurement());
                         albumList.add(cartDetail);
                         subTotal += GeneralCalculations.getCost(cartDetailsTable.getPrice_per_kg(),cartDetailsTable.getWeight());
 

@@ -408,7 +408,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 .into(v.getMainImage());
 
         v.getProductPrice().setText("GhC "+GeneralCalculations.getCost(orderDetail.getPrice_per_kg(),orderDetail.getWeight())+"");
-        v.getProductWeight().setText(orderDetail.getWeight()+" Kg");
+        v.getProductWeight().setText(orderDetail.getWeight()+" "+orderDetail.getMeasureemt());
         v.getProductName().setText(orderDetail.getProduce().getName());
 
     }
@@ -497,7 +497,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             v.getDiscount().setVisibility(View.GONE);
         }
 
-        v.getMeasurement().setText("Per Kg.");
+        v.getMeasurement().setText("Per "+product.getMeasurement());
         v.getNameProduct().setText(product.getName());
         v.getPrice().setText("GhC "+product.getPrice_per_kg());
     }
@@ -515,8 +515,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 //get current quantity
                 double currentQuantity = product.getWeight();
                 Realm realm =Realm.getDefaultInstance();
-                //increase by 0.2
-                currentQuantity += 0.2;
+                currentQuantity += product.getIncremental();
                 currentQuantity = Math.round(currentQuantity*100.0)/100.0;
 
                 //get new price
@@ -568,10 +567,9 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 //get current quantity
                 double currentQuantity = product.getWeight();
 
-                //increase by 0.2
-                currentQuantity -= 0.2;
+                currentQuantity -= product.getIncremental();
                 if(currentQuantity < 0.00)
-                    currentQuantity = 0.02;
+                    currentQuantity = product.getIncremental();
 
                 currentQuantity = Math.round(currentQuantity*100.0)/100.0;
                 double currentPrice = GeneralCalculations.getCost(product.getPrice_per_kg(),currentQuantity);
@@ -636,9 +634,9 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         v.getProductPrice().setText("GhC "+GeneralCalculations.getCost(product.getPrice_per_kg(),product.getWeight())+"");
-        v.getCurrentWeight().setText(product.getWeight()+" Kg");
+        v.getCurrentWeight().setText(product.getWeight()+" "+product.getMeasurement());
         v.getCurrentWeight().setEnabled(false);
-        v.getProductWeight().setText(product.getWeight()+" Kg");
+        v.getProductWeight().setText(product.getWeight()+" "+product.getMeasurement());
         v.getProductName().setText(product.getProduct_name());
     }
 
@@ -696,8 +694,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 //get current quantity
                 double currentQuantity = product.getInCart();
                 Realm realm =Realm.getDefaultInstance();
-                //increase by 0.2
-                currentQuantity += 0.2;
+                currentQuantity += product.getIncremental();
                 currentQuantity = Math.round(currentQuantity*100.0)/100.0;
 
                 //get new price
@@ -735,7 +732,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
                 cart.setInCart(currentQuantity);
                 //display change and get new price
-                v.getQuantityInCart().setText(currentQuantity+" Kg");
+                v.getQuantityInCart().setText(currentQuantity+" "+product.getMeasurement());
                 //effect change in cart details
 
                 CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",Integer.parseInt(realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()+"")).findFirst();
@@ -751,7 +748,6 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             public void onClick(View view) {
                 //Todo decrease
                 //get current quantity
-                //increase by - 0.2
                 //effect change in object
                 //display change and get new price
                 //effect change in cart details
@@ -759,10 +755,9 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 //get current quantity
                 double currentQuantity = product.getInCart();
 
-                //increase by 0.2
-                currentQuantity -= 0.2;
+                currentQuantity -= product.getIncremental();
                 if(currentQuantity <= 0.00)
-                    currentQuantity = 0.20;
+                    currentQuantity = product.getIncremental();
                 currentQuantity = Math.round(currentQuantity*100.0)/100.0;
                 //get new price
                 if(currentQuantity > 0.00)
@@ -799,7 +794,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     cart.setInCart(currentQuantity);
                     //display change and get new price
-                    v.getQuantityInCart().setText(currentQuantity+" Kg");
+                    v.getQuantityInCart().setText(currentQuantity+" "+product.getMeasurement());
                     //effect change in cart details
                 }
                 else {
@@ -816,6 +811,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     productEmpty.setProduce_type(product.getProduce_type());
                     productEmpty.setUpdated_at(product.getUpdated_at());
                     productEmpty.setUuid(product.getUuid());
+                    productEmpty.setMeasurement(product.getMeasurement());
+                    product.setIncremental(product.getIncremental());
                     /*
                     Realm realm = Realm.getDefaultInstance();
                     CartDetailsTable cartDetailsTable = realm.where(CartDetailsTable.class).equalTo("produce_id",product.getProduce_id()).equalTo("cart_id",realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst().getId()).findFirst();
@@ -909,8 +906,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
         v.getMeasurement().setText("GhC "+GeneralCalculations.getCost(product.getInCart(),Double.parseDouble(product.getPrice_per_kg())));
         v.getNameProduct().setText(product.getName());
-        v.getPrice().setText("GhC "+product.getPrice_per_kg()+ "/Kg");
-        v.getQuantityInCart().setText(product.getInCart()+" Kg");
+        v.getPrice().setText("GhC "+product.getPrice_per_kg()+ "/"+product.getMeasurement());
+        v.getQuantityInCart().setText(product.getInCart()+" "+product.getMeasurement());
     }
 
 

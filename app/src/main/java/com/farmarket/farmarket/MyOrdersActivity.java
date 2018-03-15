@@ -181,6 +181,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                             orderDetail.setUnique_code(orderDetailModel.getUnique_code());
                             orderDetail.setUpdated_at(orderDetailModel.getUpdated_at());
                             orderDetail.setWeight(orderDetailModel.getWeight());
+
                             Product product = new Product();
                             product.setCreated_at(orderDetailModel.getProduce().getCreated_at());
                             product.setDescription(orderDetailModel.getProduce().getDescription());
@@ -193,14 +194,17 @@ public class MyOrdersActivity extends AppCompatActivity {
                             product.setUnique_code(orderDetailModel.getProduce().getUnique_code());
                             product.setUpdated_at(orderDetailModel.getProduce().getUpdated_at());
                             product.setUuid(orderDetailModel.getProduce().getUuid());
+                            product.setIncremental(orderDetailModel.getProduce().getIncremental());
+                            product.setMeasurement(orderDetailModel.getProduce().getMeasurement());
                             orderDetail.setProduce(product);
+                            orderDetail.setMeasureemt(product.getMeasurement());
+                            orderDetail.setIncremental(product.getIncremental());
                             orderDetails.add(orderDetail);
                         }
                         order.setDetails(orderDetails);
                         albumList.add(order);
                     }
                    // Toast.makeText(getApplicationContext(),""+albumList.size()+" "+generalModels.size(),Toast.LENGTH_LONG).show();
-
                     albumList1.clear();
                     albumList1.addAll(albumList);
                     adapter.notifyDataSetChanged();

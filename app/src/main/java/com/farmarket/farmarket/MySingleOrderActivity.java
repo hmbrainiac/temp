@@ -72,7 +72,7 @@ public class MySingleOrderActivity extends AppCompatActivity {
 
         name.setText(productCart.getName());
         description.setText(productCart.getDescription());
-        singlePrice.setText("GhC "+productCart.getPrice_per_kg()+"/Kg");
+        singlePrice.setText("GhC "+productCart.getPrice_per_kg()+"/"+productCart.getMeasurement());
         currentWeight.setText("X "+weight+" =");
         totalPrice.setText("GhC "+cost+"");
 
@@ -84,10 +84,9 @@ public class MySingleOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //get current quantity
-                //increase by 0.2
-                weight -= 0.2;
+                weight -= productCart.getIncremental();
                 if(weight <= 0.00)
-                    weight = 0.20;
+                    weight = productCart.getIncremental();
                 weight = Math.round(weight*100.0)/100.0;
                 cost = (GeneralCalculations.getCost(Double.parseDouble(productCart.getPrice_per_kg()),weight));
                 Realm realm = Realm.getDefaultInstance();
@@ -111,7 +110,7 @@ public class MySingleOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Realm realm =Realm.getDefaultInstance();
-                weight +=0.2;
+                weight +=productCart.getIncremental();
                 weight = Math.round(weight*100.0)/100.0;
                 cost = (GeneralCalculations.getCost(Double.parseDouble(productCart.getPrice_per_kg()),weight));
 

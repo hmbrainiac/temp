@@ -8,9 +8,41 @@ import java.io.Serializable;
 
 public class OrderDetail  implements Serializable {
     int detail_id,order_id,produce_id;
-    double weight,price_per_kg,cost_per_kg;
-    String remarks,unique_code,created_at,updated_at;
+    double weight,price_per_kg,cost_per_kg,incremental;
+    String remarks,unique_code,created_at,updated_at,measureemt;
     Product produce;
+
+    public OrderDetail(int detail_id, int order_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, double incremental, String remarks, String unique_code, String created_at, String updated_at, String measureemt, Product produce) {
+        this.detail_id = detail_id;
+        this.order_id = order_id;
+        this.produce_id = produce_id;
+        this.weight = weight;
+        this.price_per_kg = price_per_kg;
+        this.cost_per_kg = cost_per_kg;
+        this.incremental = incremental;
+        this.remarks = remarks;
+        this.unique_code = unique_code;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.measureemt = measureemt;
+        this.produce = produce;
+    }
+
+    public double getIncremental() {
+        return incremental;
+    }
+
+    public void setIncremental(double incremental) {
+        this.incremental = incremental;
+    }
+
+    public String getMeasureemt() {
+        return measureemt;
+    }
+
+    public void setMeasureemt(String measureemt) {
+        this.measureemt = measureemt;
+    }
 
     public OrderDetail(int detail_id, int order_id, int produce_id, double weight, double price_per_kg, double cost_per_kg, String remarks, String unique_code, String created_at, String updated_at, Product produce) {
         this.detail_id = detail_id;

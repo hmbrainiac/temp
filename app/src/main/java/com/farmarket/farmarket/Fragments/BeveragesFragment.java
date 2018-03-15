@@ -368,6 +368,8 @@ public class BeveragesFragment extends Fragment {
                             productCart.setProduce_type(produceModel.getProduce_type());
                             productCart.setUpdated_at(produceModel.getUpdated_at());
                             productCart.setUuid(produceModel.getUuid());
+                            productCart.setMeasurement(produceModel.getMeasurement());
+                            productCart.setIncremental(produceModel.getIncremental());
                             // Toast.makeText(getApplicationContext(),productCart.getName(),Toast.LENGTH_LONG).show();
                             albumList.add(productCart);
 
@@ -387,6 +389,9 @@ public class BeveragesFragment extends Fragment {
                             productEmpty.setProduce_type(produceModel.getProduce_type());
                             productEmpty.setUpdated_at(produceModel.getUpdated_at());
                             productEmpty.setUuid(produceModel.getUuid());
+                            productEmpty.setMeasurement(produceModel.getMeasurement());
+                            productEmpty.setIncremental(produceModel.getIncremental());
+
                             //System.out.println(productEmpty.getUuid());
                             // Toast.makeText(getApplicationContext(),productEmpty.getName(),Toast.LENGTH_LONG).show();
                             albumList.add(productEmpty);
@@ -405,7 +410,7 @@ public class BeveragesFragment extends Fragment {
                 }
                 else
                 {
-                    //Toast.makeText(getContext(),response.message(),Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getContext(),response.message(),Toast.LENGTH_LONG).show();
                 }
             }
 

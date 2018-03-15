@@ -11,4 +11,13 @@ public class GeneralCalculations {
         return Math.round((weight*unitPrice)*100.0)/100.0;
     }
 
+    public static double getDisplay(double incremental,double number)
+    {
+        return Math.round((incremental*number)*100.0)/100.0;
+    }
+
+    public static String getDisplayWithMeasurement(double incremental,double number,String measurement)
+    {
+        return Math.round((incremental*number)*100.0)/100.0+" "+measurement;
+    }
 }

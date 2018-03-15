@@ -69,10 +69,14 @@ public class SingleItemActivity extends AppCompatActivity {
 
         percentageOff.setVisibility(View.GONE);
         productType.setText(productEmpty.getProduce_type());
+        pointFive.setText(""+GeneralCalculations.getDisplay(productEmpty.getIncremental(),1));
+        one.setText(""+GeneralCalculations.getDisplay(productEmpty.getIncremental(),2));
+        five.setText(""+GeneralCalculations.getDisplay(productEmpty.getIncremental(),5));
+        ten.setText(""+GeneralCalculations.getDisplay(productEmpty.getIncremental(),10));
         pointFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doClick(pointFive,"0.5 Kg",0.5);
+                doClick(pointFive,GeneralCalculations.getDisplayWithMeasurement(productEmpty.getIncremental(),1,productEmpty.getMeasurement()),GeneralCalculations.getDisplay(productEmpty.getIncremental(),1));
             }
         });
 
@@ -80,7 +84,7 @@ public class SingleItemActivity extends AppCompatActivity {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doClick(one,"1 Kg",1);
+                doClick(one,GeneralCalculations.getDisplayWithMeasurement(productEmpty.getIncremental(),2,productEmpty.getMeasurement()),GeneralCalculations.getDisplay(productEmpty.getIncremental(),2));
 
             }
         });
@@ -89,7 +93,7 @@ public class SingleItemActivity extends AppCompatActivity {
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doClick(five,"5 Kg",5);
+                doClick(five,GeneralCalculations.getDisplayWithMeasurement(productEmpty.getIncremental(),5,productEmpty.getMeasurement()),GeneralCalculations.getDisplay(productEmpty.getIncremental(),5));
             }
         });
 
@@ -97,7 +101,7 @@ public class SingleItemActivity extends AppCompatActivity {
         ten.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doClick(ten,"10 Kg",10);
+                doClick(ten,GeneralCalculations.getDisplayWithMeasurement(productEmpty.getIncremental(),10,productEmpty.getMeasurement()),GeneralCalculations.getDisplay(productEmpty.getIncremental(),10));
             }
         });
 
@@ -124,7 +128,7 @@ public class SingleItemActivity extends AppCompatActivity {
             }
         });
 
-        doClick(one,"1 Kg",1);
+        doClick(pointFive,GeneralCalculations.getDisplayWithMeasurement(productEmpty.getIncremental(),1,productEmpty.getMeasurement()),GeneralCalculations.getDisplay(productEmpty.getIncremental(),1));
 
         Realm realm = Realm.getDefaultInstance();
         RealmResults<CartDetailsTable> cartDetailsTableRealmResults = realm.where(CartDetailsTable.class).findAll();
@@ -161,6 +165,7 @@ public class SingleItemActivity extends AppCompatActivity {
             cartsTable.setPhone("");
             cartsTable.setStatus("Pending");
             cartsTable.setUser_id(0);
+
             int size =realm.where(CartsTable.class).findAll().size() ;
             size++;
             cartsTable.setId(size);
@@ -197,6 +202,8 @@ public class SingleItemActivity extends AppCompatActivity {
             cartDetailsTable.setRemarks("");
             cartDetailsTable.setUnique_code("");
             cartDetailsTable.setUpdated_at("");
+            cartDetailsTable.setIncremental(productEmpty.getIncremental());
+            cartDetailsTable.setMeasurement(productEmpty.getMeasurement());
             realm.copyToRealmOrUpdate(cartDetailsTable);
             // realm.close();
             realm.commitTransaction();
@@ -231,10 +238,11 @@ public class SingleItemActivity extends AppCompatActivity {
 
     protected void doHighlight(TextView tv, String string){
         // Specify the text/word to highlight inside TextView
-        pointFive.setText("0.5 Kg");
-        one.setText("1 Kg");
-        five.setText("5 Kg");
-        ten.setText("10 Kg");
+
+        pointFive.setText(GeneralCalculations.getDisplayWithMeasurement(productEmpty.getIncremental(),1,productEmpty.getMeasurement()));
+        one.setText(GeneralCalculations.getDisplayWithMeasurement(productEmpty.getIncremental(),2,productEmpty.getMeasurement()));
+        five.setText(GeneralCalculations.getDisplayWithMeasurement(productEmpty.getIncremental(),5,productEmpty.getMeasurement()));
+        ten.setText(GeneralCalculations.getDisplayWithMeasurement(productEmpty.getIncremental(),10,productEmpty.getMeasurement()));
 
         // Construct the formatted text
         String replacedWith = "<font color='blue'>" + string + "</font>";
