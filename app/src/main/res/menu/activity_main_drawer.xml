@@ -15,6 +15,10 @@
                 android:icon="@drawable/orders"
                 android:title="My Orders" />
             <item
+                android:id="@+id/my_wallet"
+                android:icon="@drawable/icon_wallet_black"
+                android:title="My Wallet" />
+            <item
                 android:id="@+id/my_settings"
                 android:icon="@drawable/setting"
                 android:title="Settings" />

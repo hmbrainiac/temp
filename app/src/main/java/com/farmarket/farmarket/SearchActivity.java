@@ -36,7 +36,7 @@ import java.util.Locale;
 
 import io.realm.Realm;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity  implements android.widget.SearchView.OnQueryTextListener{
 
     private RecyclerView recyclerView;
     static public MultiCustomAdapter adapter;
@@ -48,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
     UserTable userTable;
     Intent intent;
     MenuItem myActionMenuItem;
+    private android.widget.SearchView editsearch;
 
 
     @Override
@@ -55,6 +56,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("FudFarma");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
@@ -72,6 +74,10 @@ public class SearchActivity extends AppCompatActivity {
 
         albumList1 = new ArrayList<>();
         albumList1.addAll(albumList);
+
+        editsearch = (android.widget.SearchView) findViewById(R.id.search);
+        editsearch.setOnQueryTextListener(this);
+        editsearch.setQueryHint("Kindly enter your search here");
 
         adapter = new MultiCustomAdapter(SearchActivity.this, SearchActivity.this ,albumList);
         RecyclerView.LayoutManager mLayoutManager;
@@ -117,6 +123,25 @@ public class SearchActivity extends AppCompatActivity {
         }
         // Toast.makeText(getApplicationContext(),realm.where(CartsTable.class).findFirst().getCart_status()+"",Toast.LENGTH_LONG).show();
         decideLoad();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String text = newText;
+        adapter.myFilter(text);
+        return false;
+    }
+
+    public interface ClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
     }
 
 
@@ -212,29 +237,8 @@ public class SearchActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.search, menu);
-         myActionMenuItem = menu.findItem( R.id.action_search);
-        final SearchView searchView ;
-        searchView = (SearchView) myActionMenuItem.getActionView();
-        searchView.requestFocus();
-        myActionMenuItem.expandActionView();
-        searchView.setQueryHint("Type your search here");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                String text = query;
-                adapter.filter(text);
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String s) {
-                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
-                String text = s;
-                adapter.filter(text);
-                return true;
-            }
-        });
 
-        return true;
+        return false;
     }
 
 }

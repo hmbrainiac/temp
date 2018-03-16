@@ -137,7 +137,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.mContext = mContext;
         this.albumList = albumList;
         this.mActivity = mActivity;
-        albumList1 = new ArrayList<Object>();
+        this.albumList1 = new ArrayList<Object>();
         this.albumList1.addAll(albumList1);
     }
 
@@ -146,8 +146,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.mContext = mContext;
         this.albumList = albumList;
         this.mActivity = mActivity;
-        this.myPosition = 80;
-        albumList1 = new ArrayList<Object>();
+        this.albumList1 = new ArrayList<Object>();
+        this.albumList1.addAll(albumList);
     }
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -729,7 +729,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         cart = (com.farmarket.farmarket.DataType.ProductCart) BeveragesFragment.albumList.get(position);
                         break;
                     default:
-                        cart = (com.farmarket.farmarket.DataType.ProductCart) AllProductsFragment.albumList.get(position);
+                        cart = (com.farmarket.farmarket.DataType.ProductCart) SearchActivity.albumList.get(position);
                         break;
                 }
                 cart.setInCart(currentQuantity);
@@ -790,7 +790,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             cart = (com.farmarket.farmarket.DataType.ProductCart) BeveragesFragment.albumList.get(position);
                             break;
                         default:
-                            cart = (com.farmarket.farmarket.DataType.ProductCart) AllProductsFragment.albumList.get(position);
+                            cart = (com.farmarket.farmarket.DataType.ProductCart) SearchActivity.albumList.get(position);
                             break;
                     }
 
@@ -848,7 +848,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             BeveragesFragment.albumList.set(position,productEmpty);
                             break;
                         default:
-                            AllProductsFragment.albumList.set(position,productEmpty);
+                            SearchActivity.albumList.set(position,productEmpty);
                             break;
                     }
 
@@ -1172,6 +1172,42 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+
+    // Filter Class
+    public void myFilter(String charText) {
+        this.albumList1.clear();
+        this.albumList1.addAll(SearchActivity.albumList1);
+        charText = charText.toLowerCase(Locale.getDefault());
+        SearchActivity.albumList.clear();
+        albumList.clear();
+        if (charText.length() == 0) {
+            SearchActivity.albumList.addAll(this.albumList1);
+        } else {
+            for (Object wp : this.albumList1) {
+                switch (myViewType(wp))
+                {
+                    case ProductCart:
+                        Toast.makeText(mContext,this.albumList1.size()+" 1-- "+this.albumList.size(),Toast.LENGTH_LONG).show();
+                        wp = (com.farmarket.farmarket.DataType.ProductCart)wp;
+                        if (((com.farmarket.farmarket.DataType.ProductCart) wp).getDescription().toLowerCase().contains(charText) || ((com.farmarket.farmarket.DataType.ProductCart) wp).getName().toLowerCase().contains(charText)) {
+                            SearchActivity.albumList.add(wp);
+                        }
+                        break;
+                    case ProductEmpty:
+                        wp = (com.farmarket.farmarket.DataType.ProductEmpty)wp;
+                        if (((com.farmarket.farmarket.DataType.ProductEmpty) wp).getName().toLowerCase().contains(charText) || ((com.farmarket.farmarket.DataType.ProductEmpty) wp).getDescription().toLowerCase().contains(charText)) {
+                            SearchActivity.albumList.add(wp);
+                        }
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        }
+//        imageModelArrayList.addAll(DirectoryActivity.imageModelArrayList);
+        notifyDataSetChanged();
+    }
 
 
     // Filter Class
