@@ -62,6 +62,7 @@ import com.farmarket.farmarket.RealmTables.CartDetailsTable;
 import com.farmarket.farmarket.RealmTables.CartsTable;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
 import com.farmarket.farmarket.ReviewActivity;
+import com.farmarket.farmarket.SearchActivity;
 import com.farmarket.farmarket.SingleItemActivity;
 
 import java.text.DecimalFormat;
@@ -145,6 +146,7 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.mContext = mContext;
         this.albumList = albumList;
         this.mActivity = mActivity;
+        this.myPosition = 80;
         albumList1 = new ArrayList<Object>();
     }
         @Override
@@ -1044,10 +1046,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
-
-    // Filter Class
-    public void filter(String charText) {
-        this.albumList1.clear();
+    private void storeAll()
+    {
         switch (myPosition)
         {
             case 0:
@@ -1071,11 +1071,13 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 this.albumList1.addAll(BeveragesFragment.albumList1);
                 break;
             default:
-                this.albumList1.addAll(AllProductsFragment.albumList1);
+                this.albumList1.addAll(SearchActivity.albumList1);
                 break;
         }
+    }
 
-        charText = charText.toLowerCase(Locale.getDefault());
+    void clearAll()
+    {
         switch (myPosition)
         {
             case 0:
@@ -1100,39 +1102,89 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 BeveragesFragment.albumList.clear();
                 break;
             default:
-                AllProductsFragment.albumList.clear();
+                SearchActivity.albumList.clear();
                 break;
         }
 
+    }
+
+    void addAll()
+    {
+        switch (myPosition)
+        {
+            case 0:
+                AllProductsFragment.albumList.addAll(albumList1);
+                break;
+            case 1:
+                FruitsVeggiesFragment.albumList.addAll(this.albumList1);
+                break;
+
+            case 2:
+                BakeryFragment.albumList.addAll(this.albumList1);
+
+                break;
+            case 3:
+                DiaryEggFragment.albumList.addAll(this.albumList1);
+                break;
+            case 4:
+                FishMeatFragment.albumList.addAll(this.albumList1);
+
+                break;
+            case 5:
+                BeveragesFragment.albumList.addAll(this.albumList1);
+                break;
+            default:
+                SearchActivity.albumList.addAll(this.albumList1);
+                break;
+        }
+
+
+    }
+    void addSingle(Object wp)
+    {
+        switch (myPosition)
+        {
+            case 0:
+                AllProductsFragment.albumList.add(wp);
+                break;
+            case 1:
+                FruitsVeggiesFragment.albumList.add(wp);
+                break;
+
+            case 2:
+                BakeryFragment.albumList.add(wp);
+
+                break;
+            case 3:
+                DiaryEggFragment.albumList.add(wp);
+                break;
+            case 4:
+                FishMeatFragment.albumList.add(wp);
+
+                break;
+            case 5:
+                BeveragesFragment.albumList.add(wp);
+                break;
+            default:
+                SearchActivity.albumList.add(wp);
+                System.out.println("Default single");
+                break;
+        }
+    }
+
+
+
+    // Filter Class
+    public void filter(String charText) {
+        this.albumList1.clear();
+        storeAll();
+        //Toast.makeText(mContext,this.albumList1.size()+" -- "+this.albumList.size(),Toast.LENGTH_LONG).show();
+
+        charText = charText.toLowerCase();
+        clearAll();
         albumList.clear();
         if (charText.length() == 0) {
-            switch (myPosition)
-            {
-                case 0:
-                    AllProductsFragment.albumList.addAll(albumList1);
-                    break;
-                case 1:
-                    FruitsVeggiesFragment.albumList.addAll(albumList1);
-                    break;
-
-                case 2:
-                    BakeryFragment.albumList.addAll(albumList1);
-
-                    break;
-                case 3:
-                    DiaryEggFragment.albumList.addAll(albumList1);
-                    break;
-                case 4:
-                    FishMeatFragment.albumList.addAll(albumList1);
-
-                    break;
-                case 5:
-                    BeveragesFragment.albumList.addAll(albumList1);
-                    break;
-                default:
-                    AllProductsFragment.albumList.addAll(albumList1);
-                    break;
-            }
+            addAll();
 
         } else {
             int count =0;
@@ -1140,121 +1192,27 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 switch (myViewType(wp))
                 {
                     case ProductCart:
-                        if (((com.farmarket.farmarket.DataType.ProductCart) wp).getDescription().toLowerCase(Locale.getDefault()).contains(charText) || ((com.farmarket.farmarket.DataType.ProductCart) wp).getName().toLowerCase(Locale.getDefault()).contains(charText)) {
-                            Boolean idExists = false;
-                            if(idExists == false)
-                            {
-                                switch (myPosition)
-                                {
-                                    case 0:
-                                        AllProductsFragment.albumList.add(wp);
-                                        break;
-                                    case 1:
-                                        FruitsVeggiesFragment.albumList.add(wp);
-                                        break;
-
-                                    case 2:
-                                        BakeryFragment.albumList.add(wp);
-
-                                        break;
-                                    case 3:
-                                        DiaryEggFragment.albumList.add(wp);
-                                        break;
-                                    case 4:
-                                        FishMeatFragment.albumList.add(wp);
-
-                                        break;
-                                    case 5:
-                                        BeveragesFragment.albumList.add(wp);
-                                        break;
-                                    default:
-                                        AllProductsFragment.albumList.add(wp);
-                                        break;
-                                }
-                            }
+                        Toast.makeText(mContext,this.albumList1.size()+" 1-- "+this.albumList.size(),Toast.LENGTH_LONG).show();
+                        wp = (com.farmarket.farmarket.DataType.ProductCart)wp;
+                        if (((com.farmarket.farmarket.DataType.ProductCart) wp).getDescription().toLowerCase().contains(charText) || ((com.farmarket.farmarket.DataType.ProductCart) wp).getName().toLowerCase().contains(charText)) {
+                             addSingle(wp);
                         }
-
                         break;
                     case ProductEmpty:
+                        Toast.makeText(mContext,this.albumList1.size()+" 2-- "+this.albumList.size(),Toast.LENGTH_LONG).show();
+
                         wp = (com.farmarket.farmarket.DataType.ProductEmpty)wp;
-                        if (((com.farmarket.farmarket.DataType.ProductEmpty) wp).getName().toLowerCase(Locale.getDefault()).contains(charText) || ((com.farmarket.farmarket.DataType.ProductEmpty) wp).getDescription().toLowerCase(Locale.getDefault()).contains(charText)) {
-                            Boolean idExists = false;
+                        System.out.println(charText+" "+((com.farmarket.farmarket.DataType.ProductEmpty) wp).getName() +" "+((com.farmarket.farmarket.DataType.ProductEmpty) wp).getDescription());
 
-                            if(idExists == false)
-                                switch (myPosition)
-                                {
-                                    case 0:
-                                        AllProductsFragment.albumList.add(wp);
-                                        break;
-                                    case 1:
-                                        FruitsVeggiesFragment.albumList.add(wp);
-                                        break;
-
-                                    case 2:
-                                        BakeryFragment.albumList.add(wp);
-
-                                        break;
-                                    case 3:
-                                        DiaryEggFragment.albumList.add(wp);
-                                        break;
-                                    case 4:
-                                        FishMeatFragment.albumList.add(wp);
-
-                                        break;
-                                    case 5:
-                                        BeveragesFragment.albumList.add(wp);
-                                        break;
-                                    default:
-                                        AllProductsFragment.albumList.add(wp);
-                                        break;
-                                }
+                        if (((com.farmarket.farmarket.DataType.ProductEmpty) wp).getName().toLowerCase().contains(charText) || ((com.farmarket.farmarket.DataType.ProductEmpty) wp).getDescription().toLowerCase().contains(charText)) {
+                            System.out.println("Added "+charText+" "+((com.farmarket.farmarket.DataType.ProductEmpty) wp).getName() +" "+((com.farmarket.farmarket.DataType.ProductEmpty) wp).getDescription());
+                             addSingle(wp);
                         }
 
                         break;
                     default:
 
                         break;
-                }
-                try {
-                    wp = (GeneralModel)wp;
-                    if (((GeneralModel) wp).getDescription().toLowerCase(Locale.getDefault()).contains(charText) || ((GeneralModel) wp).getName().toLowerCase(Locale.getDefault()).contains(charText)) {
-                        Boolean idExists = false;
-
-                        if(idExists == false)
-                            switch (myPosition)
-                            {
-                                case 0:
-                                    AllProductsFragment.albumList.add(wp);
-                                    break;
-                                case 1:
-                                    FruitsVeggiesFragment.albumList.add(wp);
-                                    break;
-
-                                case 2:
-                                    BakeryFragment.albumList.add(wp);
-
-                                    break;
-                                case 3:
-                                    DiaryEggFragment.albumList.add(wp);
-                                    break;
-                                case 4:
-                                    FishMeatFragment.albumList.add(wp);
-
-                                    break;
-                                case 5:
-                                    BeveragesFragment.albumList.add(wp);
-                                    break;
-                                default:
-                                    AllProductsFragment.albumList.add(wp);
-                                    break;
-                            }
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-
                 }
                 count++;
             }

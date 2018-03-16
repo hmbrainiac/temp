@@ -11,7 +11,7 @@
         android:layout_marginBottom="50dp"
         android:id="@+id/address"
         android:layout_marginTop="10dp"
-        android:text="Thank you for your order"
+        android:text="Thank you for using Fudfarma"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:textStyle="bold"
@@ -47,8 +47,10 @@
         app:layout_constraintRight_toRightOf="parent"
         android:textAlignment="center"
         android:layout_marginTop="25dp"
-        android:textSize="18sp"
-        android:text="Thank you for ordering. Your invoice has been created. \n Our customer service executive will call you within the next 24hrs to confirm your order and payment."
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="14sp"
+        android:text="Thank you for ordering. Your invoice has been created. \n Our customer service executive will call you shortly to confirm your order and payment details. \n Thank You"
         android:layout_height="wrap_content" />
 
     <com.farmarket.farmarket.Fonts.TitalliumWebText
@@ -58,7 +60,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="25dp"
-        android:textSize="18sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:textAlignment="center"
         android:text="Thank you for ordering. Your invoice has been created. \n Our customer service executive will call you within the next 24hrs to confirm your order and payment."

@@ -56,6 +56,6 @@ public class ThamkYouActivity extends AppCompatActivity {
             }
         });
 
-        estimated.setText("Estimated delivery ( 7 days from now) "+expected);
+        estimated.setText("Your order will be ready in 7 days ("+expected+")");
     }
 }

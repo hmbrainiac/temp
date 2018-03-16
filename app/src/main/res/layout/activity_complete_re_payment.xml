@@ -36,8 +36,9 @@
         app:layout_constraintTop_toBottomOf="@id/view"
         android:layout_marginBottom="50dp"
         android:id="@+id/paymentInstructions"
+
         android:layout_marginTop="10dp"
-        android:text="After you enter your payment details and confirm it, we will send you a prompt on the chosen phone number. Confirm the payment by entering your MM Pin "
+        android:text="After you have entered your payment details and confirm it, we will send you a prompt on the chosen phone number. Confirm the payment by entering your MM Pin "
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:textAlignment="center"

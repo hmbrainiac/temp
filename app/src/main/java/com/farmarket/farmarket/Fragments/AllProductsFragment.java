@@ -175,7 +175,8 @@ public class AllProductsFragment extends Fragment {
         }
         // Toast.makeText(getApplicationContext(),realm.where(CartsTable.class).findFirst().getCart_status()+"",Toast.LENGTH_LONG).show();
         decideLoad();
-        return view;    }
+        return view;
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -267,14 +268,6 @@ public class AllProductsFragment extends Fragment {
         // Load complete
     }
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        //if(albumList != null)
-        //albumList.clear();
-        //decideLoad();
-    }
-
-    @Override
     public void onDestroy() {
         albumList.clear();
         super.onDestroy();
@@ -291,7 +284,7 @@ public class AllProductsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        decideLoad();
+        //decideLoad();
     }
 
 

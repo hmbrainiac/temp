@@ -54,7 +54,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="GH Post GPS Address"
+                android:hint="GH Post GPS Address (Optional)"
                 android:lines="1"
                 android:inputType="textPersonName"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Address"
+                android:hint="Residential Address"
                 android:inputType="textMultiLine"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"

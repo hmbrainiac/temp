@@ -47,15 +47,6 @@ tools:context="com.farmarket.farmarket.SetupAddressActivity">
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/text1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ghana Post GPS Address"
-                android:textSize="14sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:layout_editor_absoluteY="24dp" />
 
             <EditText
                 android:id="@+id/postGPS"
@@ -63,29 +54,21 @@ tools:context="com.farmarket.farmarket.SetupAddressActivity">
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
 
-                android:hint="GH Post GPS Address"
+                android:hint="GH Post GPS Address (Optional)"
                 android:lines="1"
                 android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@id/text1" />
+                app:layout_constraintTop_toTopOf="parent"
+                 />
 
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Residential Address"
-                android:textSize="14sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/postGPS" />
 
             <EditText
                 android:id="@+id/physicalAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Address"
+                android:hint="Residential Address"
                 android:inputType="textMultiLine"
-                app:layout_constraintTop_toBottomOf="@id/text" />
+                app:layout_constraintTop_toBottomOf="@id/postGPS" />
 
             <TextView
                 android:id="@+id/regionText"
@@ -109,26 +92,16 @@ tools:context="com.farmarket.farmarket.SetupAddressActivity">
                 />
 
 
-            <TextView
-                android:id="@+id/text3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="City / Town"
-                android:layout_marginTop="5dp"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/physicalAddress"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:layout_editor_absoluteY="24dp" />
-
             <EditText
                 android:id="@+id/city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
+                android:layout_marginTop="5dp"
                 android:hint="City / Town"
                 android:lines="1"
                 android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@id/text3" />
+                app:layout_constraintTop_toBottomOf="@id/physicalAddress" />
 
         </android.support.constraint.ConstraintLayout>
 

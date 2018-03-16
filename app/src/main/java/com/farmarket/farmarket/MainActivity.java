@@ -55,6 +55,7 @@ import com.farmarket.farmarket.RealmTables.UserTable;
 import com.farmarket.farmarket.RealmTables.UserViewSettingTable;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -227,80 +228,46 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem myActionMenuItem = menu.findItem( R.id.action_search);
+        final MenuItem myActionMenuItem = menu.findItem( R.id.action_search);
         //menuItem = menu.findItem( R.id.action_search);
-        final SearchView searchView ;
-        searchView = (SearchView) myActionMenuItem.getActionView();
-        searchView.setQueryHint("Type your search here");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        myActionMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                String text = query;
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
                 switch (adapter.getItem(viewPager.getCurrentItem()).getId())
                 {
                     case 0:
-                        AllProductsFragment.adapter.filter(text);
+                        intent.putExtra("albumlist", (Serializable) AllProductsFragment.albumList);
                         break;
                     case 1:
-                        FruitsVeggiesFragment.adapter.filter(text);
+                        intent.putExtra("albumlist", (Serializable) FruitsVeggiesFragment.albumList);
                         break;
 
                     case 2:
-                        BakeryFragment.adapter.filter(text);
+                        intent.putExtra("albumlist", (Serializable) BakeryFragment.albumList);
 
                         break;
                     case 3:
-                        DiaryEggFragment.adapter.filter(text);
+                        intent.putExtra("albumlist", (Serializable) DiaryEggFragment.albumList);
                         break;
                     case 4:
-                        FishMeatFragment.adapter.filter(text);
-
+                        intent.putExtra("albumlist", (Serializable) FishMeatFragment.albumList);
                         break;
                     case 5:
-                        BeveragesFragment.adapter.filter(text);
+                        intent.putExtra("albumlist", (Serializable) BeveragesFragment.albumList);
                         break;
                     default:
-                        AllProductsFragment.adapter.filter(text);
+                        intent.putExtra("albumlist", (Serializable) AllProductsFragment.albumList);
                         break;
                 }
 
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String s) {
-                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
-                String text = s;
-                switch (adapter.getItem(viewPager.getCurrentItem()).getId())
-                {
-                    case 0:
-                        AllProductsFragment.adapter.filter(text);
-                        break;
-                    case 1:
-                        FruitsVeggiesFragment.adapter.filter(text);
-                        break;
 
-                    case 2:
-                        BakeryFragment.adapter.filter(text);
+                startActivity(intent);
 
-                        break;
-                    case 3:
-                        DiaryEggFragment.adapter.filter(text);
-                        break;
-                    case 4:
-                        FishMeatFragment.adapter.filter(text);
-
-                        break;
-                    case 5:
-                        BeveragesFragment.adapter.filter(text);
-                        break;
-                    default:
-                        AllProductsFragment.adapter.filter(text);
-                        break;
-                }
                 return false;
             }
         });
-
 
         Realm realm = Realm.getDefaultInstance();
         CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
@@ -322,9 +289,6 @@ public class MainActivity extends AppCompatActivity
                 public void onClick(View v) {
 
                     Intent intent = new Intent(MainActivity.this,CartActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
 
                 }
@@ -333,9 +297,6 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this,CartActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                 }
             });
@@ -343,8 +304,6 @@ public class MainActivity extends AppCompatActivity
         else
         {
           menuItem.setIcon(R.drawable.empty_cart);
-          //menu.findItem(R.id.action_cart).setTooltipText("Sorry your cart is empty");
-          //menu.findItem(R.id.action_cart).setTitle("0");
         }
         return true;
     }

@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.SEND_RESPOND_VIA_MESSAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".Misc.MyApplication"
@@ -38,7 +38,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.farmarket.farmarket.MainActivity" />
         </activity>
-
         <activity android:name=".CartActivity" />
         <activity android:name=".CheckOutInfoActivity" />
         <activity android:name=".ChoosePaymentMethodActivity" />
@@ -60,7 +59,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.farmarket.farmarket.MainActivity" />
         </activity>
-
         <activity android:name=".ContactUsActivity" />
         <activity android:name=".AboutUsActivity" />
         <activity android:name=".FAQActivity" />
@@ -86,7 +84,16 @@
         <activity android:name=".ReviewActivity" />
         <activity android:name=".CompleteRePaymentActivity" />
         <activity android:name=".SetPasswordActivity" />
-        <activity android:name=".ThamkYouActivity"></activity>
+        <activity android:name=".ThamkYouActivity" />
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.farmarket.farmarket.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -134,7 +134,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(getApplicationContext(),"Please make sure you have a working internet connection",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Trying to establish a secure connection, make sure you have an internet connection",Toast.LENGTH_LONG).show();
                 loadCategories();
             }
         });

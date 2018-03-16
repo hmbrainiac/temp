@@ -193,10 +193,11 @@ public class CompletePaymentActivity extends AppCompatActivity {
                 }
 
             }
-            total = subTotal +14;
+            double delivery = 14 + GeneralCalculations.getChargeOnTotal(subTotal ,14 );
+            total = subTotal + delivery;
             totalCost.setText("GhC "+total);
             subtotalCost.setText("GhC "+subTotal);
-            deliveryCost.setText("GhC 14");
+            deliveryCost.setText("GhC "+delivery);
 
         }
     }

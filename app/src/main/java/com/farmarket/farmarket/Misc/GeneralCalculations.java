@@ -20,4 +20,11 @@ public class GeneralCalculations {
     {
         return Math.round((incremental*number)*100.0)/100.0+" "+measurement;
     }
+
+    public static double getChargeOnTotal(double total, double delivery)
+    {
+        double number = total +delivery;
+
+        return Math.round((number* 0.029)*100.0)/100.0;
+    }
 }
