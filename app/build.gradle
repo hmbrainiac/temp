@@ -7,8 +7,8 @@ android {
         applicationId "com.farmarket.farmarket"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 6
-        versionName "1.5 Alpha"
+        versionCode 7
+        versionName "1.6 Alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

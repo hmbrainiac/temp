@@ -350,6 +350,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this,MyOrdersActivity.class);
             startActivity(intent);
 
+        } else if (id == R.id.my_wallet) {
+            Intent intent = new Intent(MainActivity.this,MyWalletActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.my_settings) {
             Intent intent = new Intent(MainActivity.this,MySettingsActivity.class);
             startActivity(intent);

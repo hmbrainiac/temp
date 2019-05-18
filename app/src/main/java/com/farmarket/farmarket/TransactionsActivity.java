@@ -128,8 +128,8 @@ public class TransactionsActivity extends AppCompatActivity {
                     {
                         OrderModel orderModel = generalModels.get(i);
                         Transaction order = new Transaction();
-                        order.setAmount(orderModel.getInvoices().getAmount());
-                        order.setAmount_after_charge(orderModel.getInvoices().getAmount_after_charge());
+                        order.setAmount(Double.parseDouble(orderModel.getInvoices().getAmount()));
+                        order.setAmount_after_charge(Double.parseDouble(orderModel.getInvoices().getAmount_after_charge()));
                         order.setInvoice_id(orderModel.getInvoices().getInvoice_id());
                         order.setPayment_status(orderModel.getInvoices().getPayment_status());
                         order.setCreated_at(orderModel.getCreated_at());

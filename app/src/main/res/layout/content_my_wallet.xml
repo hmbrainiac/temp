@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:card_view="http://schemas.android.com/tools"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:shimmer="http://schemas.android.com/tools"
     tools:showIn="@layout/activity_my_wallet"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
     android:scrollbars="vertical">
     <ImageView
         android:id="@+id/icoLogo"
@@ -17,7 +19,7 @@
         android:layout_marginTop="15dp"
         android:src="@drawable/icon_wallet_color"
         app:layout_constraintRight_toRightOf="parent"/>
-    <com.farmarket.farmarket.Fonts.TTCorals
+    <com.farmarket.farmarket.Fonts.TitalliumWebText
         android:id="@+id/icoLogoText"
         android:layout_width="wrap_content"
         android:text="My Balance"
@@ -42,162 +44,46 @@
         android:textColor="@color/colorAccent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/refunds"
 
-        android:layout_width="match_parent"
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        shimmer:duration="800">
+
+        <!-- Adding 3 rows of placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/empty_product_placeholder" />
+
+            <include layout="@layout/cart_product_placeholder" />
+
+            <include layout="@layout/empty_product_placeholder" />
+
+            <include layout="@layout/empty_product_placeholder" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/walletBalance"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_margin="@dimen/card_margin"
-        android:elevation="3dp"
-        card_view:cardCornerRadius="20dp"
-        >
+        android:layout_below="@id/search"
+        android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
+        <com.farmarket.farmarket.Misc.RecyclerViewEmptySupport
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/top_left"
-                android:text="Refunds"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <TextView
-                android:id="@+id/offTopTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/top_right"
-                android:text="Added"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <View
-                android:id="@+id/dividerView1"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorAccent"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@id/offTopTV"
-                android:layout_marginTop="5dp"
-                ></View>
-
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.CardView>
-
-    <View
-        android:id="@+id/dividerView2"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintTop_toBottomOf="@id/refunds"
-        android:layout_marginTop="20dp"
-        ></View>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/expenses"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/dividerView2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_margin="@dimen/card_margin"
-        android:elevation="3dp"
-        card_view:cardCornerRadius="20dp"
-        >
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/top_left"
-                android:text="Purchase"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <TextView
-                android:id="@+id/closeTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/top_right"
-                android:text="Spent"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <View
-                android:id="@+id/dividerView"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorAccent"
-                app:layout_constraintTop_toBottomOf="@id/closeTV"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                ></View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/dividerView"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
-                    <com.farmarket.farmarket.Fonts.TTCorals
-                        android:layout_width="match_parent"
-                        android:text="Amount Added"
-                        android:textSize="16sp"
-                        android:layout_marginTop="5dp"
-                        android:textAlignment="center"
-                        android:layout_height="wrap_content" />
-                    <com.farmarket.farmarket.Fonts.TTCorals
-                        android:id="@+id/purchaseAmountAdded"
-                        android:layout_width="match_parent"
-                        android:text="Amount Added"
-                        android:textSize="16sp"
-                        android:layout_marginTop="5dp"
-                        android:textAlignment="center"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-                <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorAccent">
-
-                </View>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
-
-                </LinearLayout>
-
-            </LinearLayout>
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>

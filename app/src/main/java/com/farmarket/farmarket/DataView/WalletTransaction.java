@@ -7,20 +7,20 @@ import com.farmarket.farmarket.Misc.RecyclerViewEmptySupport;
 import com.farmarket.farmarket.R;
 
 /**
- * Created by admin on 27/02/2018.
+ * Created by isaac on 3/17/18.
  */
 
-public class Transaction extends RecyclerViewEmptySupport.ViewHolder{
+public class WalletTransaction extends RecyclerViewEmptySupport.ViewHolder{
     TextView amountAdded,closingBalance,typeName,rightName;
 
-    public Transaction(View itemView, TextView amountAdded, TextView closingBalance) {
+    public WalletTransaction(View itemView, TextView amountAdded, TextView closingBalance) {
         super(itemView);
 
         this.amountAdded = itemView.findViewById(R.id.amountAdded);
         this.closingBalance = itemView.findViewById(R.id.closingAmount);
     }
 
-    public Transaction(View itemView, TextView amountAdded, TextView closingBalance, TextView typeName, TextView rightName) {
+    public WalletTransaction(View itemView, TextView amountAdded, TextView closingBalance, TextView typeName, TextView rightName) {
         super(itemView);
         this.typeName = itemView.findViewById(R.id.typeName);
         this.rightName = itemView.findViewById(R.id.offTopTV);
@@ -30,7 +30,7 @@ public class Transaction extends RecyclerViewEmptySupport.ViewHolder{
 
     }
 
-    public Transaction(View itemView) {
+    public WalletTransaction(View itemView) {
         super(itemView);
         this.amountAdded = itemView.findViewById(R.id.amountAdded);
         this.closingBalance = itemView.findViewById(R.id.closingAmount);

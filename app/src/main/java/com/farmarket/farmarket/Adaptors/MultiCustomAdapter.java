@@ -209,7 +209,8 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     viewHolder = new OrderDetail(view);
                     break;
                 case Transaction:
-                    view = itemView.inflate(R.layout.single_transaction_row, parent, false);
+
+                    view = itemView.inflate(R.layout.wallet_refund_row, parent, false);
                     viewHolder = new Transaction(view);
                     break;
 
@@ -288,9 +289,12 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 {
                     Intent intent = new Intent(mActivity,PayForOrderActivity.class);
                     intent.putExtra("order", order);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     mActivity.startActivity(intent);
-                    //mActivity.finish();
-                    //return;
+                    mActivity.finish();
+                    return;
                 }
                 else
                 {
@@ -298,9 +302,12 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     intent.putExtra("order",order.getOrder_id());
                     intent.putExtra("uuid",order.getUuid());
                     intent.putExtra("expected",order.getExpected_delivery());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     mActivity.startActivity(intent);
-                    //mActivity.finish();
-                    //return;
+                    mActivity.finish();
+                    return;
                 }
             }
         });
@@ -417,10 +424,18 @@ public class MultiCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void configureTransaction(final com.farmarket.farmarket.DataView.Transaction  v, final com.farmarket.farmarket.DataType.Transaction transaction, final int position)
     {
-        final Intent intent  = new Intent(mContext,MyAddressActivity.class);
-
-
-
+        v.getAmountAdded().setText("GhC "+transaction.getAmount());
+        v.getClosingBalance().setText("GhC "+transaction.getAmount_after_charge());
+        if(transaction.getPayment_status().equalsIgnoreCase("Deposit"))
+        {
+            v.getTypeName().setText("Refund");
+            v.getRightName().setText("Added");
+        }
+        else
+        {
+            v.getTypeName().setText("Purchase");
+            v.getRightName().setText("Spent");
+        }
     }
 
     private void configureEmptyProduct(ProductEmpty v, final com.farmarket.farmarket.DataType.ProductEmpty product, int position)

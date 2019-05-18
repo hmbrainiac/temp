@@ -5,6 +5,7 @@ import com.farmarket.farmarket.Models.OrderDetailModel;
 import com.farmarket.farmarket.Models.OrderModel;
 import com.farmarket.farmarket.Models.ProduceModel;
 import com.farmarket.farmarket.Models.UserModel;
+import com.farmarket.farmarket.Models.WalletModel;
 import com.mobsandgeeks.saripaar.annotation.Order;
 
 import org.json.JSONArray;
@@ -77,8 +78,8 @@ public interface ApiEndpoints {
     @FormUrlEncoded
     @POST("complete-order")
     Call<OrderModel> completeOrder(@Field("order") JSONObject order, @Field("order_details") JSONArray orderDetail);
-
-
+    @GET("get-wallet-data/{id}")
+    Call<WalletModel> getWallet(@Path(value = "id", encoded = true) int id);
 
     @FormUrlEncoded
     @POST("review-order")

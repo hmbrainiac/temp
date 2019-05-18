@@ -216,13 +216,11 @@ public class CompleteRePaymentActivity extends AppCompatActivity {
                 {
                     if(user.getResponseCode() ==200)
                     {
-                        CartsTable cartsTable = realm.where(CartsTable.class).equalTo("cart_status","Pending").findFirst();
-                        realm.beginTransaction();
-                        cartsTable.setCart_status("Closed");
-                        realm.copyToRealmOrUpdate(cartsTable);
-                        realm.commitTransaction();
                         Toast.makeText(getApplicationContext(),"Payment request sent, Kindly wait for a prompt to complete payment",Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(CompleteRePaymentActivity.this,MyOrdersActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
                         finish();
                         return;

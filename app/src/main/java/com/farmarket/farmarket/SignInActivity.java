@@ -183,7 +183,6 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private boolean isPasswordValid(String password) {
